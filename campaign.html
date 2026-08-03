@@ -4,711 +4,503 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <title>活动业绩 - EVIL ENERGY Marketing Calendar</title>
+  <title>活动业绩 · 营销日历 — EVIL ENERGY</title>
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-deep: #020a18;
+      --bg-card: rgba(6,24,52,0.65);
+      --border-subtle: rgba(0,184,255,0.12);
+      --border-glow: rgba(0,184,255,0.28);
+      --text-primary: #e0ecff;
+      --text-secondary: #7ea8d9;
+      --text-muted: rgba(126,168,217,0.45);
+      --accent-cyan: #00e6ff;
+      --accent-green: #00e6b8;
+      --accent-orange: #ff9f43;
+      --accent-pink: #ff6b9d;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+      font-family: -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
       background:
-        radial-gradient(ellipse at 50% 0%, rgba(0, 110, 200, 0.18) 0%, transparent 55%),
-        linear-gradient(180deg, #040d1f 0%, #07122a 40%, #0b1d3d 100%);
-      color: #9bbde8;
-      min-height: 100vh;
-      overflow-x: hidden;
+        radial-gradient(ellipse 120% 60% at 50% 0%, rgba(0,110,200,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 40% at 80% 100%, rgba(0,184,255,0.08) 0%, transparent 60%),
+        linear-gradient(180deg, #020a18 0%, #05102a 30%, #0a1a3a 70%, #061028 100%);
+      color: var(--text-secondary); min-height: 100vh; overflow-x: hidden;
     }
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image:
-        linear-gradient(rgba(0, 184, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 184, 255, 0.025) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none; z-index: 0;
-    }
-    .container { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 28px 24px; }
+    .container { position:relative; z-index:1; max-width:1320px; margin:0 auto; padding:24px 20px; }
 
-    /* ── Header ── */
+    /* ── Top bar ── */
     .topbar {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom:28px; flex-wrap:wrap; gap:12px;
     }
-    .topbar-left { display: flex; align-items: center; gap: 16px; }
+    .topbar-left { display:flex; align-items:center; gap:14px; }
     .back-btn {
-      background: rgba(8, 40, 80, 0.7);
-      border: 1px solid rgba(0, 184, 255, 0.25);
-      color: #9bbde8;
-      padding: 6px 14px; border-radius: 4px;
-      cursor: pointer; text-decoration: none;
-      font-size: 13px; transition: all 0.2s;
+      display:inline-flex; align-items:center; gap:6px;
+      background: rgba(8,40,80,0.6); border:1px solid rgba(0,184,255,0.2);
+      color: var(--text-secondary); padding:7px 15px; border-radius:6px;
+      cursor:pointer; text-decoration:none; font-size:13px;
+      transition: all 0.25s;
     }
-    .back-btn:hover { border-color: rgba(0, 184, 255, 0.5); color: #fff; }
-    .topbar-center { display: flex; align-items: center; gap: 12px; }
+    .back-btn:hover { border-color: rgba(0,184,255,0.5); color:#fff; background:rgba(8,40,80,0.85); }
     .page-title {
-      font-size: 22px; font-weight: 700; color: #fff;
-      letter-spacing: 2px;
-      text-shadow: 0 0 20px rgba(0, 184, 255, 0.4);
+      font-size:22px; font-weight:800; color:#fff; letter-spacing:1.5px;
+      text-shadow: 0 0 30px rgba(0,184,255,0.3);
+      display:flex; align-items:center; gap:10px;
     }
-    .update-badge {
-      font-size: 11px; color: rgba(155, 189, 232, 0.6);
-      background: rgba(8, 28, 60, 0.5);
-      border: 1px solid rgba(0, 184, 255, 0.12);
-      padding: 4px 10px; border-radius: 3px;
+    .page-title .dot { width:8px; height:8px; background:var(--accent-cyan); border-radius:50%; box-shadow:0 0 10px rgba(0,230,255,0.6); }
+    .status-bar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .badge {
+      font-size:11px; padding:4px 12px; border-radius:14px;
+      background:rgba(8,28,60,0.5); border:1px solid var(--border-subtle);
+      color: var(--text-secondary);
     }
-    .update-dot {
-      display: inline-block; width: 6px; height: 6px;
-      background: #00e6b8; border-radius: 50%; margin-right: 6px;
-      box-shadow: 0 0 6px rgba(0, 230, 184, 0.6);
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .badge.live { border-color: rgba(0,230,184,0.3); color: var(--accent-green); }
+    .badge.live::before { content:''; display:inline-block; width:5px; height:5px; background:var(--accent-green); border-radius:50%; margin-right:6px; box-shadow:0 0 6px rgba(0,230,184,0.6); animation:pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-    /* ── Gantt Calendar ── */
+    /* ── Overview stats ── */
+    .overview-grid {
+      display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:24px;
+    }
+    .ov-card {
+      background: var(--bg-card); border:1px solid var(--border-subtle);
+      border-radius:10px; padding:18px 20px; backdrop-filter:blur(10px);
+      position:relative; overflow:hidden;
+    }
+    .ov-card::after {
+      content:''; position:absolute; top:0; left:0; right:0; height:2px;
+      background: linear-gradient(90deg, transparent, rgba(0,230,255,0.5), transparent);
+      opacity:0.5;
+    }
+    .ov-label { font-size:11px; color:var(--text-muted); letter-spacing:1px; margin-bottom:8px; text-transform:uppercase; }
+    .ov-value { font-size:26px; font-weight:800; color:#fff; font-family:'SF Mono',Monaco,monospace; }
+    .ov-sub { font-size:11px; color:var(--text-muted); margin-top:4px; }
+    .ov-accent { color:var(--accent-cyan); }
+    .ov-green { color:var(--accent-green); }
+
+    /* ── Gantt ── */
+    .gantt-section { margin-bottom:24px; }
+    .section-header {
+      display:flex; align-items:center; gap:10px; margin-bottom:14px;
+    }
+    .section-header .line { width:3px; height:16px; background:var(--accent-cyan); border-radius:2px; }
+    .section-header h2 { font-size:15px; color:#fff; font-weight:700; letter-spacing:1px; }
     .gantt-card {
-      background: rgba(8, 28, 60, 0.5);
-      border: 1px solid rgba(0, 184, 255, 0.15);
-      border-radius: 8px; padding: 20px;
-      margin-bottom: 24px;
-      backdrop-filter: blur(8px);
+      background: var(--bg-card); border:1px solid var(--border-subtle);
+      border-radius:10px; padding:16px; backdrop-filter:blur(10px);
     }
-    .gantt-card .section-title {
-      font-size: 14px; color: #fff; margin-bottom: 12px;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .gantt-card .section-title::before {
-      content: ''; width: 3px; height: 14px;
-      background: #00e6ff; border-radius: 2px;
-    }
-    #ganttChart { height: 280px; }
+    #ganttChart { width:100%; }
 
     /* ── Month tabs ── */
-    .month-tabs {
-      display: flex; gap: 8px; margin-bottom: 20px;
-      overflow-x: auto; padding-bottom: 4px;
-      flex-wrap: wrap;
-    }
+    .month-tabs-wrap { display:flex; gap:8px; margin-bottom:20px; overflow-x:auto; padding-bottom:4px; }
     .month-tab {
-      background: rgba(8, 40, 80, 0.5);
-      border: 1px solid rgba(0, 184, 255, 0.15);
-      color: #9bbde8;
-      padding: 8px 16px; border-radius: 4px;
-      cursor: pointer; font-size: 13px;
-      transition: all 0.2s;
-      white-space: nowrap;
+      flex-shrink:0; background:rgba(8,40,80,0.5); border:1px solid var(--border-subtle);
+      color: var(--text-secondary); padding:10px 18px; border-radius:8px;
+      cursor:pointer; font-size:13px; font-weight:600; transition:all 0.25s;
+      white-space:nowrap; text-align:center;
     }
-    .month-tab:hover { border-color: rgba(0, 184, 255, 0.4); color: #fff; }
+    .month-tab:hover { border-color:rgba(0,184,255,0.4); color:#fff; }
     .month-tab.active {
-      background: rgba(0, 184, 255, 0.15);
-      border-color: rgba(0, 184, 255, 0.5);
-      color: #00e6ff; font-weight: 600;
-      box-shadow: 0 0 12px rgba(0, 184, 255, 0.15);
+      background: linear-gradient(135deg, rgba(0,184,255,0.18), rgba(0,230,255,0.06));
+      border-color: rgba(0,184,255,0.55); color: var(--accent-cyan);
+      box-shadow: 0 0 20px rgba(0,184,255,0.12);
     }
-    .month-tab-total {
-      font-size: 10px; color: rgba(155, 189, 232, 0.4);
-      display: block;
-    }
+    .month-tab .mt-sub { font-size:10px; color:var(--text-muted); display:block; margin-top:2px; font-weight:400; }
 
-    /* ── Campaign cards ── */
+    /* ── Campaign Cards ── */
     .campaign-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-      gap: 16px; margin-bottom: 24px;
+      display:flex; flex-direction:column; gap:12px; margin-bottom:28px;
     }
-    .campaign-card {
-      background: rgba(8, 28, 60, 0.5);
-      border: 1px solid rgba(0, 184, 255, 0.15);
-      border-radius: 8px; padding: 20px;
-      backdrop-filter: blur(8px);
-      position: relative; overflow: hidden;
+    .cp-card {
+      background: var(--bg-card); border:1px solid var(--border-subtle);
+      border-radius:10px; padding:16px 22px; backdrop-filter:blur(10px);
+      display:flex; align-items:center; gap:20px;
+      position:relative; overflow:hidden;
       transition: all 0.3s;
     }
-    .campaign-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(0, 184, 255, 0.35), transparent);
+    .cp-card:hover { border-color: var(--border-glow); transform:translateY(-2px); box-shadow:0 8px 30px rgba(0,184,255,0.08); }
+    .cp-card.active-card { border-color: rgba(0,230,184,0.3); }
+    .cp-card.active-card::before {
+      content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+      background:var(--accent-green); border-radius:0 2px 2px 0;
+      box-shadow:0 0 10px rgba(0,230,184,0.4);
     }
-    .campaign-card:hover {
-      border-color: rgba(0, 184, 255, 0.4);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(0, 184, 255, 0.1);
-    }
-    .campaign-card.active-card {
-      border-color: rgba(0, 230, 184, 0.3);
-    }
-    .campaign-card.active-card::before {
-      background: linear-gradient(90deg, transparent, rgba(0, 230, 184, 0.5), transparent);
-    }
-    .campaign-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-    .campaign-name { font-size: 16px; font-weight: 700; color: #fff; }
-    .campaign-theme { font-size: 12px; color: #00e6ff; opacity: 0.8; margin-bottom: 10px; }
-    .campaign-meta { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
-    .meta-chip {
-      font-size: 11px; padding: 2px 8px; border-radius: 3px;
-      background: rgba(0, 184, 255, 0.08);
-      border: 1px solid rgba(0, 184, 255, 0.12);
-      color: rgba(155, 189, 232, 0.7);
-    }
-    .meta-chip.date-chip { color: #00e6ff; border-color: rgba(0, 230, 184, 0.2); background: rgba(0, 230, 184, 0.06); }
-    .status-tag {
-      position: absolute; top: 12px; right: 14px;
-      padding: 2px 10px; border-radius: 3px; font-size: 11px;
-      letter-spacing: 0.5px;
-    }
-    .status-active {
-      background: rgba(0, 230, 184, 0.12);
-      border: 1px solid rgba(0, 230, 184, 0.3);
-      color: #00e6b8;
-    }
-    .status-ended {
-      background: rgba(155, 189, 232, 0.06);
-      border: 1px solid rgba(155, 189, 232, 0.15);
-      color: rgba(155, 189, 232, 0.55);
-    }
-    .status-upcoming {
-      background: rgba(255, 165, 0, 0.08);
-      border: 1px solid rgba(255, 165, 0, 0.25);
-      color: #ffa500;
-    }
-    .kpi-row {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 6px; margin-top: 4px;
-    }
-    .kpi-mini {
-      background: rgba(0, 184, 255, 0.05);
-      border: 1px solid rgba(0, 184, 255, 0.08);
-      border-radius: 4px; padding: 8px; text-align: center;
-    }
-    .kpi-mini .klabel { font-size: 9px; color: rgba(155, 189, 232, 0.4); letter-spacing: 0.5px; margin-bottom: 3px; }
-    .kpi-mini .kval { font-size: 14px; font-weight: 700; color: #fff; font-family: 'SF Mono', Monaco, monospace; }
-    .kpi-mini .ksub { font-size: 9px; color: rgba(155, 189, 232, 0.35); }
-    .no-perf { color: rgba(155, 189, 232, 0.3); font-size: 12px; text-align: center; padding: 16px 0; }
 
-    /* ── Comparison table ── */
-    .table-card {
-      background: rgba(8, 28, 60, 0.5);
-      border: 1px solid rgba(0, 184, 255, 0.15);
-      border-radius: 8px; padding: 20px;
-      backdrop-filter: blur(8px);
+    /* Info section (left) */
+    .cp-info { flex:1; min-width:180px; }
+    .cp-top { display:flex; align-items:center; gap:10px; margin-bottom:4px; }
+    .cp-name { font-size:15px; font-weight:750; color:#fff; }
+    .cp-status {
+      flex-shrink:0; font-size:10px; padding:2px 8px; border-radius:10px;
+      letter-spacing:0.5px; font-weight:600;
     }
-    .table-card .section-title {
-      font-size: 14px; color: #fff; margin-bottom: 14px;
-      display: flex; align-items: center; gap: 8px;
+    .cp-status.active { background:rgba(0,230,184,0.12); color:var(--accent-green); border:1px solid rgba(0,230,184,0.25); }
+    .cp-status.ended { background:rgba(126,168,217,0.06); color:var(--text-muted); border:1px solid rgba(126,168,217,0.15); }
+    .cp-status.upcoming { background:rgba(255,159,67,0.08); color:var(--accent-orange); border:1px solid rgba(255,159,67,0.2); }
+    .cp-theme { font-size:11px; color:var(--accent-cyan); opacity:0.7; margin-bottom:6px; }
+    .cp-date-row { font-size:12px; color:var(--text-secondary); font-family:'SF Mono',Monaco,monospace; }
+    .cp-date-row .arr { color:var(--accent-cyan); margin:0 6px; }
+    .cp-meta { display:flex; gap:8px; margin-top:6px; flex-wrap:wrap; }
+    .chip {
+      font-size:10px; padding:2px 7px; border-radius:4px;
+      background:rgba(0,184,255,0.05); border:1px solid rgba(0,184,255,0.08);
+      color:var(--text-muted); white-space:nowrap;
     }
-    .table-card .section-title::before {
-      content: ''; width: 3px; height: 14px;
-      background: #00e6ff; border-radius: 2px;
+
+    /* KPI row (right) */
+    .cp-kpis {
+      display:flex; gap:16px; align-items:center; flex-shrink:0;
     }
-    table { width: 100%; border-collapse: collapse; }
+    .cp-kpi {
+      text-align:center; min-width:70px;
+      padding:6px 10px; border-radius:6px;
+      background:rgba(0,184,255,0.03); border:1px solid rgba(0,184,255,0.05);
+    }
+    .cp-kpi .kl { font-size:9px; color:var(--text-muted); letter-spacing:0.5px; margin-bottom:3px; }
+    .cp-kpi .kv { font-size:13px; font-weight:700; color:#fff; font-family:'SF Mono',Monaco,monospace; }
+    .cp-kpi .ks { font-size:9px; color:var(--text-muted); }
+    .cp-kpi.rev .kv { color:var(--accent-cyan); }
+    .cp-kpi.orders .kv { color:#fff; }
+
+    .no-perf-data {
+      color:var(--text-muted); font-size:12px; padding:8px 0;
+      flex:1; text-align:right;
+    }
+
+    /* ── Table ── */
+    .table-wrap {
+      background:var(--bg-card); border:1px solid var(--border-subtle);
+      border-radius:10px; padding:20px; backdrop-filter:blur(10px);
+      overflow-x:auto;
+    }
+    .table-wrap .section-header { margin-bottom:14px; }
+    table { width:100%; border-collapse:collapse; min-width:900px; }
     thead th {
-      text-align: left; font-size: 10px; color: rgba(155, 189, 232, 0.5);
-      letter-spacing: 1px; padding: 8px 6px;
-      border-bottom: 1px solid rgba(0, 184, 255, 0.08);
-      font-weight: 500; white-space: nowrap;
+      text-align:left; font-size:10px; color:var(--text-muted); letter-spacing:1px;
+      padding:10px 8px; border-bottom:1px solid rgba(0,184,255,0.06); font-weight:500;
+      white-space:nowrap;
     }
-    thead th.ralign { text-align: right; }
+    thead th.ra { text-align:right; }
     tbody td {
-      padding: 8px 6px; font-size: 12px; color: #9bbde8;
-      border-bottom: 1px solid rgba(0, 184, 255, 0.04);
+      padding:10px 8px; font-size:12px; color:var(--text-secondary);
+      border-bottom:1px solid rgba(0,184,255,0.03);
     }
-    tbody td.ralign { text-align: right; }
-    tbody td.strong { color: #fff; font-weight: 600; }
-    tbody tr:hover td { background: rgba(0, 184, 255, 0.03); }
-    .table-status {
-      display: inline-block; padding: 1px 6px; border-radius: 2px;
-      font-size: 10px; letter-spacing: 0.5px;
+    tbody td.ra { text-align:right; }
+    tbody td.strong { color:#fff; font-weight:600; }
+    tbody tr:hover td { background:rgba(0,184,255,0.03); }
+    .t-status {
+      display:inline-block; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:600;
     }
-    .ts-active { background: rgba(0, 230, 184, 0.1); color: #00e6b8; }
-    .ts-ended { background: rgba(155, 189, 232, 0.06); color: rgba(155, 189, 232, 0.5); }
-    .ts-upcoming { background: rgba(255, 165, 0, 0.08); color: #ffa500; }
+    .t-active { background:rgba(0,230,184,0.1); color:var(--accent-green); }
+    .t-ended { background:rgba(126,168,217,0.06); color:var(--text-muted); }
+    .t-upcoming { background:rgba(255,159,67,0.08); color:var(--accent-orange); }
 
-    /* ── No data ── */
-    .no-data { text-align: center; padding: 80px 32px; }
-    .no-data-icon { font-size: 48px; color: rgba(0, 184, 255, 0.25); margin-bottom: 12px; }
-    .no-data-title { font-size: 18px; color: #fff; font-weight: 600; margin-bottom: 8px; }
-    .no-data-desc { font-size: 13px; color: rgba(155, 189, 232, 0.5); }
+    /* ── Empty state ── */
+    .empty { text-align:center; padding:80px 32px; }
+    .empty-icon { font-size:42px; margin-bottom:12px; opacity:0.4; }
+    .empty-title { font-size:17px; color:#fff; font-weight:600; margin-bottom:6px; }
+    .empty-desc { font-size:12px; color:var(--text-muted); }
 
     /* ── Responsive ── */
-    @media (max-width: 768px) {
-      .container { padding: 16px 12px; }
-      .campaign-grid { grid-template-columns: 1fr; }
-      .kpi-row { grid-template-columns: repeat(2, 1fr); }
-      .topbar { flex-direction: column; align-items: flex-start; }
-      #ganttChart { height: 200px; }
-      table { font-size: 11px; }
-      thead th, tbody td { padding: 6px 4px; }
+    @media (max-width:768px) {
+      .container { padding:16px 10px; }
+      .overview-grid { grid-template-columns:repeat(2,1fr); }
+      .campaign-grid { gap:10px; }
+      .cp-card { flex-direction:column; align-items:flex-start; padding:16px; gap:12px; }
+      .cp-kpis { flex-wrap:wrap; gap:8px; width:100%; }
+      .cp-kpi { flex:1; min-width:60px; }
+      .topbar { flex-direction:column; align-items:flex-start; }
+      #ganttChart { min-height:180px; }
+      .cp-name { font-size:15px; }
+      .ov-value { font-size:22px; }
+      .page-title { font-size:18px; }
     }
-    @media (max-width: 480px) {
-      .page-title { font-size: 18px; }
-      .month-tab { font-size: 11px; padding: 6px 10px; }
-      .campaign-name { font-size: 14px; }
+    @media (max-width:480px) {
+      .overview-grid { grid-template-columns:repeat(2,1fr); gap:8px; }
+      .ov-card { padding:12px 14px; }
+      .ov-value { font-size:20px; }
+      .month-tab { padding:8px 12px; font-size:12px; }
+      .kpi-bar .kv { font-size:14px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="topbar">
-      <div class="topbar-left">
-        <a href="/evilenergy-sale-dashboard" class="back-btn">← 返回</a>
-        <span class="page-title">📅 活动业绩 · 营销日历</span>
-      </div>
-      <div class="topbar-center">
-        <span class="update-badge">
-          <span class="update-dot"></span>
-          <span id="updateTime">--</span>
-        </span>
-        <span class="update-badge" id="statusBadge" style="display:none"></span>
-      </div>
+<div class="container">
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <a href="/evilenergy-sale-dashboard" class="back-btn">◂ 看板首页</a>
+      <span class="page-title"><span class="dot"></span>活动业绩 · 营销日历</span>
     </div>
-
-    <!-- Gantt Calendar -->
-    <div class="gantt-card">
-      <div class="section-title">营销活动日历</div>
-      <div id="ganttChart"></div>
-    </div>
-
-    <!-- Month tabs -->
-    <div class="month-tabs" id="monthTabs"></div>
-
-    <!-- Campaign cards -->
-    <div id="campaignContent">
-      <div class="no-data">
-        <div class="no-data-icon">📅</div>
-        <div class="no-data-title">活动数据加载中</div>
-        <div class="no-data-desc">从钉钉活动表读取营销日历与业绩数据</div>
-      </div>
-    </div>
-
-    <!-- Comparison table -->
-    <div class="table-card" id="compareTableCard" style="display:none">
-      <div class="section-title">全部活动业绩对比</div>
-      <div style="overflow-x:auto">
-        <table id="compareTable"></table>
-      </div>
+    <div class="status-bar">
+      <span class="badge live" id="badgeLive" style="display:none"></span>
+      <span class="badge" id="badgeUpdated">更新于 --</span>
     </div>
   </div>
 
-  <script>
-    let campaignData = null;
-    let activeMonth = null;
-    let ganttChart = null;
+  <!-- Overview Stats -->
+  <div class="overview-grid" id="overviewStats"></div>
 
-    function fmtUSD(v) {
-      if (v == null || isNaN(v) || v === 0) return '--';
-      return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(v);
+  <!-- Gantt Calendar -->
+  <div class="gantt-section">
+    <div class="section-header"><span class="line"></span><h2>营销活动日历 · Timeline</h2></div>
+    <div class="gantt-card"><div id="ganttChart" style="height:240px"></div></div>
+  </div>
+
+  <!-- Month Tabs -->
+  <div class="month-tabs-wrap" id="monthTabs"></div>
+
+  <!-- Campaign Cards -->
+  <div id="cpContent"></div>
+
+  <!-- Comparison Table -->
+  <div class="table-wrap" id="tableSection" style="display:none">
+    <div class="section-header"><span class="line"></span><h2>全部活动业绩对比</h2></div>
+    <table id="compareTable"></table>
+  </div>
+</div>
+
+<script>
+  let campaignData = null;
+  let activeMonth = null;
+  let ganttInst = null;
+
+  function fmtUSD(v) {
+    if (v == null || isNaN(v) || v === 0) return '--';
+    return '$' + new Intl.NumberFormat('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}).format(v);
+  }
+  function fmtNum(v) { return v == null || isNaN(v) ? '--' : new Intl.NumberFormat('en-US').format(v); }
+  function fmtPct(v) { return v == null || isNaN(v) ? '--' : (v*100).toFixed(1)+'%'; }
+
+  function getStatus(c) {
+    if (c.status==='进行中'||c.status==='active') return 'active';
+    if (c.status==='未开始'||c.status==='upcoming') return 'upcoming';
+    return 'ended';
+  }
+  function getLabel(s) { return {active:'进行中',upcoming:'未开始',ended:'已完成'}[s]||s; }
+
+  async function init() {
+    try {
+      const r = await fetch('campaign_data.json?t='+Date.now());
+      if (r.ok) { campaignData = await r.json(); renderAll(); }
+      else showEmpty('无法加载数据');
+    } catch(e) { showEmpty('加载失败: '+e.message); }
+  }
+
+  function showEmpty(msg) {
+    document.getElementById('cpContent').innerHTML = `<div class="empty"><div class="empty-icon">📅</div><div class="empty-title">${msg}</div><div class="empty-desc">请运行 fetch_campaign_data.py 生成活动数据</div></div>`;
+  }
+
+  function renderAll() {
+    const cs = campaignData.campaigns || [];
+    const mg = campaignData.monthly_groups || {};
+    document.getElementById('badgeUpdated').textContent = '更新于 ' + (campaignData.updated_at||'--');
+    const actives = cs.filter(c => getStatus(c)==='active').length;
+    if (actives > 0) {
+      const bl = document.getElementById('badgeLive'); bl.style.display='inline-block';
+      bl.textContent = '🔥 '+actives+' 个活动进行中';
     }
-    function fmtUSDS(v) {
-      if (v == null || isNaN(v)) return '--';
-      return '$' + new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v);
-    }
-    function fmtNum(v) {
-      if (v == null || isNaN(v)) return '--';
-      return new Intl.NumberFormat('en-US').format(v);
-    }
-    function fmtPct(v) {
-      if (v == null || isNaN(v)) return '--';
-      return (v * 100).toFixed(2) + '%';
-    }
+    renderOverview(cs);
+    renderGantt(cs);
+    renderMonthTabs(mg);
+    renderTable(cs);
+  }
 
-    function getStatusClass(status) {
-      if (status === '进行中' || status === 'active') return 'active';
-      if (status === '未开始' || status === 'upcoming') return 'upcoming';
-      return 'ended';
-    }
-    function getStatusLabel(status) {
-      if (status === '进行中' || status === 'active') return '进行中';
-      if (status === '未开始' || status === 'upcoming') return '未开始';
-      return '已完成';
-    }
+  function renderOverview(cs) {
+    const totalRev = cs.reduce((s,c)=>s+(c.revenue||0),0);
+    const totalOrd = cs.reduce((s,c)=>s+(c.orders||0),0);
+    const ended = cs.filter(c=>getStatus(c)==='ended');
+    const avgAov = totalOrd>0 ? totalRev/totalOrd : 0;
+    const avgDaily = ended.length>0 ? (ended.reduce((s,c)=>s+(c.daily_revenue||0),0)/ended.length) : 0;
 
-    async function init() {
-      try {
-        const resp = await fetch('campaign_data.json?t=' + Date.now());
-        if (resp.ok) {
-          campaignData = await resp.json();
-          document.getElementById('updateTime').textContent = campaignData.updated_at || '--';
-          renderAll();
-        } else {
-          showNoData('无法加载活动数据');
-        }
-      } catch (e) {
-        console.error('Failed to load campaign data:', e);
-        showNoData('数据加载失败：' + e.message);
-      }
-    }
+    document.getElementById('overviewStats').innerHTML = `
+      <div class="ov-card"><div class="ov-label">累计活动销售额</div><div class="ov-value ov-accent">${fmtUSD(totalRev)}</div><div class="ov-sub">${cs.length} 个活动</div></div>
+      <div class="ov-card"><div class="ov-label">累计订单数</div><div class="ov-value">${fmtNum(totalOrd)}</div><div class="ov-sub">客单价 ${fmtUSD(avgAov)}</div></div>
+      <div class="ov-card"><div class="ov-label">已完成活动</div><div class="ov-value ov-green">${ended.length}</div><div class="ov-sub">日均营收 ${fmtUSD(avgDaily)}</div></div>
+      <div class="ov-card"><div class="ov-label">数据来源</div><div class="ov-value ov-accent">ShopifyQL</div><div class="ov-sub">与后台 Analytics 一致</div></div>`;
+  }
 
-    function showNoData(msg) {
-      document.getElementById('campaignContent').innerHTML = `
-        <div class="no-data">
-          <div class="no-data-icon">📅</div>
-          <div class="no-data-title">${msg}</div>
-          <div class="no-data-desc">请运行 sync_campaign_to_dingtalk.py 或 fetch_campaign_data.py 更新数据</div>
-        </div>`;
-    }
+  function renderGantt(cs) {
+    const dom = document.getElementById('ganttChart');
+    if (ganttInst) ganttInst.dispose();
+    ganttInst = echarts.init(dom);
+    const dated = cs.filter(c => c.start_date && c.end_date);
+    if (!dated.length) { dom.style.height='60px'; dom.innerHTML='<div style="text-align:center;color:var(--text-muted);padding:20px">暂无带日期的活动</div>'; return; }
 
-    function renderAll() {
-      const campaigns = campaignData.campaigns || [];
-      const monthly = campaignData.monthly_groups || {};
+    dom.style.height = Math.max(200, dated.length*50 + 40) + 'px';
 
-      if (campaigns.length === 0) {
-        showNoData('暂无活动业绩数据');
-        return;
-      }
+    const colors = { active: { fill:'rgba(0,230,184,0.55)', stroke:'rgba(0,230,184,0.8)' },
+                     upcoming: { fill:'rgba(255,159,67,0.55)', stroke:'rgba(255,159,67,0.8)' },
+                     ended: { fill:'rgba(0,184,255,0.25)', stroke:'rgba(0,184,255,0.4)' } };
 
-      // Show status badge
-      const activeCount = campaigns.filter(c => getStatusClass(c.status) === 'active').length;
-      if (activeCount > 0) {
-        const badge = document.getElementById('statusBadge');
-        badge.style.display = 'inline-block';
-        badge.textContent = '🔥 ' + activeCount + ' 个活动进行中';
-      }
-
-      renderGantt(campaigns);
-      renderMonthTabs(monthly);
-      renderCompareTable(campaigns);
-    }
-
-    // ── Gantt Chart ──
-    function renderGantt(campaigns) {
-      const dom = document.getElementById('ganttChart');
-      if (ganttChart) ganttChart.dispose();
-      ganttChart = echarts.init(dom);
-
-      // Filter campaigns with dates
-      const dated = campaigns.filter(c => c.start_date && c.end_date);
-      if (dated.length === 0) {
-        dom.style.height = '60px';
-        dom.innerHTML = '<div style="text-align:center;color:rgba(155,189,232,0.4);padding:20px">暂无带日期的活动</div>';
-        return;
-      }
-
-      // Build data
-      const series = [];
-      const colors = { active: '#00e6b8', upcoming: '#ffa500', ended: 'rgba(155,189,232,0.4)' };
-      const categories = [];
-
-      // Sort campaigns by start_date
-      dated.sort((a, b) => (a.start_date || '').localeCompare(b.start_date || ''));
-
-      // Calculate the min/max dates
-      let minDate = null, maxDate = null;
-      dated.forEach(c => {
-        if (c.start_date && (!minDate || c.start_date < minDate)) minDate = c.start_date;
-        if (c.end_date && (!maxDate || c.end_date > maxDate)) maxDate = c.end_date;
-      });
-      // Pad by a week
-      const minD = new Date(minDate); minD.setDate(minD.getDate() - 3);
-      const maxD = new Date(maxDate); maxD.setDate(maxD.getDate() + 3);
-
-      // Build month-based x-axis
-      const months = [];
-      let cur = new Date(minD.getFullYear(), minD.getMonth(), 1);
-      while (cur <= maxD) {
-        months.push(cur.getFullYear() + '-' + String(cur.getMonth() + 1).padStart(2, '0'));
-        cur.setMonth(cur.getMonth() + 1);
-      }
-
-      // Each campaign as a bar
-      const todayStr = new Date().toISOString().slice(0, 10);
-      dated.forEach((c, idx) => {
-        const st = getStatusClass(c.status);
-        const color = colors[st] || colors.ended;
-        categories.push(c.name);
-
-        // Calculate position
-        const startD = new Date(c.start_date);
-        const endD = new Date(c.end_date);
-        const totalDays = (maxD - minD) / (1000 * 60 * 60 * 24);
-        const startOffset = (startD - minD) / (1000 * 60 * 60 * 24);
-        const duration = Math.max(1, (endD - startD) / (1000 * 60 * 60 * 24));
-
-        series.push({
-          name: c.name,
-          type: 'bar',
-          stack: 'gantt',
-          data: [{
-            name: c.name,
-            value: [idx, startOffset, startOffset + duration, duration],
-            itemStyle: { color: color, borderRadius: 3, borderColor: st === 'active' ? 'rgba(0,230,184,0.6)' : 'transparent', borderWidth: 1 },
-          }],
-          barWidth: '60%',
-          emphasis: {
-            itemStyle: { color: st === 'active' ? '#00ffd0' : color, shadowBlur: 8, shadowColor: color },
-          },
-          label: {
-            show: true, position: 'insideLeft',
-            formatter: function(p) { return ''; },
-            fontSize: 10, color: '#fff',
-          },
-        });
-      });
-
-      // Use a simpler approach: ECharts custom series or timeline
-      // Actually, let's use a Gantt-like approach with stacked invisible bars
-      // Each row = one campaign, each bar = date range
-
-      // Build data for Gantt using itemStyle on bars
-      const ganttData = dated.map((c, idx) => {
-        const st = getStatusClass(c.status);
-        const color = colors[st] || colors.ended;
-        const startD = new Date(c.start_date);
-        const endD = new Date(c.end_date);
-        return {
-          name: c.name,
-          idx: idx,
-          value: [idx, startD.getTime(), endD.getTime()],
-          itemStyle: {
-            color: color,
-            borderRadius: [3, 3, 3, 3],
-            borderColor: st === 'active' ? 'rgba(0,230,184,0.7)' : 'transparent',
-            borderWidth: st === 'active' ? 1.5 : 0,
-            shadowBlur: st === 'active' ? 6 : 0,
-            shadowColor: 'rgba(0,230,184,0.4)',
-          },
-          status: st,
-          theme: c.theme || '',
-          revenue: c.revenue || 0,
-          orders: c.orders || 0,
-        };
-      });
-
-      // Build a horizontal bar chart (time axis on x, campaigns on y)
-      const option = {
-        backgroundColor: 'transparent',
-        grid: { top: 10, right: 30, bottom: 20, left: 130, containLabel: false },
-        tooltip: {
-          trigger: 'item',
-          backgroundColor: 'rgba(6, 18, 42, 0.95)',
-          borderColor: 'rgba(0, 184, 255, 0.3)',
-          textStyle: { color: '#9bbde8', fontSize: 12 },
-          formatter: function(p) {
-            const d = p.data;
-            if (!d || d.value == null) return '';
-            const info = ganttData.find(g => g.idx === d.value[0]);
-            if (!info) return '';
-            const startStr = d.startDate || '';
-            const endStr = d.endDate || '';
-            return `<div style="font-size:12px;color:#fff;font-weight:600">${info.name}</div>
-              <div style="font-size:11px;color:rgba(155,189,232,0.7);margin-top:4px">${info.theme}</div>
-              <div style="font-size:10px;color:rgba(155,189,232,0.5);margin-top:4px">📅 ${startStr} ~ ${endStr}</div>
-              ${info.revenue > 0 ? '<div style="font-size:11px;color:#00e6ff;margin-top:4px">💰 ' + fmtUSDS(info.revenue) + ' | 📦 ' + fmtNum(info.orders) + ' 单</div>' : ''}`;
-          },
+    const ganttData = dated.map(c => {
+      const s = getStatus(c); const col = colors[s] || colors.ended;
+      return {
+        name: c.name,
+        value: [c.name, new Date(c.start_date).getTime(), new Date(c.end_date).getTime()],
+        itemStyle: {
+          color: new echarts.graphic.LinearGradient(0,0,1,0,[
+            {offset:0, color:col.fill}, {offset:1, color:col.fill.replace('0.55','0.25').replace('0.25','0.08')}
+          ]),
+          borderRadius: [4,4,4,4],
+          borderColor: col.stroke, borderWidth: s==='active'?1.5:0.8,
+          shadowBlur: s==='active'?8:2, shadowColor: s==='active'?'rgba(0,230,184,0.3)':'transparent',
         },
-        xAxis: {
-          type: 'time',
-          axisLine: { lineStyle: { color: 'rgba(155, 189, 232, 0.12)' } },
-          axisTick: { show: false },
-          axisLabel: { color: 'rgba(155, 189, 232, 0.4)', fontSize: 10 },
-          splitLine: { lineStyle: { color: 'rgba(155, 189, 232, 0.05)' } },
-          // Show today's line
-          min: minD.getTime(),
-          max: maxD.getTime(),
-        },
-        yAxis: {
-          type: 'category',
-          data: dated.map(c => c.name),
-          axisLine: { show: false },
-          axisTick: { show: false },
-          axisLabel: {
-            color: '#9bbde8', fontSize: 11,
-            width: 120, overflow: 'truncate',
-          },
-        },
-        series: [{
-          type: 'bar',
-          data: ganttData.map(g => ({
-            value: g.value,
-            itemStyle: g.itemStyle,
-            startDate: dated[g.idx].start_date,
-            endDate: dated[g.idx].end_date,
-          })),
-          barWidth: '50%',
-          barMinWidth: 4,
-          encode: { x: [1, 2], y: 0 },
-          coordinateSystem: 'cartesian2d',
-          label: {
-            show: true, position: 'insideLeft',
-            formatter: function(p) {
-              const d = ganttData.find(g => g.idx === p.data.value[0]);
-              if (!d) return '';
-              return d.revenue > 0 ? fmtUSDS(d.revenue) : '';
-            },
-            fontSize: 10, color: '#fff',
-          },
-        }],
+        info: c,
       };
+    });
 
-      ganttChart.setOption(option);
-      window.addEventListener('resize', () => { if (ganttChart) ganttChart.resize(); });
-
-      // Set height based on number of campaigns
-      const h = Math.max(200, dated.length * 38 + 40);
-      dom.style.height = h + 'px';
-      ganttChart.resize();
-    }
-
-    // ── Month Tabs ──
-    function renderMonthTabs(monthly) {
-      const tabs = document.getElementById('monthTabs');
-      const months = Object.entries(monthly);
-
-      if (months.length === 0) {
-        tabs.style.display = 'none';
-        return;
-      }
-
-      // Default to most recent month with revenue
-      const now = new Date().toISOString().slice(0, 7); // "2026-07"
-      activeMonth = months.find(([k]) => k === now);
-      if (!activeMonth) {
-        // Find last month with revenue > 0
-        for (let i = months.length - 1; i >= 0; i--) {
-          if (months[i][1].total_revenue > 0) {
-            activeMonth = months[i];
-            break;
-          }
+    const opts = {
+      backgroundColor:'transparent',
+      grid:{top:8,right:30,bottom:16,left:140,containLabel:false},
+      tooltip:{
+        trigger:'item', backgroundColor:'rgba(4,16,40,0.95)', borderColor:'rgba(0,184,255,0.25)',
+        textStyle:{color:'#9bbde8',fontSize:12},
+        formatter:p=>{
+          const d = p.data; if(!d||!d.info) return '';
+          const c = d.info;
+          return `<div style="font-size:13px;color:#fff;font-weight:700">${c.name}</div>
+            <div style="font-size:11px;color:rgba(155,189,232,0.6);margin:4px 0">${c.theme||''}</div>
+            <div style="font-size:11px;color:rgba(155,189,232,0.5)">📅 ${c.start_date} → ${c.end_date} · ${c.days||'?'}天</div>
+            ${c.revenue>0?'<div style="font-size:12px;color:#00e6ff;margin-top:3px">💰 '+fmtUSD(c.revenue)+' · 📦 '+fmtNum(c.orders)+'单</div>':''}`;
         }
-      }
-      if (!activeMonth && months.length > 0) activeMonth = months[0];
+      },
+      xAxis:{
+        type:'time', axisLine:{lineStyle:{color:'rgba(155,189,232,0.08)'}},
+        axisTick:{show:false}, axisLabel:{color:'rgba(155,189,232,0.3)',fontSize:10},
+        splitLine:{lineStyle:{color:'rgba(155,189,232,0.03)'}},
+      },
+      yAxis:{
+        type:'category', data:dated.map(c=>c.name),
+        axisLine:{show:false}, axisTick:{show:false},
+        axisLabel:{color:'#9bbde8',fontSize:11,width:130,overflow:'truncate'},
+      },
+      series:[{
+        type:'bar', data:ganttData, barWidth:'55%',
+        encode:{x:[1,2],y:0},
+        label:{
+          show:true, position:'right',
+          formatter:p=>{
+            const d = p.data; if(!d||!d.info||!d.info.revenue) return '';
+            return fmtUSD(d.info.revenue);
+          },
+          fontSize:10, color:'rgba(255,255,255,0.7)',
+          fontFamily:"'SF Mono',Monaco,monospace",
+        },
+      }],
+    };
+    ganttInst.setOption(opts);
+    window.addEventListener('resize',()=>{if(ganttInst) ganttInst.resize();});
+    ganttInst.resize();
+  }
 
-      tabs.innerHTML = months.map(([key, group]) => {
-        const isActive = activeMonth && activeMonth[0] === key;
-        const revStr = group.total_revenue > 0 ? fmtUSDS(group.total_revenue) : '即将开始';
-        return `<div class="month-tab${isActive ? ' active' : ''}" data-month="${key}" onclick="selectMonth('${key}')">
-          ${group.month_label}
-          <span class="month-tab-total">${revStr}</span>
-        </div>`;
-      }).join('');
+  function renderMonthTabs(monthly) {
+    const tabs = document.getElementById('monthTabs');
+    const entries = Object.entries(monthly);
+    if (!entries.length) { tabs.style.display='none'; return; }
+    const now = new Date().toISOString().slice(0,7);
+    let sel = entries.find(([k])=>k===now) || entries[entries.length-1] || entries[0];
+    activeMonth = sel[0];
 
-      // Show campaigns for active month
-      selectMonth(activeMonth[0]);
+    tabs.innerHTML = entries.map(([k,g])=>{
+      const act = k===activeMonth;
+      return `<div class="month-tab${act?' active':''}" onclick="pickMonth('${k}')">
+        ${g.month_label}
+        <span class="mt-sub">${g.total_revenue>0?fmtUSD(g.total_revenue):'待开始'} · ${g.campaigns.length}个活动</span>
+      </div>`;
+    }).join('');
+    showMonthCards(activeMonth);
+  }
+
+  function pickMonth(k) {
+    activeMonth = k;
+    document.querySelectorAll('.month-tab').forEach(t=>t.classList.toggle('active',t.textContent.trim().startsWith(activeMonth.replace(/^\d{4}-/,'').replace(/^0/,'')+'月')));
+    showMonthCards(k);
+  }
+
+  function showMonthCards(monthKey) {
+    const mg = campaignData.monthly_groups||{};
+    const group = mg[monthKey];
+    const el = document.getElementById('cpContent');
+    if (!group || !group.campaigns.length) { el.innerHTML='<div class="empty"><div class="empty-icon">📅</div><div class="empty-title">该月暂无活动</div></div>'; return; }
+
+    let html='';
+    if (group.total_revenue>0) {
+      html += `<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;padding:12px 16px;background:rgba(0,184,255,0.04);border-radius:8px;border:1px solid rgba(0,184,255,0.08)">
+        <span style="font-size:14px;color:#fff;font-weight:700">${group.month_label} 合计</span>
+        <span style="font-size:20px;color:var(--accent-cyan);font-weight:800;font-family:monospace">${fmtUSD(group.total_revenue)}</span>
+        <span style="font-size:12px;color:var(--text-muted)">${fmtNum(group.total_orders)}单 · 日均 ${fmtUSD(group.total_revenue/(group.campaigns.reduce((s,c)=>s+(c.days||30),0)/group.campaigns.length))}</span>
+      </div>`;
     }
-
-    function selectMonth(monthKey) {
-      activeMonth = monthKey;
-
-      // Update tabs
-      document.querySelectorAll('.month-tab').forEach(t => {
-        t.classList.toggle('active', t.dataset.month === monthKey);
-      });
-
-      // Show campaigns
-      const monthly = campaignData.monthly_groups || {};
-      const group = monthly[monthKey];
-      const content = document.getElementById('campaignContent');
-
-      if (!group || group.campaigns.length === 0) {
-        content.innerHTML = '<div class="no-data"><div class="no-data-icon">📅</div><div class="no-data-title">该月暂无活动</div></div>';
-        return;
-      }
-
-      let html = '';
-      // Month summary
-      if (group.total_revenue > 0 || group.total_orders > 0) {
-        html += `<div style="display:flex;gap:16px;margin-bottom:16px;align-items:center">
-          <span style="font-size:13px;color:#fff;font-weight:600">${group.month_label} 合计</span>
-          <span style="font-size:18px;color:#00e6ff;font-weight:700;font-family:monospace">${fmtUSDS(group.total_revenue)}</span>
-          <span style="font-size:13px;color:rgba(155,189,232,0.6)">${fmtNum(group.total_orders)} 单 · ${group.campaigns.length} 个活动</span>
-        </div>`;
-      }
-
-      html += '<div class="campaign-grid">';
-      group.campaigns.forEach(c => {
-        const st = getStatusClass(c.status);
-        const stLabel = getStatusLabel(c.status);
-        const hasData = c.revenue > 0 || c.orders > 0;
-
-        html += `<div class="campaign-card${st === 'active' ? ' active-card' : ''}">
-          <div class="status-tag status-${st}">${stLabel}</div>
-          <div class="campaign-header">
-            <span class="campaign-name">${c.name || '--'}</span>
+    html += '<div class="campaign-grid">';
+    group.campaigns.forEach(c => {
+      const st = getStatus(c);
+      const has = c.revenue>0||c.orders>0;
+      html += `<div class="cp-card${st==='active'?' active-card':''}">
+        <div class="cp-info">
+          <div class="cp-top">
+            <span class="cp-name">${c.name}</span>
+            <span class="cp-status ${st}">${getLabel(st)}</span>
           </div>
-          <div class="campaign-theme">${c.theme || '&nbsp;'}</div>
-          <div class="campaign-meta">
-            <span class="meta-chip date-chip">📅 ${c.start_date || '--'} ~ ${c.end_date || '--'}</span>
-            <span class="meta-chip">⏱ ${c.days || '--'}天</span>
-            <span class="meta-chip">⭐ ${c.level || '--'}</span>
-            ${c.type ? `<span class="meta-chip">🏷 ${c.type}</span>` : ''}
-          </div>`;
-
-        if (hasData) {
-          html += `<div class="kpi-row">
-            <div class="kpi-mini">
-              <div class="klabel">订单数</div>
-              <div class="kval">${fmtNum(c.orders)}</div>
-              <div class="ksub">日均 ${c.daily_orders || '--'} 单</div>
-            </div>
-            <div class="kpi-mini">
-              <div class="klabel">Total Sales</div>
-              <div class="kval">${fmtUSDS(c.revenue)}</div>
-              <div class="ksub">Net ${fmtUSDS(c.net_sales)}</div>
-            </div>
-            <div class="kpi-mini">
-              <div class="klabel">客单价</div>
-              <div class="kval">${fmtUSDS(c.aov)}</div>
-              <div class="ksub">日均 ${fmtUSDS(c.daily_revenue)}</div>
-            </div>
-            <div class="kpi-mini">
-              <div class="klabel">新客率</div>
-              <div class="kval">${c.new_customer_rate || '--'}</div>
-              <div class="ksub">新 ${fmtNum(c.new_customers)} / 回 ${fmtNum(c.returning_customers)}</div>
-            </div>
-          </div>`;
-        } else {
-          html += '<div class="no-perf">⏳ 业绩数据待活动结束后生成</div>';
-        }
-
-        html += '</div>';
-      });
+          <div class="cp-theme">${c.theme||''}</div>
+          <div class="cp-date-row">
+            <span>${c.start_date||'--'}</span>
+            <span class="arr">→</span>
+            <span>${c.end_date||'--'}</span>
+          </div>
+          <div class="cp-meta">
+            <span class="chip">⏱ ${c.days||'--'}天</span>
+            <span class="chip">⭐ ${c.level||'--'}</span>
+            ${c.type?`<span class="chip">${c.type}</span>`:''}
+          </div>
+        </div>`;
+      if (has) {
+        html += `<div class="cp-kpis">
+          <div class="cp-kpi rev"><div class="kl">Total Sales</div><div class="kv">${fmtUSD(c.revenue)}</div><div class="ks">日均${fmtUSD(c.daily_revenue)}</div></div>
+          <div class="cp-kpi"><div class="kl">Net Sales</div><div class="kv">${fmtUSD(c.net_sales)}</div><div class="ks">AOV ${fmtUSD(c.aov)}</div></div>
+          <div class="cp-kpi orders"><div class="kl">订单数</div><div class="kv">${fmtNum(c.orders)}</div><div class="ks">日均 ${c.daily_orders||'--'}单</div></div>
+          <div class="cp-kpi"><div class="kl">新客率</div><div class="kv">${c.new_customer_rate||'--'}</div><div class="ks">新${fmtNum(c.new_customers)}回${fmtNum(c.returning_customers)}</div></div>
+        </div>`;
+      } else {
+        html += '<div class="no-perf-data">⏳ 活动进行中/未开始，业绩数据待后续同步</div>';
+      }
       html += '</div>';
-      content.innerHTML = html;
-    }
+    });
+    html += '</div>';
+    el.innerHTML = html;
+  }
 
-    // ── Comparison Table ──
-    function renderCompareTable(campaigns) {
-      const card = document.getElementById('compareTableCard');
-      const table = document.getElementById('compareTable');
+  function renderTable(cs) {
+    const sec = document.getElementById('tableSection'); sec.style.display='block';
+    const tb = document.getElementById('compareTable');
+    let h=`<thead><tr>
+      <th>活动</th><th>日期</th><th class="ra">销售额</th><th class="ra">净销售额</th><th class="ra">订单</th><th class="ra">客单价</th>
+      <th class="ra">日均</th><th class="ra">新客</th><th class="ra">回头客</th><th class="ra">转化率</th><th class="ra">SKU</th><th>状态</th>
+    </tr></thead><tbody>`;
+    cs.forEach(c=>{
+      const st=getStatus(c), has=c.revenue>0||c.orders>0;
+      h+=`<tr>
+        <td class="strong">${c.name}</td>
+        <td style="font-size:10px;color:var(--text-muted)">${c.start_date||'--'} → ${c.end_date||'--'}</td>
+        <td class="ra strong">${has?fmtUSD(c.revenue):'--'}</td>
+        <td class="ra">${has?fmtUSD(c.net_sales):'--'}</td>
+        <td class="ra">${has?fmtNum(c.orders):'--'}</td>
+        <td class="ra">${has?fmtUSD(c.aov):'--'}</td>
+        <td class="ra">${has?fmtUSD(c.daily_revenue):'--'}</td>
+        <td class="ra">${has?fmtNum(c.new_customers):'--'}</td>
+        <td class="ra">${has?fmtNum(c.returning_customers):'--'}</td>
+        <td class="ra">${has?fmtPct(c.conversion_rate):'--'}</td>
+        <td class="ra">${has?fmtNum(c.product_count):'--'}</td>
+        <td><span class="t-status t-${st}">${getLabel(st)}</span></td>
+      </tr>`;
+    });
+    h+='</tbody>'; tb.innerHTML=h;
+  }
 
-      card.style.display = 'block';
-      let html = `<thead><tr>
-        <th>活动名称</th>
-        <th>日期</th>
-        <th style="text-align:right">销售额</th>
-        <th style="text-align:right">净销售额</th>
-        <th style="text-align:right">订单</th>
-        <th style="text-align:right">客单价</th>
-        <th style="text-align:right">日均</th>
-        <th style="text-align:right">新客</th>
-        <th style="text-align:right">回头客</th>
-        <th style="text-align:right">转化率</th>
-        <th style="text-align:right">SKU</th>
-        <th>状态</th>
-      </tr></thead><tbody>`;
-
-      campaigns.forEach(c => {
-        const st = getStatusClass(c.status);
-        const hasData = c.revenue > 0 || c.orders > 0;
-        html += `<tr>
-          <td class="strong">${c.name || '--'}</td>
-          <td style="font-size:10px;color:rgba(155,189,232,0.5)">${c.start_date || '--'} ~ ${c.end_date || '--'}</td>
-          <td class="ralign strong">${hasData ? fmtUSDS(c.revenue) : '--'}</td>
-          <td class="ralign">${hasData ? fmtUSDS(c.net_sales) : '--'}</td>
-          <td class="ralign">${hasData ? fmtNum(c.orders) : '--'}</td>
-          <td class="ralign">${hasData ? fmtUSDS(c.aov) : '--'}</td>
-          <td class="ralign">${hasData ? fmtUSDS(c.daily_revenue) : '--'}</td>
-          <td class="ralign">${hasData ? fmtNum(c.new_customers) : '--'}</td>
-          <td class="ralign">${hasData ? fmtNum(c.returning_customers) : '--'}</td>
-          <td class="ralign">${hasData ? fmtPct(c.conversion_rate) : '--'}</td>
-          <td class="ralign">${hasData ? fmtNum(c.product_count) : '--'}</td>
-          <td><span class="table-status ts-${st}">${getStatusLabel(c.status)}</span></td>
-        </tr>`;
-      });
-
-      html += '</tbody>';
-      table.innerHTML = html;
-    }
-
-    init();
-  </script>
+  init();
+</script>
 </body>
 </html>
