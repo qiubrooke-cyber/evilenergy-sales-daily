@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>EVIL ENERGY Sale Dashboard - 每日业绩</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(0, 110, 200, 0.18) 0%, transparent 55%),
+        linear-gradient(180deg, #040d1f 0%, #07122a 40%, #0b1d3d 100%);
+      color: #9bbde8;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 184, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 184, 255, 0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none; z-index: 0;
+    }
+
+    .container {
+      position: relative; z-index: 1;
+      max-width: 1700px; margin: 0 auto; padding: 18px 28px;
+    }
+
+    /* ───── Top Bar ───── */
+    .topbar {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 24px;
+      padding: 14px 24px;
+      margin-bottom: 16px;
+      background: linear-gradient(180deg, rgba(8, 28, 60, 0.55), rgba(6, 18, 42, 0.25));
+      border: 1px solid rgba(0, 184, 255, 0.18);
+      border-radius: 6px;
+      backdrop-filter: blur(8px);
+    }
+    .topbar::before, .topbar::after {
+      content: ''; position: absolute;
+      width: 18px; height: 18px;
+      border: 2px solid rgba(0, 230, 255, 0.55);
+      border-style: solid;
+    }
+    .topbar::before { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
+    .topbar::after  { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
+
+    .tb-left {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .tb-center {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .tb-right {
+      display: flex; align-items: center; justify-content: flex-end; gap: 14px;
+    }
+
+    /* ───── Top bar controls ───── */
+    .nav-btn {
+      background: rgba(8, 40, 80, 0.65);
+      border: 1px solid rgba(0, 184, 255, 0.28);
+      color: #c5ddf5;
+      height: 30px; min-width: 30px; padding: 0 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 13px;
+      backdrop-filter: blur(4px);
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .nav-btn:hover { border-color: rgba(0, 184, 255, 0.7); color: #fff; box-shadow: 0 0 10px rgba(0, 184, 255, 0.3); }
+    .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .back-btn { width: 30px; padding: 0; font-size: 14px; text-decoration: none; }
+
+    .tech-select {
+      height: 30px;
+      background: rgba(8, 40, 80, 0.65);
+      border: 1px solid rgba(0, 184, 255, 0.28);
+      color: #c5ddf5;
+      border-radius: 4px;
+      padding: 0 12px;
+      font-size: 12px;
+      font-family: inherit;
+      cursor: pointer;
+      min-width: 88px;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3e%3cpath fill='%2300b8ff' d='M2 3.5l3 3 3-3'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      padding-right: 24px;
+    }
+    .tech-select:focus { outline: none; border-color: rgba(0, 184, 255, 0.6); }
+
+    /* ───── Title ───── */
+    .title-banner {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .title-banner h1 {
+      font-size: 24px; font-weight: 700; color: #fff;
+      letter-spacing: 4px;
+      text-shadow: 0 0 16px rgba(0, 184, 255, 0.45);
+    }
+    .title-banner .deco {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(0, 184, 255, 0.55);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+    .title-banner .deco.left { border-right: none; border-bottom: none; }
+    .title-banner .deco.right { border-left: none; border-top: none; }
+
+    /* ───── Date control bar ───── */
+    .date-control {
+      display: flex; align-items: center; gap: 6px;
+      padding: 4px 6px;
+      background: rgba(6, 20, 44, 0.6);
+      border: 1px solid rgba(0, 184, 255, 0.18);
+      border-radius: 4px;
+    }
+    .date-display {
+      display: flex; align-items: center; gap: 6px;
+      padding: 0 10px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 12px;
+      color: #c5ddf5;
+    }
+    .date-display .lbl { color: rgba(155, 189, 232, 0.6); font-size: 11px; margin-right: 4px; }
+    .date-display .time { color: #fff; letter-spacing: 0.5px; }
+    .date-display .sep { color: rgba(0, 184, 255, 0.5); margin: 0 2px; }
+
+    /* ───── Live button (primary CTA) ───── */
+    .live-btn {
+      background: linear-gradient(135deg, rgba(0, 230, 184, 0.18), rgba(0, 184, 255, 0.18));
+      border: 1px solid rgba(0, 230, 184, 0.55);
+      color: #00e6b8;
+      height: 30px; padding: 0 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 6px;
+      letter-spacing: 0.5px;
+      transition: all 0.25s;
+      font-family: inherit;
+      box-shadow: 0 0 12px rgba(0, 230, 184, 0.15);
+    }
+    .live-btn:hover { box-shadow: 0 0 18px rgba(0, 230, 184, 0.4); }
+    .live-btn .live-dot {
+      display: inline-block; width: 6px; height: 6px;
+      background: #00e6b8; border-radius: 50%;
+      box-shadow: 0 0 6px rgba(0, 230, 184, 0.7);
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.35; transform: scale(0.8); }
+    }
+    .live-btn.muted {
+      background: rgba(8, 40, 80, 0.5);
+      border-color: rgba(0, 184, 255, 0.28);
+      color: #7ea8d9;
+      box-shadow: none;
+    }
+    .live-btn.muted .live-dot {
+      background: #7ea8d9; box-shadow: none;
+      animation: none;
+    }
+
+    /* ───── Right side clock ───── */
+    .clock-box {
+      display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+    }
+    .clock-time {
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 16px; font-weight: 600; color: #fff;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(0, 230, 255, 0.3);
+    }
+    .clock-tz {
+      font-size: 11px; color: rgba(155, 189, 232, 0.65);
+    }
+    .mode-badge {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 3px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .mode-badge.live {
+      background: rgba(0, 230, 184, 0.12);
+      color: #00e6b8;
+      border: 1px solid rgba(0, 230, 184, 0.4);
+    }
+    .mode-badge.hist {
+      background: rgba(0, 184, 255, 0.08);
+      color: #7ea8d9;
+      border: 1px solid rgba(0, 184, 255, 0.25);
+    }
+
+    /* ───── Summary Bar ───── */
+    .summary-bar {
+      display: flex; gap: 24px; align-items: center;
+      margin-bottom: 18px;
+      padding: 10px 18px;
+      background: rgba(8, 28, 60, 0.3);
+      border: 1px solid rgba(0, 184, 255, 0.1);
+      border-radius: 4px;
+      font-size: 12px;
+      color: rgba(155, 189, 232, 0.55);
+    }
+    .summary-bar span { color: #fff; font-weight: 600; margin-left: 4px; font-family: 'Consolas', monospace; }
+    .summary-bar .ding-link {
+      margin-left: auto;
+      color: rgba(0, 184, 255, 0.65);
+      text-decoration: none;
+      font-size: 12px;
+      transition: color 0.2s;
+    }
+    .summary-bar .ding-link:hover { color: #fff; }
+
+    /* ───── KPI Grid ───── */
+    .kpi-row {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .kpi-row.row-1 { grid-template-columns: repeat(4, 1fr); }
+    .kpi-row.row-2 { grid-template-columns: repeat(4, 1fr); }
+
+    .kpi-card {
+      position: relative;
+      background: linear-gradient(180deg, rgba(8, 28, 60, 0.5), rgba(6, 18, 42, 0.3));
+      border: 1px solid rgba(0, 184, 255, 0.18);
+      border-radius: 4px;
+      padding: 18px 22px 16px;
+      backdrop-filter: blur(6px);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .kpi-card::before, .kpi-card::after {
+      content: ''; position: absolute;
+      width: 12px; height: 12px;
+      border-color: rgba(0, 230, 255, 0.55);
+      border-style: solid;
+    }
+    .kpi-card::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+    .kpi-card::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+    .kpi-card:hover {
+      border-color: rgba(0, 184, 255, 0.4);
+      box-shadow: 0 0 30px rgba(0, 184, 255, 0.1);
+    }
+    .kpi-card.highlight {
+      border-color: rgba(0, 230, 184, 0.4);
+      box-shadow: inset 0 0 24px rgba(0, 230, 184, 0.08);
+    }
+    .kpi-card.highlight::before, .kpi-card.highlight::after {
+      border-color: rgba(0, 230, 184, 0.7);
+    }
+
+    .kpi-label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: #7ea8d9; margin-bottom: 10px; letter-spacing: 1px;
+    }
+    .kpi-label::before {
+      content: ''; width: 3px; height: 14px;
+      background: linear-gradient(180deg, rgba(0, 230, 255, 0.85), rgba(0, 230, 255, 0.1));
+      border-radius: 1px;
+    }
+    .kpi-value {
+      font-size: 32px; font-weight: 600; color: #fff;
+      letter-spacing: 1px; font-variant-numeric: tabular-nums;
+      text-shadow: 0 0 14px rgba(0, 184, 255, 0.2);
+      font-family: 'Consolas', 'Monaco', monospace;
+    }
+    .kpi-value.small { font-size: 24px; }
+    .kpi-value .unit {
+      font-size: 13px; color: rgba(155, 189, 232, 0.55); margin-left: 6px; font-weight: 400;
+    }
+    .kpi-sub {
+      font-size: 11px; color: rgba(155, 189, 232, 0.45); margin-top: 6px;
+    }
+    .kpi-sub .highlight { color: #00e6b8; }
+
+    /* ───── Bottom Grid ───── */
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .panel {
+      position: relative;
+      background: linear-gradient(180deg, rgba(6, 22, 48, 0.4), rgba(6, 18, 42, 0.25));
+      border: 1px solid rgba(0, 184, 255, 0.15);
+      border-radius: 4px;
+      padding: 16px 20px 10px;
+      backdrop-filter: blur(4px);
+    }
+    .panel::before, .panel::after {
+      content: ''; position: absolute;
+      width: 14px; height: 14px;
+      border-color: rgba(0, 230, 255, 0.4);
+      border-style: solid;
+    }
+    .panel::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+    .panel::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+    .panel-header {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 10px;
+    }
+    .panel-title {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: #9bbde8;
+    }
+    .panel-title::before {
+      content: '\2726'; color: rgba(0, 230, 255, 0.7); font-size: 10px;
+    }
+    .panel-sub { font-size: 12px; color: rgba(155, 189, 232, 0.5); }
+    #chart { width: 100%; height: 340px; }
+
+    /* ───── Product table ───── */
+    .product-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .product-table thead th {
+      text-align: left; padding: 8px 12px;
+      color: rgba(155, 189, 232, 0.5); font-weight: 500;
+      border-bottom: 1px solid rgba(0, 184, 255, 0.1);
+      font-size: 11px; letter-spacing: 0.5px;
+    }
+    .product-table thead th:last-child,
+    .product-table thead th:nth-child(3) { text-align: right; }
+    .product-table tbody td {
+      padding: 9px 12px; color: #9bbde8;
+      border-bottom: 1px solid rgba(0, 184, 255, 0.05);
+    }
+    .product-table tbody td:last-child,
+    .product-table tbody td:nth-child(3) { text-align: right; }
+    .product-table tbody tr:hover { background: rgba(0, 184, 255, 0.04); }
+    .product-table .p-name {
+      color: #c5ddf5; max-width: 280px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .product-table .p-sku {
+      font-size: 10px; color: rgba(155, 189, 232, 0.4); display: block; margin-top: 2px;
+    }
+    .product-table .p-revenue { color: #fff; font-weight: 600; font-family: 'Consolas', monospace; }
+
+    .no-data { text-align: center; padding: 40px; color: rgba(155, 189, 232, 0.4); }
+
+    /* ───── Animations ───── */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .kpi-card { animation: fadeIn 0.4s ease both; }
+    .kpi-card:nth-child(1) { animation-delay: 0.05s; }
+    .kpi-card:nth-child(2) { animation-delay: 0.10s; }
+    .kpi-card:nth-child(3) { animation-delay: 0.15s; }
+    .kpi-card:nth-child(4) { animation-delay: 0.20s; }
+
+    @media (max-width: 1200px) {
+      .kpi-row.row-1 { grid-template-columns: repeat(2, 1fr); }
+      .bottom-grid { grid-template-columns: 1fr; }
+      .topbar { grid-template-columns: 1fr; gap: 14px; }
+      .tb-right { justify-content: center; }
+    }
+
+    /* ───── Responsive: Mobile (max 768px) ───── */
+    @media (max-width: 768px) {
+      .container { padding: 12px 16px; }
+
+      /* Topbar: stacked layout for mobile */
+      .topbar {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 12px 16px;
+        margin-bottom: 12px;
+      }
+      .tb-left {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        order: 1;
+      }
+      .tb-center {
+        order: 2;
+        gap: 8px;
+      }
+      .tb-right {
+        order: 3;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      /* Title: smaller font */
+      .title-banner h1 {
+        font-size: 16px;
+        letter-spacing: 2px;
+      }
+      .title-banner .deco {
+        width: 12px; height: 12px;
+      }
+
+      /* Date control: compact */
+      .date-control {
+        gap: 4px;
+        padding: 4px 4px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .nav-btn {
+        height: 28px;
+        min-width: 28px;
+        padding: 0 8px;
+        font-size: 12px;
+      }
+      .date-display {
+        padding: 0 4px;
+        font-size: 11px;
+      }
+      .date-display .lbl { font-size: 10px; }
+      .live-btn {
+        height: 28px;
+        padding: 0 10px;
+        font-size: 11px;
+      }
+
+      /* Select: compact */
+      .tech-select {
+        height: 28px;
+        font-size: 11px;
+        padding: 0 8px;
+        padding-right: 20px;
+        min-width: 70px;
+      }
+
+      /* Clock: smaller */
+      .clock-time { font-size: 14px; }
+      .clock-tz { font-size: 10px; }
+      .mode-badge { font-size: 10px; padding: 2px 8px; }
+
+      /* Summary bar: compact */
+      .summary-bar {
+        gap: 12px;
+        padding: 8px 12px;
+        font-size: 11px;
+        flex-wrap: wrap;
+      }
+
+      /* KPI: 2-column grid on mobile */
+      .kpi-row.row-1 {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .kpi-card {
+        padding: 14px 16px 12px;
+      }
+      .kpi-label {
+        font-size: 11px;
+        margin-bottom: 8px;
+        letter-spacing: 0.5px;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+      .kpi-label::before { height: 12px; width: 2px; }
+      .kpi-value {
+        font-size: 22px;
+      }
+      .kpi-value.small { font-size: 18px; }
+      .kpi-value .unit { font-size: 11px; }
+      .kpi-sub { font-size: 10px; }
+
+      /* Bottom grid: single column */
+      .bottom-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      /* Chart: smaller height */
+      #chart { height: 260px; }
+
+      /* Panel: compact */
+      .panel {
+        padding: 12px 14px 8px;
+      }
+      .panel-title { font-size: 12px; }
+      .panel-sub { font-size: 11px; }
+
+      /* Product table: compact */
+      .product-table { font-size: 11px; }
+      .product-table thead th { padding: 6px 8px; font-size: 10px; }
+      .product-table tbody td { padding: 7px 8px; }
+      .product-table .p-name { max-width: 160px; }
+      .product-table .p-sku { font-size: 9px; }
+    }
+
+    /* ───── Responsive: Small phone (max 480px) ───── */
+    @media (max-width: 480px) {
+      .container { padding: 10px 12px; }
+
+      .topbar {
+        padding: 10px 12px;
+        gap: 8px;
+      }
+
+      /* Title: even smaller */
+      .title-banner h1 {
+        font-size: 14px;
+        letter-spacing: 1px;
+      }
+      .title-banner .deco { width: 10px; height: 10px; border-width: 1.5px; }
+      .title-banner { gap: 10px; }
+
+      /* KPI labels: hide ShopifyQL annotation on small screens */
+      .kpi-label span { display: none; }
+      .kpi-label { font-size: 11px; }
+
+      /* Date control: hide labels, use short format */
+      .date-display .lbl { display: none; }
+      .date-display .time { font-size: 10px; }
+      .date-display .sep { margin: 0 1px; }
+
+      /* Hide less important elements */
+      .summary-bar .ding-link { display: none; }
+      .summary-bar { gap: 8px; padding: 6px 10px; font-size: 10px; }
+      .summary-bar span { font-size: 10px; }
+
+      /* Select dropdowns: narrower */
+      .tech-select { min-width: 56px; }
+
+      /* Clock badge: simplified */
+      .clock-tz { display: none; }
+
+      /* KPI: 2-column, very compact */
+      .kpi-row.row-1 { gap: 8px; }
+      .kpi-card { padding: 12px 14px 10px; }
+      .kpi-value { font-size: 18px; }
+      .kpi-value.small { font-size: 16px; }
+      .kpi-sub { font-size: 9px; margin-top: 4px; }
+
+      /* Chart: even smaller */
+      #chart { height: 220px; }
+
+      /* Product table: very compact */
+      .product-table { font-size: 10px; }
+      .product-table thead th { padding: 4px 6px; font-size: 9px; }
+      .product-table tbody td { padding: 5px 6px; }
+      .product-table .p-name { max-width: 120px; font-size: 10px; }
+      .product-table .p-sku { display: none; }
+    }
+
+    /* ───── Responsive: Landscape mobile (height < 500px) ───── */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .container { padding: 8px 16px; }
+      .topbar { margin-bottom: 8px; padding: 8px 16px; }
+      .kpi-row.row-1 { gap: 8px; margin-bottom: 8px; }
+      .kpi-card { padding: 10px 14px 8px; }
+      .kpi-value { font-size: 20px; }
+      .kpi-label { font-size: 11px; margin-bottom: 6px; }
+      .kpi-sub { font-size: 9px; }
+      .summary-bar { margin-bottom: 8px; padding: 6px 10px; }
+      .bottom-grid { gap: 8px; }
+      #chart { height: 200px; }
+      .panel { padding: 10px 12px 6px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Top Bar -->
+    <div class="topbar">
+      <div class="tb-left">
+        <a href="portal.html" class="nav-btn back-btn" title="返回看板">←</a>
+        <select class="tech-select" id="selRegion" title="销售区域">
+          <option>美国</option>
+          <option>全球</option>
+        </select>
+        <select class="tech-select" id="selChannel" title="订单类型">
+          <option>C端订单</option>
+          <option>所有订单</option>
+        </select>
+      </div>
+
+      <div class="tb-center">
+        <div class="title-banner">
+          <span class="deco left"></span>
+          <h1 id="pageTitle">EVIL ENERGY 每日业绩</h1>
+          <span class="deco right"></span>
+        </div>
+        <div class="date-control">
+          <button class="nav-btn" id="btnPrev" title="前一天"><</button>
+          <div class="date-display">
+            <span class="lbl">区间</span>
+            <span class="time" id="rangeStartDisp">--</span>
+            <span class="sep">→</span>
+            <span class="time" id="rangeEndDisp">--</span>
+          </div>
+          <button class="nav-btn" id="btnNext" title="后一天">></button>
+          <button class="live-btn" id="btnRealtime" title="切换到实时模式">
+            <span class="live-dot"></span>实时
+          </button>
+        </div>
+      </div>
+
+      <div class="tb-right">
+        <div class="clock-box">
+          <div class="clock-time" id="currentTime">--</div>
+          <div class="clock-tz" id="currentTz">EDT (UTC-4)</div>
+        </div>
+        <div class="mode-badge live" id="modeBadge">⚡ 实时模式</div>
+      </div>
+    </div>
+
+    <!-- Summary Bar -->
+    <div class="summary-bar">
+      <div>数据区间 <span id="rangeStart">--</span> ~ <span id="rangeEnd">--</span></div>
+      <div>有效天数 <span id="rangeCount">--</span></div>
+      <div>更新时间 <span id="updateTime">--</span></div>
+      <a href="https://alidocs.dingtalk.com/i/nodes/7NkDwLng8Zv9dDwgSNL6R1z68KMEvZBY" target="_blank" class="ding-link">
+        ↗ 钉钉看板源数据
+      </a>
+    </div>
+
+    <!-- KPI Row 1 - Core metrics (4) -->
+    <div class="kpi-row row-1">
+      <div class="kpi-card">
+        <div class="kpi-label">总订单</div>
+        <div class="kpi-value" id="kpiOrders">--</div>
+        <div class="kpi-sub" id="kpiOrdersSub">当日统计</div>
+      </div>
+      <div class="kpi-card highlight">
+        <div class="kpi-label">当前业绩 <span style="font-size:10px;color:rgba(0,230,184,0.7);">· Total sales (ShopifyQL)</span></div>
+        <div class="kpi-value" id="kpiRevenue">--</div>
+        <div class="kpi-sub">含税含运 · 扣除退款 · 与后台一致 <span class="highlight">(USD)</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">净销售额 <span style="font-size:10px;color:rgba(155,189,232,0.5);">· Net sales (ShopifyQL)</span></div>
+        <div class="kpi-value" id="kpiRevenueNet">--</div>
+        <div class="kpi-sub">扣除税费和运费 (USD)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">客单价 <span style="font-size:10px;color:rgba(155,189,232,0.5);">· AOV</span></div>
+        <div class="kpi-value small" id="kpiAov">--</div>
+        <div class="kpi-sub">总业绩 ÷ 总订单 (USD)</div>
+      </div>
+    </div>
+
+    <!-- Bottom: Chart + Products -->
+    <div class="bottom-grid">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">24小时订单分布 <span style="color:rgba(155,189,232,0.5);font-size:11px;">(Shopify 时间 EDT/EST)</span></div>
+          <div class="panel-sub" id="chartDate">--</div>
+        </div>
+        <div id="chart"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">热销产品 TOP 10</div>
+          <div class="panel-sub" id="productCount">--</div>
+        </div>
+        <div style="max-height:340px;overflow-y:auto;">
+          <table class="product-table">
+            <thead>
+              <tr>
+                <th style="width:50%">产品</th>
+                <th style="width:18%;text-align:right">销量</th>
+                <th style="width:32%;text-align:right">销售额</th>
+              </tr>
+            </thead>
+            <tbody id="productBody">
+              <tr><td class="no-data" colspan="3">加载中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ─────────────────────────── State ───────────────────────────
+    let allData = null;                  // Historical multi-date data
+    let realtimeData = null;             // Today's live data
+    let dates = [];                      // Available historical dates (sorted)
+    let currentIdx = -1;                 // Index into dates[]
+    let isRealtimeMode = true;           // Whether showing realtime or historical
+    let chartInstance = null;
+    let realtimeTimer = null;            // 3-min auto-refresh
+
+    // ─────────────────────────── Shopify TZ (America/New_York) ───────────────────────────
+    // DST: EDT UTC-4 (summer), EST UTC-5 (winter).  All dashboard dates/hours
+    // are in Shopify backend timezone — NOT China time.
+    const SHOP_TZ = 'America/New_York';
+
+    function getShopifyNow() {
+      const now = new Date();
+      // Parse the locale string back into a Date in Shopify TZ.
+      // Trick: shift to a fixed-ISO equivalent so JS Date getters reflect Shopify fields.
+      const fmt = new Intl.DateTimeFormat('en-US', {
+        timeZone: SHOP_TZ,
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour12: false,
+      });
+      const parts = Object.fromEntries(fmt.formatToParts(now).map(p => [p.type, p.value]));
+      return new Date(
+        Number(parts.year),
+        Number(parts.month) - 1,
+        Number(parts.day),
+        Number(parts.hour) === 24 ? 0 : Number(parts.hour),
+        Number(parts.minute),
+        Number(parts.second),
+      );
+    }
+
+    function getShopifyTodayStr() {
+      const s = getShopifyNow();
+      return s.getFullYear() + '-' + String(s.getMonth()+1).padStart(2,'0') + '-' + String(s.getDate()).padStart(2,'0');
+    }
+
+    function isInDST(date) {
+      const month = date.getMonth();
+      const day = date.getDate();
+      if (month < 2 || month > 10) return false;
+      if (month > 2 && month < 10) return true;
+      if (month === 2) {
+        return day >= getNthSunday(date.getFullYear(), 2, 2);
+      }
+      if (month === 10) {
+        return day < getNthSunday(date.getFullYear(), 10, 1);
+      }
+      return false;
+    }
+
+    function getNthSunday(year, month, n) {
+      const firstDay = new Date(year, month, 1);
+      const firstSunday = 1 + ((7 - firstDay.getDay()) % 7);
+      return firstSunday + (n - 1) * 7;
+    }
+
+    function getDstName() {
+      return isInDST(getShopifyNow()) ? 'EDT' : 'EST';
+    }
+
+    // ─────────────────────────── Formatting helpers ───────────────────────────
+    const fmtNum = (n) => new Intl.NumberFormat('en-US').format(Math.round(n));
+    const fmtUSD = (n) => '$' + new Intl.NumberFormat('en-US', {
+      minimumFractionDigits: 2, maximumFractionDigits: 2,
+    }).format(n);
+
+    function updateClock() {
+      const s = getShopifyNow();
+      const y = s.getFullYear(), mo = String(s.getMonth()+1).padStart(2,'0'), d = String(s.getDate()).padStart(2,'0');
+      const h = String(s.getHours()).padStart(2,'0'), mi = String(s.getMinutes()).padStart(2,'0'), se = String(s.getSeconds()).padStart(2,'0');
+      const dst = getDstName();
+      const utcOff = dst === 'EDT' ? -4 : -5;
+      document.getElementById('currentTime').textContent = y + '-' + mo + '-' + d + ' ' + h + ':' + mi + ':' + se;
+      document.getElementById('currentTz').textContent = dst + ' (UTC' + (utcOff >= 0 ? '+' : '') + utcOff + ')';
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // ─────────────────────────── Live button visual ───────────────────────────
+    function setLiveBtnHighlight(active) {
+      const btn = document.getElementById('btnRealtime');
+      if (active) {
+        btn.classList.remove('muted');
+      } else {
+        btn.classList.add('muted');
+      }
+    }
+
+    // ─────────────────────────── Mode switch ───────────────────────────
+    function showRealtimeMode() {
+      if (!realtimeData) return;
+      isRealtimeMode = true;
+      currentIdx = -1;
+      setLiveBtnHighlight(true);
+
+      const tzInfo = realtimeData.timezone || {};
+      const dst = tzInfo.dst_name || getDstName();
+      const utcOff = tzInfo.utc_offset != null ? tzInfo.utc_offset : (dst === 'EDT' ? -4 : -5);
+
+      // Top bar
+      document.getElementById('pageTitle').textContent = 'EVIL ENERGY 每日业绩 · 实时';
+      document.getElementById('rangeStartDisp').textContent = realtimeData.date + ' 00:00:00';
+      document.getElementById('rangeEndDisp').textContent = realtimeData.date + ' ' + String(getShopifyNow().getHours()).padStart(2,'0') + ':' + String(getShopifyNow().getMinutes()).padStart(2,'0') + ':' + String(getShopifyNow().getSeconds()).padStart(2,'0');
+      document.getElementById('modeBadge').textContent = '⚡ 实时模式 · 每3分钟刷新 · ' + dst + ' (UTC' + (utcOff >= 0 ? '+' : '') + utcOff + ')';
+      document.getElementById('modeBadge').className = 'mode-badge live';
+
+      // Nav buttons
+      document.getElementById('btnPrev').disabled = (dates.length === 0);
+      document.getElementById('btnNext').disabled = true;  // already at rightmost (today)
+
+      // Summary bar
+      document.getElementById('updateTime').textContent = realtimeData.updated_at + ' ' + dst;
+
+      // Render KPI/products/chart
+      renderKpis(realtimeData.kpi);
+      document.getElementById('chartDate').textContent = realtimeData.date + ' · 截至当前';
+      document.getElementById('productCount').textContent = '共 ' + (realtimeData.top_products || []).length + ' 款';
+      renderProductTable(realtimeData.top_products || []);
+      renderChart(realtimeData.hourly_orders || [], realtimeData.current_hour);
+
+      // Auto-refresh
+      startRealtimeAutoRefresh();
+    }
+
+    function showHistoricalMode() {
+      isRealtimeMode = false;
+      setLiveBtnHighlight(false);
+      const dst = getDstName();
+      const date = dates[currentIdx];
+
+      // Top bar
+      document.getElementById('pageTitle').textContent = 'EVIL ENERGY 每日业绩 · 历史';
+      document.getElementById('rangeStartDisp').textContent = date + ' 00:00:00';
+      document.getElementById('rangeEndDisp').textContent = date + ' 23:59:59';
+      document.getElementById('modeBadge').textContent = '📅 历史模式 · ' + date + ' · ' + dst;
+      document.getElementById('modeBadge').className = 'mode-badge hist';
+
+      // Nav buttons
+      document.getElementById('btnPrev').disabled = (currentIdx === 0);
+      document.getElementById('btnNext').disabled = (currentIdx >= dates.length - 1);
+
+      stopRealtimeAutoRefresh();
+    }
+
+    function renderKpis(kpi) {
+      // 数据来源: ShopifyQL Analytics API (精确匹配 Shopify 后台)
+      // total_revenue = total_sales (含税含运费，扣除退款)
+      // net_sales = ShopifyQL 直接提供 (不再手动计算)
+      const total = kpi.total_revenue || 0;
+      // net_sales: use ShopifyQL direct value, fallback to computed
+      const netSales = kpi.net_sales || (total - (kpi.total_tax || 0) - (kpi.total_shipping || 0));
+
+      document.getElementById('kpiOrders').textContent = fmtNum(kpi.total_orders);
+      document.getElementById('kpiOrdersSub').textContent = isRealtimeMode ? '今日截至当前' : '当日统计';
+
+      document.getElementById('kpiRevenue').textContent = fmtUSD(total);
+      document.getElementById('kpiRevenueNet').textContent = fmtUSD(netSales);
+      document.getElementById('kpiAov').textContent = fmtUSD(kpi.avg_order_value || kpi.aov);
+    }
+
+    function renderProductTable(products) {
+      const tbody = document.getElementById('productBody');
+      if (!products || products.length === 0) {
+        tbody.innerHTML = '<tr><td class="no-data" colspan="3">暂无产品销售</td></tr>';
+        return;
+      }
+      tbody.innerHTML = products.map((p, i) =>
+        '<tr>' +
+          '<td>' +
+            '<span class="p-name">#' + (i+1) + ' ' + p.title + '</span>' +
+            '<span class="p-sku">' + (p.sku || '--') + '</span>' +
+          '</td>' +
+          '<td>' + p.qty + '</td>' +
+          '<td><span class="p-revenue">' + fmtUSD(p.revenue) + '</span></td>' +
+        '</tr>'
+      ).join('');
+    }
+
+    // ─────────────────────────── Date navigation ───────────────────────────
+    function setHistoricalDate(idx) {
+      if (idx < 0 || idx >= dates.length) return;
+      currentIdx = idx;
+      showHistoricalMode();
+
+      const date = dates[idx];
+      const kpi = allData.dates[date];
+      if (!kpi) {
+        document.querySelectorAll('.kpi-value').forEach(el => el.textContent = '无数据');
+        return;
+      }
+
+      // Update KPIs from historical kpi (combined into a unified shape)
+      const unifiedKpi = {
+        total_orders: kpi.total_orders,
+        total_revenue: kpi.total_revenue,
+        total_tax: kpi.total_tax,
+        total_shipping: kpi.total_shipping,
+        total_discounts: kpi.total_discounts,
+        net_sales: kpi.net_sales,
+        avg_order_value: kpi.avg_order_value || kpi.aov,
+      };
+      renderKpis(unifiedKpi);
+
+      document.getElementById('chartDate').textContent = date;
+      document.getElementById('productCount').textContent = '共 ' + (kpi.top_products || []).length + ' 款';
+      renderProductTable(kpi.top_products || []);
+      renderChart(kpi.hourly_orders || [], undefined);
+    }
+
+    document.getElementById('btnPrev').addEventListener('click', () => {
+      if (isRealtimeMode) {
+        // Realtime → jump to most-recent historical date
+        if (dates.length > 0) setHistoricalDate(dates.length - 1);
+      } else if (currentIdx > 0) {
+        setHistoricalDate(currentIdx - 1);
+      }
+    });
+
+    document.getElementById('btnNext').addEventListener('click', () => {
+      if (isRealtimeMode) return; // already at rightmost
+      if (currentIdx < dates.length - 1) {
+        setHistoricalDate(currentIdx + 1);
+      } else if (realtimeData) {
+        // Last historical day → next is realtime (today)
+        showRealtimeMode();
+      }
+    });
+
+    document.getElementById('btnRealtime').addEventListener('click', () => {
+      if (!realtimeData) {
+        alert('实时数据暂未加载，请稍候刷新');
+        return;
+      }
+      if (!isRealtimeMode) {
+        showRealtimeMode();
+      }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) return;
+      if (e.key === 'ArrowLeft') {
+        if (isRealtimeMode) {
+          if (dates.length > 0) setHistoricalDate(dates.length - 1);
+        } else if (currentIdx > 0) {
+          setHistoricalDate(currentIdx - 1);
+        }
+      }
+      if (e.key === 'ArrowRight') {
+        if (isRealtimeMode) return;
+        if (currentIdx < dates.length - 1) setHistoricalDate(currentIdx + 1);
+        else if (realtimeData) showRealtimeMode();
+      }
+      if (e.key === 'r' || e.key === 'R') {
+        if (realtimeData && !isRealtimeMode) showRealtimeMode();
+      }
+    });
+
+    // ─────────────────────────── Shopify Browser API (for CloudStudio) ───────────────────────────
+    // In standalone/CloudStudio mode, there's no /api/realtime endpoint or local server.
+    // We call Shopify Admin API directly from the browser.
+    // Shopify allows custom apps (client_credentials) to be called from any origin via CORS.
+
+    let shopifyAccessToken = null;  // Cached token for browser-side API calls
+
+    async function shopifyBrowserTokenRefresh() {
+      if (!window.__SHOPIFY_CONFIG__) return null;
+      const cfg = window.__SHOPIFY_CONFIG__;
+      if (!cfg.client_secret) {
+        console.log('[Shopify-Browser] No client_secret available (standalone/secure mode), skipping token refresh');
+        return null;
+      }
+      const url = 'https://' + cfg.shop_domain + '/admin/oauth/access_token';
+      try {
+        const resp = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            client_id: cfg.client_id,
+            client_secret: cfg.client_secret,
+            grant_type: 'client_credentials',
+          }),
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          shopifyAccessToken = data.access_token;
+          console.log('[Shopify-Browser] Token refreshed:', shopifyAccessToken ? shopifyAccessToken.substring(0, 12) + '...' : 'null');
+          return shopifyAccessToken;
+        } else {
+          const err = await resp.text();
+          console.error('[Shopify-Browser] Token refresh failed:', resp.status, err.substring(0, 200));
+        }
+      } catch (e) {
+        console.error('[Shopify-Browser] Token refresh error:', e.message);
+      }
+      return null;
+    }
+
+    async function shopifyBrowserQL(query) {
+      if (!window.__SHOPIFY_CONFIG__) return null;
+      const cfg = window.__SHOPIFY_CONFIG__;
+      if (!shopifyAccessToken) {
+        const token = await shopifyBrowserTokenRefresh();
+        if (!token) return null;
+      }
+      const url = 'https://' + cfg.shop_domain + '/admin/api/2024-07/graphql.json';
+      const gqlQuery = '{ shopifyqlQuery(query: "' + query + '") { tableData { columns { name dataType displayName } rows } parseErrors } }';
+      try {
+        const resp = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'X-Shopify-Access-Token': shopifyAccessToken,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ query: gqlQuery }),
+        });
+        if (resp.ok) {
+          const body = await resp.json();
+          if (body.errors) {
+            console.error('[Shopify-Browser] GraphQL errors:', JSON.stringify(body.errors).substring(0, 300));
+            // Token might be expired — try refresh once
+            if (body.errors.some(e => e.message && e.message.includes('access'))) {
+              shopifyAccessToken = null;
+              const newToken = await shopifyBrowserTokenRefresh();
+              if (newToken) return shopifyBrowserQL(query); // retry once
+            }
+            return null;
+          }
+          const data = body.data?.shopifyqlQuery || {};
+          if (data.parseErrors) {
+            console.error('[Shopify-Browser] ShopifyQL parse errors:', data.parseErrors);
+            return null;
+          }
+          return data.tableData?.rows || null;
+        } else if (resp.status === 401 || resp.status === 403) {
+          // Token expired — refresh and retry
+          console.log('[Shopify-Browser] Auth error, refreshing token...');
+          shopifyAccessToken = null;
+          const newToken = await shopifyBrowserTokenRefresh();
+          if (newToken) return shopifyBrowserQL(query); // retry once
+        } else {
+          const err = await resp.text();
+          console.error('[Shopify-Browser] ShopifyQL HTTP error:', resp.status, err.substring(0, 200));
+        }
+      } catch (e) {
+        console.error('[Shopify-Browser] ShopifyQL fetch error:', e.message);
+      }
+      return null;
+    }
+
+    async function shopifyBrowserOrders(dateStr, pageUrl) {
+      if (!window.__SHOPIFY_CONFIG__) return null;
+      const cfg = window.__SHOPIFY_CONFIG__;
+      if (!shopifyAccessToken) {
+        const token = await shopifyBrowserTokenRefresh();
+        if (!token) return null;
+      }
+      // Shop timezone: America/New_York
+      const shopTz = 'America/New_York';
+      // Get start/end of date in Shopify TZ converted to UTC
+      const startLocal = dateStr + 'T00:00:00';
+      const endLocal = dateStr + 'T23:59:59';
+      const startUtc = new Date(new Date(startLocal).toLocaleString('en-US', { timeZone: shopTz })).toISOString().replace('Z', '');
+      // Adjust: the "toLocaleString" trick shifts, but we need proper offset
+      // Simpler: use ShopifyQL for KPI, REST just for product/discount detail
+      const endpoint = pageUrl || (
+        'https://' + cfg.shop_domain + '/admin/api/2024-07/orders.json'
+        + '?status=any&fields=id,order_number,total_price,subtotal_price,total_tax,total_shipping_price_set,line_items,discount_codes,customer,created_at'
+        + '&limit=250&created_at_min=' + dateStr + 'T00:00:00-04:00'
+        + '&created_at_max=' + dateStr + 'T23:59:59-04:00'
+      );
+      try {
+        const resp = await fetch(endpoint, {
+          headers: { 'X-Shopify-Access-Token': shopifyAccessToken },
+        });
+        if (resp.ok) {
+          return await resp.json();
+        } else if (resp.status === 401 || resp.status === 403) {
+          shopifyAccessToken = null;
+          const newToken = await shopifyBrowserTokenRefresh();
+          if (newToken) return shopifyBrowserOrders(dateStr, pageUrl);
+        } else {
+          console.error('[Shopify-Browser] Orders API error:', resp.status);
+        }
+      } catch (e) {
+        console.error('[Shopify-Browser] Orders fetch error:', e.message);
+      }
+      return null;
+    }
+
+    async function fetchRealtimeFromShopifyBrowser() {
+      if (!window.__SHOPIFY_CONFIG__) return null;
+      const cfg = window.__SHOPIFY_CONFIG__;
+      const todayStr = getShopifyTodayStr();
+      const dst = getDstName();
+      const utcOff = dst === 'EDT' ? -4 : -5;
+      const tzOffsetStr = utcOff >= 0 ? '+' + utcOff : '' + utcOff;
+      console.log('[Dashboard] Attempting browser-side Shopify API fetch for:', todayStr);
+
+      // Step 1: ShopifyQL KPI
+      const kpiQl = 'FROM sales SHOW total_sales, net_sales, gross_sales, discounts, shipping_charges, taxes, orders, returns SINCE ' + todayStr + ' UNTIL ' + todayStr;
+      const kpiRows = await shopifyBrowserQL(kpiQl);
+      if (!kpiRows || kpiRows.length === 0) {
+        console.error('[Dashboard] Browser ShopifyQL KPI returned no data');
+        return null;
+      }
+      const kpiRow = kpiRows[0];
+      const kpi = {
+        total_orders: parseInt(kpiRow.orders || '0'),
+        total_revenue: parseFloat(kpiRow.total_sales || '0'),
+        net_sales: parseFloat(kpiRow.net_sales || '0'),
+        gross_sales: parseFloat(kpiRow.gross_sales || '0'),
+        total_tax: parseFloat(kpiRow.taxes || '0'),
+        total_shipping: parseFloat(kpiRow.shipping_charges || '0'),
+        total_discounts: parseFloat(kpiRow.discounts || '0'),
+        avg_order_value: parseFloat(kpiRow.total_sales || '0') / parseInt(kpiRow.orders || '1'),
+      };
+
+      // Step 2: ShopifyQL Hourly
+      const hourQl = 'FROM sales SHOW orders SINCE ' + todayStr + ' UNTIL ' + todayStr + ' TIMESERIES hour';
+      const hourRows = await shopifyBrowserQL(hourQl);
+      const hourlyOrders = new Array(24).fill(0);
+      let currentHour = undefined;
+      if (hourRows && hourRows.length > 0) {
+        const shopNow = getShopifyNow();
+        currentHour = shopNow.getHours();
+        for (const row of hourRows) {
+          // hour is UTC, convert to Shopify TZ
+          const utcHour = new Date(row.hour).getUTCHours();
+          const shopHour = utcHour + (utcOff); // EDT: UTC-4 means shopHour = UTC-4; but offset is negative
+          // e.g. UTC 04:00 → EDT (UTC-4) → 00:00 local; UTC 15:00 → 11:00 EDT
+          const localHour = utcHour + utcOff; // utcOff is -4 for EDT
+          const adjustedHour = localHour < 0 ? localHour + 24 : localHour;
+          if (adjustedHour >= 0 && adjustedHour < 24) {
+            hourlyOrders[adjustedHour] = parseInt(row.orders || '0');
+          }
+        }
+      }
+
+      // Step 3: REST Orders for products/discounts (only first page, top 10 products)
+      const ordersResp = await shopifyBrowserOrders(todayStr);
+      const topProducts = [];
+      if (ordersResp && ordersResp.orders) {
+        const productMap = {};
+        for (const order of ordersResp.orders) {
+          for (const li of (order.line_items || [])) {
+            const name = li.title || li.name || 'Unknown';
+            const sku = li.sku || '';
+            const qty = li.quantity || 0;
+            const price = parseFloat(li.price || '0');
+            if (!productMap[sku || name]) {
+              productMap[sku || name] = { name, sku, quantity: 0, revenue: 0 };
+            }
+            productMap[sku || name].quantity += qty;
+            productMap[sku || name].revenue += price * qty;
+          }
+        }
+        const sorted = Object.values(productMap).sort((a, b) => b.revenue - a.revenue);
+        const totalRev = kpi.total_revenue || 1;
+        for (let i = 0; i < Math.min(10, sorted.length); i++) {
+          topProducts.push({
+            name: sorted[i].name,
+            sku: sorted[i].sku,
+            quantity: sorted[i].quantity,
+            revenue: sorted[i].revenue,
+            share: ((sorted[i].revenue / totalRev) * 100).toFixed(1) + '%',
+          });
+        }
+      }
+
+      // Assemble realtimeData in same format as realtime_fetch.py output
+      const realtimeObj = {
+        date: todayStr,
+        updated_at: new Date().toISOString().replace('T', ' ').substring(0, 19),
+        currency: 'USD',
+        timezone: { name: SHOP_TZ, dst_name: dst, utc_offset: utcOff },
+        kpi,
+        current_hour: currentHour,
+        hourly_orders: hourlyOrders,
+        top_products: topProducts,
+        data_source: 'shopifyql_browser',
+      };
+
+      console.log('[Dashboard] Browser Shopify fetch complete:', kpi.total_orders, 'orders, $' + kpi.total_revenue.toFixed(2));
+      return realtimeObj;
+    }
+
+    // ─────────────────────────── Realtime fetcher ───────────────────────────
+    async function refreshRealtimeData() {
+      console.log('[Dashboard] Refreshing realtime data...');
+      // Strategy 1: /api/realtime (localhost server)
+      try {
+        const resp = await fetch('/api/realtime?t=' + Date.now(), { cache: 'no-store' });
+        if (resp.ok) {
+          realtimeData = await resp.json();
+          console.log('[Dashboard] Realtime via API:', realtimeData.kpi.total_orders, 'orders');
+          if (isRealtimeMode) showRealtimeMode();
+          return;
+        }
+      } catch (e) {
+        console.log('[Dashboard] API endpoint not available, trying file...');
+      }
+      // Strategy 2: dashboard_realtime.json (local file)
+      try {
+        const resp = await fetch('dashboard_realtime.json?t=' + Date.now(), { cache: 'no-store' });
+        if (resp.ok) {
+          realtimeData = await resp.json();
+          console.log('[Dashboard] Realtime via file:', realtimeData.kpi.total_orders, 'orders');
+          if (isRealtimeMode) showRealtimeMode();
+          return;
+        }
+      } catch (e) {
+        console.log('[Dashboard] File not available, trying browser Shopify API...');
+      }
+      // Strategy 3: Browser-side Shopify API (CloudStudio / standalone)
+      try {
+        const data = await fetchRealtimeFromShopifyBrowser();
+        if (data) {
+          realtimeData = data;
+          if (isRealtimeMode) showRealtimeMode();
+          return;
+        }
+      } catch (e) {
+        console.error('[Dashboard] Browser Shopify API failed:', e.message);
+      }
+      console.error('[Dashboard] All realtime fetch strategies failed');
+    }
+
+    function startRealtimeAutoRefresh() {
+      if (realtimeTimer) clearInterval(realtimeTimer);
+      realtimeTimer = setInterval(refreshRealtimeData, 180000);
+      console.log('[Dashboard] Auto-refresh started (every 3 min)');
+    }
+
+    function stopRealtimeAutoRefresh() {
+      if (realtimeTimer) {
+        clearInterval(realtimeTimer);
+        realtimeTimer = null;
+        console.log('[Dashboard] Auto-refresh stopped (historical mode)');
+      }
+    }
+
+    // ─────────────────────────── ECharts ───────────────────────────
+    function renderChart(hourlyData, currentHour) {
+      const chartDom = document.getElementById('chart');
+      if (chartInstance) chartInstance.dispose();
+      chartInstance = echarts.init(chartDom);
+
+      const labels = [];
+      const markLineData = [];
+      for (let h = 0; h < 24; h++) {
+        labels.push(String(h).padStart(2,'0') + ':00');
+        if (currentHour !== undefined && h === currentHour) {
+          markLineData.push({
+            xAxis: h,
+            label: { formatter: '当前 ' + currentHour + ':00', color: '#00e6b8', fontSize: 10 },
+            lineStyle: { color: '#00e6b8', type: 'dashed', width: 1 },
+          });
+        }
+      }
+
+      chartInstance.setOption({
+        backgroundColor: 'transparent',
+        grid: { top: 16, right: 20, bottom: 36, left: 46, containLabel: false },
+        tooltip: {
+          trigger: 'axis',
+          backgroundColor: 'rgba(6, 18, 42, 0.92)',
+          borderColor: 'rgba(0, 184, 255, 0.25)',
+          borderWidth: 1,
+          textStyle: { color: '#9bbde8', fontSize: 12 },
+          formatter: function(params) {
+            const p = params[0];
+            return '<div style="font-size:12px;color:#7ea8d9">' + p.axisValue + '</div>' +
+                   '<div style="font-size:15px;color:#fff;margin-top:4px">' + p.value + ' 单</div>';
+          },
+        },
+        xAxis: {
+          type: 'category', boundaryGap: false, data: labels,
+          axisLine: { lineStyle: { color: 'rgba(155, 189, 232, 0.12)' } },
+          axisTick: { show: false },
+          axisLabel: { color: 'rgba(155, 189, 232, 0.4)', fontSize: 10, interval: 2, fontFamily: 'monospace' },
+        },
+        yAxis: {
+          type: 'value',
+          splitLine: { lineStyle: { color: 'rgba(155, 189, 232, 0.05)' } },
+          axisLine: { show: false }, axisTick: { show: false },
+          axisLabel: { color: 'rgba(155, 189, 232, 0.35)', fontSize: 10 },
+        },
+        series: [{
+          name: '订单', type: 'line', smooth: true,
+          symbol: 'circle', symbolSize: 4,
+          lineStyle: { color: '#00b8ff', width: 2, shadowColor: 'rgba(0, 184, 255, 0.4)', shadowBlur: 10 },
+          itemStyle: { color: '#00e6ff', borderColor: 'rgba(0, 230, 255, 0.5)', borderWidth: 1 },
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: 'rgba(0, 184, 255, 0.22)' },
+              { offset: 1, color: 'rgba(0, 184, 255, 0.01)' },
+            ]),
+          },
+          data: hourlyData,
+          markLine: markLineData.length > 0 ? { data: markLineData, symbol: 'none' } : undefined,
+        }],
+      });
+      window.addEventListener('resize', () => { if (chartInstance) chartInstance.resize(); });
+    }
+
+    // ─────────────────────────── Init ───────────────────────────
+    (async function() {
+      console.log('[Dashboard] Starting init...');
+
+      // 1. Realtime first (today's live data)
+      await refreshRealtimeData();
+
+      // 2. Historical multi-date data
+      try {
+        const resp = await fetch('dashboard_all.json?t=' + Date.now(), { cache: 'no-store' });
+        console.log('[Dashboard] dashboard_all.json response:', resp.status, resp.ok);
+        if (resp.ok) {
+          allData = await resp.json();
+          console.log('[Dashboard] Loaded historical dates:', Object.keys(allData.dates || {}).length);
+        }
+      } catch (e) {
+        console.error('[Dashboard] Failed to load dashboard_all.json:', e.message);
+      }
+
+      // Fallback to single-date file
+      if (!allData) {
+        try {
+          const resp = await fetch('dashboard_data.json?t=' + Date.now(), { cache: 'no-store' });
+          if (resp.ok) {
+            const single = await resp.json();
+            allData = {
+              updated_at: single.updated_at || '',
+              currency: single.currency || 'USD',
+              date_range: { start: single.date, end: single.date },
+              dates: {},
+            };
+            allData.dates[single.date] = Object.assign({}, single.kpi || {}, {
+              top_products: single.top_products || [],
+              hourly_orders: single.hourly_orders || [],
+            });
+            console.log('[Dashboard] Fallback to single-date data');
+          }
+        } catch (e2) {
+          console.error('[Dashboard] Failed to load fallback:', e2.message);
+        }
+      }
+
+      if (allData && allData.dates) {
+        dates = Object.keys(allData.dates).sort();
+        document.getElementById('rangeStart').textContent = allData.date_range?.start || dates[0];
+        document.getElementById('rangeEnd').textContent = allData.date_range?.end || dates[dates.length - 1];
+        document.getElementById('rangeCount').textContent = dates.length + ' 天' + (realtimeData ? ' + 实时' : '');
+      } else {
+        document.getElementById('rangeStart').textContent = realtimeData?.date || '--';
+        document.getElementById('rangeEnd').textContent = realtimeData?.date || '--';
+        document.getElementById('rangeCount').textContent = realtimeData ? '实时' : '0 天';
+      }
+
+      // Default view: realtime (if available) else most recent historical date
+      if (realtimeData) {
+        showRealtimeMode();
+      } else if (dates.length > 0) {
+        setHistoricalDate(dates.length - 1);
+      } else {
+        document.querySelectorAll('.kpi-value').forEach(el => el.textContent = '--');
+      }
+
+      console.log('[Dashboard] Init complete, realtime:', !!realtimeData, 'historical dates:', dates.length);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>产品维度 - EVIL ENERGY Sale Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #040d1f 0%, #07122a 40%, #0b1d3d 100%);
+      color: #9bbde8;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 184, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 184, 255, 0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none; z-index: 0;
+    }
+    .container {
+      position: relative; z-index: 1;
+      max-width: 1400px; margin: 0 auto; padding: 32px;
+    }
+
+    .header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .back-btn {
+      background: rgba(8, 40, 80, 0.7);
+      border: 1px solid rgba(0, 184, 255, 0.25);
+      color: #9bbde8;
+      padding: 6px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+    .back-btn:hover { border-color: rgba(0, 184, 255, 0.5); color: #fff; }
+    .title-banner {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .title-banner h1 {
+      font-size: 24px; font-weight: 700; color: #fff;
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px rgba(0, 184, 255, 0.4);
+    }
+    .title-banner::before, .title-banner::after {
+      content: '';
+      width: 20px; height: 20px;
+      border: 2px solid rgba(0, 184, 255, 0.5);
+      transform: rotate(45deg);
+    }
+    .title-banner::before { border-right: none; border-bottom: none; }
+    .title-banner::after  { border-left: none; border-top: none; }
+
+    .range-selector {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(8, 28, 60, 0.5);
+      padding: 4px 12px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 184, 255, 0.15);
+      font-size: 13px;
+      color: #9bbde8;
+    }
+    .timestamp {
+      font-size: 13px; color: rgba(155, 189, 232, 0.7);
+    }
+    .timestamp .live-dot {
+      display: inline-block; width: 6px; height: 6px;
+      background: #00e6b8; border-radius: 50%; margin-right: 6px;
+      box-shadow: 0 0 6px rgba(0, 230, 184, 0.6);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* KPI */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: rgba(8, 28, 60, 0.5);
+      border: 1px solid rgba(0, 184, 255, 0.18);
+      border-radius: 8px;
+      padding: 18px 20px;
+      backdrop-filter: blur(8px);
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 184, 255, 0.4), transparent);
+    }
+    .kpi-label {
+      font-size: 12px; color: rgba(155, 189, 232, 0.6);
+      letter-spacing: 1px; margin-bottom: 8px;
+    }
+    .kpi-value {
+      font-size: 28px; font-weight: 700; color: #fff;
+      font-family: 'SF Mono', Monaco, monospace;
+      line-height: 1.2;
+    }
+    .kpi-sub {
+      font-size: 11px; color: rgba(155, 189, 232, 0.5);
+      margin-top: 4px;
+    }
+
+    /* Chart */
+    .chart-card {
+      background: rgba(8, 28, 60, 0.5);
+      border: 1px solid rgba(0, 184, 255, 0.18);
+      border-radius: 8px;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+      margin-bottom: 24px;
+    }
+    .chart-title {
+      font-size: 14px; color: #fff;
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .chart-title::before {
+      content: '';
+      width: 3px; height: 14px;
+      background: #00e6ff;
+      border-radius: 2px;
+    }
+    .chart-canvas {
+      width: 100%; height: 360px;
+    }
+
+    /* Table */
+    .table-card {
+      background: rgba(8, 28, 60, 0.5);
+      border: 1px solid rgba(0, 184, 255, 0.18);
+      border-radius: 8px;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+    }
+    .table-title {
+      font-size: 14px; color: #fff;
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .table-title::before {
+      content: '';
+      width: 3px; height: 14px;
+      background: #00e6ff;
+      border-radius: 2px;
+    }
+    .search-input {
+      margin-left: auto;
+      background: rgba(8, 40, 80, 0.7);
+      border: 1px solid rgba(0, 184, 255, 0.25);
+      color: #9bbde8;
+      padding: 5px 12px;
+      border-radius: 3px;
+      font-size: 12px;
+      outline: none;
+      width: 200px;
+    }
+    .search-input:focus { border-color: rgba(0, 184, 255, 0.5); }
+
+    table {
+      width: 100%; border-collapse: collapse;
+    }
+    thead th {
+      text-align: left;
+      font-size: 11px; color: rgba(155, 189, 232, 0.6);
+      letter-spacing: 1px;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(0, 184, 255, 0.1);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    tbody td {
+      padding: 12px;
+      font-size: 13px;
+      color: #9bbde8;
+      border-bottom: 1px solid rgba(0, 184, 255, 0.05);
+      vertical-align: top;
+    }
+    tbody tr:hover td { background: rgba(0, 184, 255, 0.04); }
+    .rank {
+      font-family: 'SF Mono', Monaco, monospace;
+      color: #00e6ff;
+      font-weight: 600;
+    }
+    .rank-gold { color: #ffd700; }
+    .rank-silver { color: #c0c0c0; }
+    .rank-bronze { color: #cd7f32; }
+    .value-strong { color: #fff; font-weight: 600; }
+    .p-name {
+      display: block;
+      color: #fff;
+      margin-bottom: 4px;
+      max-width: 420px;
+      line-height: 1.4;
+    }
+    .p-sku {
+      display: inline-block;
+      background: rgba(0, 184, 255, 0.1);
+      color: rgba(0, 230, 255, 0.8);
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-family: 'SF Mono', Monaco, monospace;
+    }
+    .num-cell { text-align: right; font-family: 'SF Mono', Monaco, monospace; white-space: nowrap; }
+
+    @media (max-width: 900px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="title-banner">
+        <a href="portal.html" class="back-btn">← 返回</a>
+        <h1>产品维度</h1>
+      </div>
+      <div class="range-selector" id="rangeInfo">--</div>
+      <div class="timestamp">
+        <span class="live-dot"></span>
+        <span id="updateTime">--</span>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">SKU 总数</div>
+        <div class="kpi-value" id="kpiSkus">--</div>
+        <div class="kpi-sub" id="kpiDays">--</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">产品总销量</div>
+        <div class="kpi-value" id="kpiQty">--</div>
+        <div class="kpi-sub">件</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">产品总销售额</div>
+        <div class="kpi-value" id="kpiRevenue">--</div>
+        <div class="kpi-sub" id="kpiAvgRevenue">--</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">头部 SKU 占比</div>
+        <div class="kpi-value" id="kpiTopShare">--</div>
+        <div class="kpi-sub" id="kpiTopCount">--</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">TOP 20 产品销售额排行</div>
+      <div id="chartTopProducts" class="chart-canvas"></div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-title">
+        全部 SKU 业绩汇总
+        <input class="search-input" id="searchInput" placeholder="搜索 SKU / 产品名..." />
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 60px">排名</th>
+            <th>产品</th>
+            <th class="num-cell">销量</th>
+            <th class="num-cell">销售额</th>
+            <th class="num-cell">日均销量</th>
+            <th class="num-cell">销售日数</th>
+            <th class="num-cell">占比</th>
+          </tr>
+        </thead>
+        <tbody id="productBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    let allData = null;
+    let productsAgg = [];
+    let chart = null;
+
+    function fmtUSD(v) {
+      if (v == null || isNaN(v)) return '--';
+      return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v);
+    }
+    function fmtNum(v) {
+      if (v == null) return '--';
+      return new Intl.NumberFormat('en-US').format(v);
+    }
+
+    async function init() {
+      console.log('[Products] Starting init...');
+      try {
+        const resp = await fetch('dashboard_all.json?t=' + Date.now());
+        console.log('[Products] Response:', resp.status, resp.ok);
+        if (resp.ok) allData = await resp.json();
+        console.log('[Products] Dates count:', Object.keys(allData?.dates || {}).length);
+      } catch (e) { console.error('[Products] Error:', e.message); }
+      if (!allData) {
+        console.error('[Products] No data available');
+        document.querySelectorAll('.kpi-value').forEach(el => el.textContent = '无数据');
+        return;
+      }
+
+      // Aggregate products across all dates
+      const productMap = {};
+      const dates = Object.keys(allData.dates).sort();
+      dates.forEach(d => {
+        const k = allData.dates[d];
+        (k.top_products || []).forEach(p => {
+          const key = p.sku || p.title;
+          if (!productMap[key]) {
+            productMap[key] = {
+              title: p.title,
+              sku: p.sku || '--',
+              qty: 0,
+              revenue: 0,
+              days: 0,
+              _days: new Set()
+            };
+          }
+          productMap[key].qty += p.qty || 0;
+          productMap[key].revenue += p.revenue || 0;
+          productMap[key]._days.add(d);
+        });
+      });
+
+      // Compute days count
+      Object.values(productMap).forEach(p => {
+        p.days = p._days.size;
+        p.avgQty = p.days > 0 ? p.qty / p.days : 0;
+      });
+
+      productsAgg = Object.values(productMap).sort((a, b) => b.revenue - a.revenue);
+      const totalRev = productsAgg.reduce((s, p) => s + p.revenue, 0);
+      const totalQty = productsAgg.reduce((s, p) => s + p.qty, 0);
+      const top10Rev = productsAgg.slice(0, 10).reduce((s, p) => s + p.revenue, 0);
+      const topShare = totalRev > 0 ? (top10Rev / totalRev * 100) : 0;
+
+      document.getElementById('kpiSkus').textContent = fmtNum(productsAgg.length);
+      document.getElementById('kpiDays').textContent = dates.length + ' 天';
+      document.getElementById('kpiQty').textContent = fmtNum(totalQty);
+      document.getElementById('kpiRevenue').textContent = fmtUSD(totalRev);
+      document.getElementById('kpiAvgRevenue').textContent = '日均 ' + fmtUSD(totalRev / dates.length);
+      document.getElementById('kpiTopShare').textContent = topShare.toFixed(1) + '%';
+      document.getElementById('kpiTopCount').textContent = 'TOP 10 / 全部';
+
+      document.getElementById('rangeInfo').textContent = dates[0] + ' ~ ' + dates[dates.length-1];
+      document.getElementById('updateTime').textContent = allData.updated_at || '--';
+
+      renderChart();
+      renderTable(productsAgg);
+
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        const q = e.target.value.toLowerCase().trim();
+        if (!q) { renderTable(productsAgg); return; }
+        const filtered = productsAgg.filter(p =>
+          (p.title || '').toLowerCase().includes(q) ||
+          (p.sku || '').toLowerCase().includes(q)
+        );
+        renderTable(filtered);
+      });
+    }
+
+    function renderChart() {
+      const top = productsAgg.slice(0, 20);
+      const dom = document.getElementById('chartTopProducts');
+      if (chart) chart.dispose();
+      chart = echarts.init(dom);
+      chart.setOption({
+        backgroundColor: 'transparent',
+        grid: { top: 16, right: 20, bottom: 36, left: 56 },
+        tooltip: {
+          trigger: 'axis',
+          backgroundColor: 'rgba(6, 18, 42, 0.92)',
+          borderColor: 'rgba(0, 184, 255, 0.25)',
+          textStyle: { color: '#9bbde8', fontSize: 12 },
+          formatter: function(p) {
+            const item = top[p[0].dataIndex];
+            return '<div style="color:#fff;max-width:300px">' + item.title + '</div>' +
+                   '<div style="color:#7ea8d9;margin-top:4px">SKU: ' + item.sku + '</div>' +
+                   '<div style="color:#fff;margin-top:4px">' + p[0].marker + ' ' + fmtUSD(p[0].value) + '</div>';
+          }
+        },
+        xAxis: {
+          type: 'value',
+          splitLine: { lineStyle: { color: 'rgba(155, 189, 232, 0.05)' } },
+          axisLabel: { color: 'rgba(155, 189, 232, 0.35)', fontSize: 10, formatter: function(v) { return '$' + (v/1000).toFixed(0) + 'K'; } }
+        },
+        yAxis: {
+          type: 'category',
+          data: top.map(p => (p.title || '').substring(0, 30) + (p.title && p.title.length > 30 ? '...' : '')).reverse(),
+          axisLine: { lineStyle: { color: 'rgba(155, 189, 232, 0.12)' } },
+          axisLabel: { color: 'rgba(155, 189, 232, 0.6)', fontSize: 10 }
+        },
+        series: [{
+          type: 'bar',
+          data: top.map(p => p.revenue).reverse(),
+          itemStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+              { offset: 0, color: 'rgba(0, 184, 255, 0.2)' },
+              { offset: 1, color: '#00e6ff' }
+            ]),
+            borderRadius: [0, 3, 3, 0]
+          }
+        }]
+      });
+    }
+
+    function renderTable(list) {
+      const totalRev = productsAgg.reduce((s, p) => s + p.revenue, 0);
+      const tbody = document.getElementById('productBody');
+      if (list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:48px;color:rgba(155,189,232,0.4)">无匹配产品</td></tr>';
+        return;
+      }
+      tbody.innerHTML = list.map((p, i) => {
+        const share = totalRev > 0 ? (p.revenue / totalRev * 100).toFixed(1) : 0;
+        const rankClass = i === 0 ? 'rank-gold' : i === 1 ? 'rank-silver' : i === 2 ? 'rank-bronze' : '';
+        return '<tr>' +
+          '<td class="rank ' + rankClass + '">#' + (i+1) + '</td>' +
+          '<td><span class="p-name">' + p.title + '</span><span class="p-sku">' + p.sku + '</span></td>' +
+          '<td class="num-cell value-strong">' + fmtNum(p.qty) + '</td>' +
+          '<td class="num-cell value-strong">' + fmtUSD(p.revenue) + '</td>' +
+          '<td class="num-cell">' + p.avgQty.toFixed(1) + '</td>' +
+          '<td class="num-cell">' + p.days + '</td>' +
+          '<td class="num-cell">' + share + '%</td>' +
+        '</tr>';
+      }).join('');
+    }
+
+    window.addEventListener('resize', () => { if (chart) chart.resize(); });
+
+    init();
+  </script>
+</body>
+</html>

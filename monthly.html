@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>月度汇总 - EVIL ENERGY Sale Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #040d1f 0%, #07122a 40%, #0b1d3d 100%);
+      color: #9bbde8;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 184, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 184, 255, 0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none; z-index: 0;
+    }
+    .container {
+      position: relative; z-index: 1;
+      max-width: 1400px; margin: 0 auto; padding: 32px;
+    }
+
+    .header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .back-btn {
+      background: rgba(8, 40, 80, 0.7);
+      border: 1px solid rgba(0, 184, 255, 0.25);
+      color: #9bbde8;
+      padding: 6px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+    .back-btn:hover { border-color: rgba(0, 184, 255, 0.5); color: #fff; }
+    .title-banner {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .title-banner h1 {
+      font-size: 24px; font-weight: 700; color: #fff;
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px rgba(0, 184, 255, 0.4);
+    }
+    .title-banner::before, .title-banner::after {
+      content: '';
+      width: 20px; height: 20px;
+      border: 2px solid rgba(0, 184, 255, 0.5);
+      transform: rotate(45deg);
+    }
+    .title-banner::before { border-right: none; border-bottom: none; }
+    .title-banner::after  { border-left: none; border-top: none; }
+
+    .month-selector {
+      display: flex; gap: 8px;
+      background: rgba(8, 28, 60, 0.5);
+      padding: 4px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 184, 255, 0.15);
+    }
+    .month-btn {
+      padding: 6px 14px;
+      background: transparent;
+      border: none;
+      color: #9bbde8;
+      cursor: pointer;
+      border-radius: 3px;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+    .month-btn.active {
+      background: rgba(0, 184, 255, 0.2);
+      color: #fff;
+    }
+    .month-btn:hover:not(.active) { background: rgba(0, 184, 255, 0.1); }
+
+    .timestamp {
+      font-size: 13px; color: rgba(155, 189, 232, 0.7);
+    }
+    .timestamp .live-dot {
+      display: inline-block; width: 6px; height: 6px;
+      background: #00e6b8; border-radius: 50%; margin-right: 6px;
+      box-shadow: 0 0 6px rgba(0, 230, 184, 0.6);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* KPI Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: rgba(8, 28, 60, 0.5);
+      border: 1px solid rgba(0, 184, 255, 0.18);
+      border-radius: 8px;
+      padding: 18px 20px;
+      backdrop-filter: blur(8px);
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 184, 255, 0.4), transparent);
+    }
+    .kpi-label {
+      font-size: 12px; color: rgba(155, 189, 232, 0.6);
+      letter-spacing: 1px; margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .kpi-value {
+      font-size: 28px; font-weight: 700; color: #fff;
+      font-family: 'SF Mono', Monaco, monospace;
+      line-height: 1.2;
+    }
+    .kpi-sub {
+      font-size: 11px; color: rgba(155, 189, 232, 0.5);
+      margin-top: 4px;
+    }
+
+    /* Charts */
+    .chart-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .chart-card {
+      background: rgba(8, 28, 60, 0.5);
+      border: 1px solid rgba(0, 184, 255, 0.18);
+      border-radius: 8px;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+    }
+    .chart-title {
+      font-size: 14px; color: #fff;
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .chart-title::before {
+      content: '';
+      width: 3px; height: 14px;
+      background: #00e6ff;
+      border-radius: 2px;
+    }
+    .chart-canvas {
+      width: 100%; height: 280px;
+    }
+
+    /* Top days table */
+    .table-card {
+      background: rgba(8, 28, 60, 0.5);
+      border: 1px solid rgba(0, 184, 255, 0.18);
+      border-radius: 8px;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+    }
+    .table-title {
+      font-size: 14px; color: #fff;
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .table-title::before {
+      content: '';
+      width: 3px; height: 14px;
+      background: #00e6ff;
+      border-radius: 2px;
+    }
+    table {
+      width: 100%; border-collapse: collapse;
+    }
+    thead th {
+      text-align: left;
+      font-size: 11px; color: rgba(155, 189, 232, 0.6);
+      letter-spacing: 1px;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(0, 184, 255, 0.1);
+      font-weight: 500;
+    }
+    tbody td {
+      padding: 12px;
+      font-size: 13px;
+      color: #9bbde8;
+      border-bottom: 1px solid rgba(0, 184, 255, 0.05);
+    }
+    tbody tr:hover td { background: rgba(0, 184, 255, 0.04); }
+    .rank {
+      font-family: 'SF Mono', Monaco, monospace;
+      color: #00e6ff;
+      font-weight: 600;
+    }
+    .rank-gold { color: #ffd700; }
+    .rank-silver { color: #c0c0c0; }
+    .rank-bronze { color: #cd7f32; }
+    .value-strong { color: #fff; font-weight: 600; }
+
+    @media (max-width: 900px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .chart-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="title-banner">
+        <a href="portal.html" class="back-btn">← 返回</a>
+        <h1>月度汇总</h1>
+      </div>
+      <div class="month-selector" id="monthSelector"></div>
+      <div class="timestamp">
+        <span class="live-dot"></span>
+        <span id="updateTime">--</span>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">总订单数</div>
+        <div class="kpi-value" id="kpiOrders">--</div>
+        <div class="kpi-sub" id="kpiDays">--</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">总营收</div>
+        <div class="kpi-value" id="kpiRevenue">--</div>
+        <div class="kpi-sub" id="kpiAvgRevenue">--</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">平均客单价</div>
+        <div class="kpi-value" id="kpiAov">--</div>
+        <div class="kpi-sub">AOV</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">新客率</div>
+        <div class="kpi-value" id="kpiNewRate">--</div>
+        <div class="kpi-sub" id="kpiNewCust">--</div>
+      </div>
+    </div>
+
+    <div class="chart-row">
+      <div class="chart-card">
+        <div class="chart-title">每日销售额趋势</div>
+        <div id="chartRevenue" class="chart-canvas"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">每日订单数趋势</div>
+        <div id="chartOrders" class="chart-canvas"></div>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-title">TOP 10 单日业绩</div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 60px">排名</th>
+            <th>日期</th>
+            <th style="text-align: right">订单数</th>
+            <th style="text-align: right">销售额</th>
+            <th style="text-align: right">客单价</th>
+            <th style="text-align: right">新客</th>
+            <th style="text-align: right">回头客</th>
+          </tr>
+        </thead>
+        <tbody id="topDaysBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    let allData = null;
+    let currentMonth = null;
+    let revenueChart = null;
+    let ordersChart = null;
+
+    const MONTHS_AVAILABLE = new Set();
+
+    function fmtUSD(v) {
+      if (v == null || isNaN(v)) return '--';
+      return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v);
+    }
+    function fmtNum(v) {
+      if (v == null) return '--';
+      return new Intl.NumberFormat('en-US').format(v);
+    }
+
+    async function init() {
+      console.log('[Monthly] Starting init...');
+      try {
+        const resp = await fetch('dashboard_all.json?t=' + Date.now());
+        console.log('[Monthly] Response:', resp.status, resp.ok);
+        if (resp.ok) allData = await resp.json();
+        console.log('[Monthly] Dates count:', Object.keys(allData?.dates || {}).length);
+      } catch (e) {
+        console.error('[Monthly] Failed to load data:', e.message);
+      }
+      if (!allData) {
+        console.error('[Monthly] No data available');
+        document.querySelectorAll('.kpi-value').forEach(el => el.textContent = '无数据');
+        return;
+      }
+
+      // Detect available months
+      const dates = Object.keys(allData.dates).sort();
+      dates.forEach(d => {
+        const month = d.substring(0, 7);
+        MONTHS_AVAILABLE.add(month);
+      });
+      const months = Array.from(MONTHS_AVAILABLE).sort();
+      if (months.length === 0) return;
+
+      // Build month selector
+      const selector = document.getElementById('monthSelector');
+      selector.innerHTML = months.map(m => `<button class="month-btn ${m === months[months.length-1] ? 'active' : ''}" data-month="${m}">${m}</button>`).join('');
+      selector.querySelectorAll('.month-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          selector.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderMonth(btn.dataset.month);
+        });
+      });
+
+      document.getElementById('updateTime').textContent = allData.updated_at || '--';
+      renderMonth(months[months.length - 1]);
+    }
+
+    function renderMonth(month) {
+      currentMonth = month;
+      const monthDates = Object.keys(allData.dates)
+        .filter(d => d.startsWith(month + '-'))
+        .sort();
+
+      if (monthDates.length === 0) {
+        document.querySelectorAll('.kpi-value').forEach(el => el.textContent = '--');
+        return;
+      }
+
+      // Aggregate
+      let totalOrders = 0, totalRevenue = 0, totalNew = 0, totalRet = 0;
+      const dailyData = [];
+      monthDates.forEach(d => {
+        const k = allData.dates[d];
+        totalOrders += k.total_orders || 0;
+        totalRevenue += k.total_revenue || 0;
+        totalNew += k.new_customers || 0;
+        totalRet += k.returning_customers || 0;
+        dailyData.push({
+          date: d,
+          orders: k.total_orders || 0,
+          revenue: k.total_revenue || 0,
+          aov: k.aov || 0,
+          new: k.new_customers || 0,
+          ret: k.returning_customers || 0,
+        });
+      });
+      const totalCust = totalNew + totalRet;
+      const avgAov = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+      const newRate = totalCust > 0 ? (totalNew / totalCust * 100) : 0;
+
+      document.getElementById('kpiOrders').textContent = fmtNum(totalOrders);
+      document.getElementById('kpiDays').textContent = monthDates.length + ' 天';
+      document.getElementById('kpiRevenue').textContent = fmtUSD(totalRevenue);
+      document.getElementById('kpiAvgRevenue').textContent = '日均 ' + fmtUSD(totalRevenue / monthDates.length);
+      document.getElementById('kpiAov').textContent = fmtUSD(avgAov);
+      document.getElementById('kpiNewRate').textContent = newRate.toFixed(1) + '%';
+      document.getElementById('kpiNewCust').textContent = fmtNum(totalNew) + ' 新客 / ' + fmtNum(totalRet) + ' 回头客';
+
+      // Charts
+      renderRevenueChart(dailyData);
+      renderOrdersChart(dailyData);
+
+      // Top days table
+      const sorted = [...dailyData].sort((a, b) => b.revenue - a.revenue).slice(0, 10);
+      const tbody = document.getElementById('topDaysBody');
+      tbody.innerHTML = sorted.map((d, i) => {
+        const rankClass = i === 0 ? 'rank-gold' : i === 1 ? 'rank-silver' : i === 2 ? 'rank-bronze' : '';
+        return '<tr>' +
+          '<td class="rank ' + rankClass + '">#' + (i+1) + '</td>' +
+          '<td>' + d.date + '</td>' +
+          '<td style="text-align:right" class="value-strong">' + fmtNum(d.orders) + '</td>' +
+          '<td style="text-align:right" class="value-strong">' + fmtUSD(d.revenue) + '</td>' +
+          '<td style="text-align:right">' + fmtUSD(d.aov) + '</td>' +
+          '<td style="text-align:right">' + fmtNum(d.new) + '</td>' +
+          '<td style="text-align:right">' + fmtNum(d.ret) + '</td>' +
+        '</tr>';
+      }).join('');
+    }
+
+    function renderRevenueChart(dailyData) {
+      const dom = document.getElementById('chartRevenue');
+      if (revenueChart) revenueChart.dispose();
+      revenueChart = echarts.init(dom);
+      revenueChart.setOption({
+        backgroundColor: 'transparent',
+        grid: { top: 16, right: 20, bottom: 36, left: 56 },
+        tooltip: {
+          trigger: 'axis',
+          backgroundColor: 'rgba(6, 18, 42, 0.92)',
+          borderColor: 'rgba(0, 184, 255, 0.25)',
+          textStyle: { color: '#9bbde8', fontSize: 12 },
+          formatter: function(p) {
+            return '<div style="color:#7ea8d9">' + p[0].axisValue + '</div>' +
+                   '<div style="color:#fff;margin-top:4px">' + fmtUSD(p[0].value) + '</div>';
+          }
+        },
+        xAxis: {
+          type: 'category',
+          data: dailyData.map(d => d.date.substring(5)),
+          axisLine: { lineStyle: { color: 'rgba(155, 189, 232, 0.12)' } },
+          axisLabel: { color: 'rgba(155, 189, 232, 0.4)', fontSize: 10, interval: Math.floor(dailyData.length / 10) }
+        },
+        yAxis: {
+          type: 'value',
+          splitLine: { lineStyle: { color: 'rgba(155, 189, 232, 0.05)' } },
+          axisLabel: { color: 'rgba(155, 189, 232, 0.35)', fontSize: 10, formatter: function(v) { return '$' + (v/1000).toFixed(0) + 'K'; } }
+        },
+        series: [{
+          type: 'bar',
+          data: dailyData.map(d => d.revenue),
+          itemStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: '#00e6ff' },
+              { offset: 1, color: 'rgba(0, 184, 255, 0.2)' }
+            ]),
+            borderRadius: [3, 3, 0, 0]
+          }
+        }]
+      });
+    }
+
+    function renderOrdersChart(dailyData) {
+      const dom = document.getElementById('chartOrders');
+      if (ordersChart) ordersChart.dispose();
+      ordersChart = echarts.init(dom);
+      ordersChart.setOption({
+        backgroundColor: 'transparent',
+        grid: { top: 16, right: 20, bottom: 36, left: 46 },
+        tooltip: {
+          trigger: 'axis',
+          backgroundColor: 'rgba(6, 18, 42, 0.92)',
+          borderColor: 'rgba(0, 184, 255, 0.25)',
+          textStyle: { color: '#9bbde8', fontSize: 12 }
+        },
+        xAxis: {
+          type: 'category',
+          data: dailyData.map(d => d.date.substring(5)),
+          axisLine: { lineStyle: { color: 'rgba(155, 189, 232, 0.12)' } },
+          axisLabel: { color: 'rgba(155, 189, 232, 0.4)', fontSize: 10, interval: Math.floor(dailyData.length / 10) }
+        },
+        yAxis: {
+          type: 'value',
+          splitLine: { lineStyle: { color: 'rgba(155, 189, 232, 0.05)' } },
+          axisLabel: { color: 'rgba(155, 189, 232, 0.35)', fontSize: 10 }
+        },
+        series: [{
+          type: 'line',
+          smooth: true,
+          symbol: 'circle', symbolSize: 5,
+          data: dailyData.map(d => d.orders),
+          lineStyle: { color: '#00e6ff', width: 2 },
+          itemStyle: { color: '#00e6ff' },
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: 'rgba(0, 230, 255, 0.3)' },
+              { offset: 1, color: 'rgba(0, 230, 255, 0.01)' }
+            ])
+          }
+        }]
+      });
+    }
+
+    window.addEventListener('resize', () => {
+      if (revenueChart) revenueChart.resize();
+      if (ordersChart) ordersChart.resize();
+    });
+
+    init();
+  </script>
+</body>
+</html>
