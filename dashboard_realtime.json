@@ -1,9 +1,9 @@
 {
   "date": "2026-08-07",
-  "updated_at": "2026-08-07 03:31:50",
+  "updated_at": "2026-08-07 04:30:45",
   "updated_at_timezone": "EDT (UTC-4)",
   "is_realtime": true,
-  "current_hour": 3,
+  "current_hour": 4,
   "currency": "USD",
   "timezone": {
     "iana": "America/New_York",
@@ -11,26 +11,26 @@
     "dst_name": "EDT"
   },
   "kpi": {
-    "total_orders": 11,
-    "total_revenue": 1202.36,
-    "total_tax": 29.16,
-    "total_shipping": 20.97,
-    "total_discounts": 153.79,
-    "net_sales": 1152.23,
-    "gross_sales": 1306.02,
+    "total_orders": 14,
+    "total_revenue": 1732.41,
+    "total_tax": 64.71,
+    "total_shipping": 27.96,
+    "total_discounts": 224.7,
+    "net_sales": 1639.74,
+    "gross_sales": 1864.44,
     "returns": 0.0,
-    "avg_order_value": 109.31,
-    "total_customers": 11,
+    "avg_order_value": 123.74,
+    "total_customers": 14,
     "new_customers": 6,
-    "returning_customers": 5,
-    "new_customer_rate": 54.5
+    "returning_customers": 8,
+    "new_customer_rate": 42.9
   },
   "hourly_orders": [
     5,
     4,
     1,
     1,
-    0,
+    3,
     0,
     0,
     0,
@@ -57,6 +57,18 @@
       "sku": "EVKT11ABCD2BK10",
       "qty": 1,
       "revenue": 409.99
+    },
+    {
+      "title": "EVIL ENERGY Quick Fuel 750 CFM 4-barrel Carburetor Mechanical Secondary",
+      "sku": "EVFS23-00059SR-003-L",
+      "qty": 1,
+      "revenue": 349.99
+    },
+    {
+      "title": "Evil Energy Intake Manifold + Fuel Rail Kit Bundle 300-137 For Single Plane EFI - GM LS1/LS2/LS6",
+      "sku": "EVIS08512",
+      "qty": 1,
+      "revenue": 139.99
     },
     {
       "title": "EVIL ENERGY 4-inch Cold Air Intake Kit For 2003-2007 Ford 6.0 Powerstroke Diesel F250 F350 F450 F550",
@@ -99,22 +111,11 @@
       "sku": "EVAHL0001010",
       "qty": 1,
       "revenue": 58.99
-    },
-    {
-      "title": "EVIL ENERGY PTFE Hose End Fitting for PTFE Hose Only (3/4/6/8/10/12AN) -  Black",
-      "sku": "EVKT01334D0-2-AMZ1",
-      "qty": 3,
-      "revenue": 54.97
-    },
-    {
-      "title": "EVIL ENERGY AN Male Flare to NPT Pipe Fitting Adapter Aluminum Straight Black(3/4/6/8/10/12/16AN)",
-      "sku": "EVKT01381S0606-2-AMZ1",
-      "qty": 3,
-      "revenue": 36.27
     }
   ],
   "discount_codes": [
-    "UPG10"
+    "UPG10",
+    "kd"
   ],
   "data_source": "shopifyql"
 }
