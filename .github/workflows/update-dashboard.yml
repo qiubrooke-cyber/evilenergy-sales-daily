@@ -1,0 +1,68 @@
+name: Update Dashboard
+
+on:
+  schedule:
+    # Every 30 minutes (in UTC)
+    - cron: '0,30 * * * *'
+  workflow_dispatch:  # Allow manual trigger
+
+permissions:
+  contents: write   # Need write to push commits
+  pages: write      # Need write to deploy to Pages
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install tzdata (for zoneinfo on Linux)
+        run: pip install tzdata
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Create shopify_config.json from Secrets
+        run: |
+          cat > shopify_config.json << 'EOF'
+          {
+            "shopify": {
+              "shop_domain": "${{ secrets.SHOPIFY_SHOP_DOMAIN }}",
+              "access_token": "${{ secrets.SHOPIFY_ACCESS_TOKEN }}",
+              "client_id": "${{ secrets.SHOPIFY_CLIENT_ID }}",
+              "client_secret": "${{ secrets.SHOPIFY_CLIENT_SECRET }}",
+              "currency": "USD",
+              "timezone_offset": -5,
+              "iana_timezone": "America/New_York"
+            },
+            "campaign_name": ""
+          }
+          EOF
+          echo "  [OK] shopify_config.json created from Secrets"
+
+      - name: Fetch Shopify data & build dashboard
+        run: python scripts/update_github.py
+
+      - name: Commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet && echo "No changes to commit" || (
+            git commit -m "Auto update: $(date -u '+%Y-%m-%d %H:%M:%S') UTC"
+            git push
+          )
+
+      - name: Summary
+        run: |
+          echo "### Dashboard Update Complete" >> $GITHUB_STEP_SUMMARY
+          echo "- Updated: $(date -u '+%Y-%m-%d %H:%M:%S') UTC" >> $GITHUB_STEP_SUMMARY
+          echo "- Files: index.html, dashboard_all.json, dashboard_realtime.json" >> $GITHUB_STEP_SUMMARY
