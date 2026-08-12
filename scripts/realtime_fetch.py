@@ -24,9 +24,13 @@ from datetime import datetime, timedelta, timezone
 
 API_VERSION = "2024-07"
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.dirname(SCRIPT_DIR)  # Parent of scripts/
 
 # Shopify store timezone — America/New_York
 SHOP_TZ_NAME = "America/New_York"
+
+# Module-level config path (set in main, used by refresh_token to write back)
+_CONFIG_PATH = None
 
 def get_shop_tz():
     """Get Shopify's IANA timezone as a Python timezone object."""
@@ -87,11 +91,11 @@ def refresh_token(config):
         with urllib.request.urlopen(req, timeout=30) as resp:
             result = json.loads(resp.read().decode("utf-8"))
             new_token = result.get("access_token", "")
-            if new_token:
-                with open(os.path.join(SCRIPT_DIR, "shopify_config.json"), "r", encoding="utf-8") as f:
+            if new_token and _CONFIG_PATH and os.path.exists(_CONFIG_PATH):
+                with open(_CONFIG_PATH, "r", encoding="utf-8") as f:
                     full_cfg = json.load(f)
                 full_cfg["shopify"]["access_token"] = new_token
-                with open(os.path.join(SCRIPT_DIR, "shopify_config.json"), "w", encoding="utf-8") as f:
+                with open(_CONFIG_PATH, "w", encoding="utf-8") as f:
                     json.dump(full_cfg, f, indent=2, ensure_ascii=False)
                 return new_token
     except Exception as e:
@@ -341,7 +345,12 @@ def calculate_product_detail(orders, shop_tz):
 
 
 def main():
+    global _CONFIG_PATH
+    # Try scripts/ first (local dev setup), then repo root (CI/GitHub Actions)
     config_path = os.path.join(SCRIPT_DIR, "shopify_config.json")
+    if not os.path.exists(config_path):
+        config_path = os.path.join(REPO_ROOT, "shopify_config.json")
+    _CONFIG_PATH = config_path
     config = load_config(config_path)
 
     if not config["shop_domain"] or not config["access_token"]:
@@ -465,7 +474,8 @@ def main():
     }
 
     # Write realtime JSON
-    realtime_path = os.path.join(SCRIPT_DIR, "dashboard_realtime.json")
+    # Write realtime JSON to repo root (so update_github.py finds it)
+    realtime_path = os.path.join(REPO_ROOT, "dashboard_realtime.json")
     with open(realtime_path, "w", encoding="utf-8") as f:
         json.dump(result, f, indent=2, ensure_ascii=False)
     print(f"\n[Realtime] Written to {realtime_path}")
