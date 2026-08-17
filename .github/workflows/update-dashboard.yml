@@ -2,20 +2,28 @@ name: Update Dashboard
 
 on:
   schedule:
-    # Every 30 minutes (in UTC)
-    - cron: '0,30 * * * *'
+    # Every 30 minutes — offset from :00/:30 to avoid GitHub high-load windows
+    # (scheduled runs at :00/:30 are frequently delayed or skipped on free tier)
+    - cron: '17,47 * * * *'
   workflow_dispatch:  # Allow manual trigger
 
 permissions:
   contents: write   # Need write to push commits
   pages: write      # Need write to deploy to Pages
 
+concurrency:
+  group: dashboard-update
+  cancel-in-progress: true
+
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # Full history so pull --rebase works reliably
 
       - name: Setup Python 3.13
         uses: actions/setup-python@v5
@@ -58,6 +66,9 @@ jobs:
           git add -A
           git diff --staged --quiet && echo "No changes to commit" || (
             git commit -m "Auto update: $(date -u '+%Y-%m-%d %H:%M:%S') UTC"
+            # Absorb any local pushes that happened since checkout (cloud_deploy.py
+            # also pushes to this branch every 30 min) before pushing
+            git pull --rebase origin main || true
             git push
           )
 
