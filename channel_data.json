@@ -1,691 +1,226 @@
 {
-  "campaign": {
-    "name": "夏季车库改装月",
-    "theme": "Summer Garage Build",
-    "start_date": "2026-08-06",
-    "end_date": "2026-08-16",
-    "status": "进行中"
-  },
+  "campaign": {},
   "period": {
-    "start": "2026-08-06",
-    "end": "2026-08-16",
-    "duration_days": 11,
-    "label": "2026-08-06 → 2026-08-16（11天）"
+    "start": "2026-08-19",
+    "end": "2026-08-19",
+    "duration_days": 1,
+    "label": "2026-08-19 → 2026-08-19（1天）"
   },
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 237174.56,
-    "net_sales": 221075.71,
-    "orders": 1971,
-    "aov": 120.33
+    "total_sales": 1207.92,
+    "net_sales": 1107.31,
+    "orders": 15,
+    "aov": 80.53
   },
   "channels": [
+    {
+      "referring_channel": "shopify",
+      "traffic_type": "organic",
+      "referring_platform": "shopify",
+      "total_sales": 372.66,
+      "net_sales": 351.99,
+      "orders": 2,
+      "aov": 186.33
+    },
     {
       "referring_channel": "google",
       "traffic_type": "paid",
       "referring_platform": "alphabet",
-      "total_sales": 121419.97,
-      "net_sales": 113040.06,
-      "orders": 1026,
-      "aov": 118.34
+      "total_sales": 298.95,
+      "net_sales": 254.8,
+      "orders": 6,
+      "aov": 49.82
     },
     {
       "referring_channel": "direct",
       "traffic_type": "direct",
       "referring_platform": "direct",
-      "total_sales": 56702.44,
-      "net_sales": 53063.77,
-      "orders": 423,
-      "aov": 134.05
-    },
-    {
-      "referring_channel": "google",
-      "traffic_type": "organic",
-      "referring_platform": "alphabet",
-      "total_sales": 9871.53,
-      "net_sales": 9053.74,
-      "orders": 101,
-      "aov": 97.74
-    },
-    {
-      "referring_channel": "shopify",
-      "traffic_type": "organic",
-      "referring_platform": "shopify",
-      "total_sales": 9357.17,
-      "net_sales": 8844.56,
-      "orders": 65,
-      "aov": 143.96
-    },
-    {
-      "referring_channel": "facebook",
-      "traffic_type": "paid",
-      "referring_platform": "meta",
-      "total_sales": 8444.11,
-      "net_sales": 7905.52,
-      "orders": 62,
-      "aov": 136.2
-    },
-    {
-      "referring_channel": "Unattributed",
-      "traffic_type": "Unknown",
-      "referring_platform": "Unknown",
-      "total_sales": 6438.63,
-      "net_sales": 5972.65,
-      "orders": 95,
-      "aov": 67.78
-    },
-    {
-      "referring_channel": "cartsee",
-      "traffic_type": "paid",
-      "referring_platform": "cartsee",
-      "total_sales": 6055.96,
-      "net_sales": 5658.36,
-      "orders": 45,
-      "aov": 134.58
-    },
-    {
-      "referring_channel": "bing",
-      "traffic_type": "paid",
-      "referring_platform": "microsoft",
-      "total_sales": 3167.98,
-      "net_sales": 2935.87,
-      "orders": 26,
-      "aov": 121.85
-    },
-    {
-      "referring_channel": "google",
-      "traffic_type": "unknown",
-      "referring_platform": "alphabet",
-      "total_sales": 1944.85,
-      "net_sales": 1784.76,
-      "orders": 25,
-      "aov": 77.79
-    },
-    {
-      "referring_channel": "chatgpt.com",
-      "traffic_type": "unknown",
-      "referring_platform": "chatgpt.com",
-      "total_sales": 1653.4,
-      "net_sales": 1495.02,
-      "orders": 15,
-      "aov": 110.23
-    },
-    {
-      "referring_channel": "bing",
-      "traffic_type": "organic",
-      "referring_platform": "microsoft",
-      "total_sales": 1636.23,
-      "net_sales": 1525.5,
-      "orders": 11,
-      "aov": 148.75
-    },
-    {
-      "referring_channel": "facebook",
-      "traffic_type": "unknown",
-      "referring_platform": "meta",
-      "total_sales": 1009.88,
-      "net_sales": 945.01,
+      "total_sales": 226.16,
+      "net_sales": 212.15,
       "orders": 4,
-      "aov": 252.47
-    },
-    {
-      "referring_channel": "gmail",
-      "traffic_type": "paid",
-      "referring_platform": "alphabet",
-      "total_sales": 987.26,
-      "net_sales": 919.96,
-      "orders": 9,
-      "aov": 109.7
-    },
-    {
-      "referring_channel": "couponcove",
-      "traffic_type": "organic",
-      "referring_platform": "couponcove",
-      "total_sales": 846.05,
-      "net_sales": 776.56,
-      "orders": 6,
-      "aov": 141.01
-    },
-    {
-      "referring_channel": "yahoo!",
-      "traffic_type": "paid",
-      "referring_platform": "yahoo!",
-      "total_sales": 834.19,
-      "net_sales": 795.65,
-      "orders": 7,
-      "aov": 119.17
-    },
-    {
-      "referring_channel": "pboost",
-      "traffic_type": "unknown",
-      "referring_platform": "pboost",
-      "total_sales": 762.72,
-      "net_sales": 711.89,
-      "orders": 5,
-      "aov": 152.54
-    },
-    {
-      "referring_channel": "facebook",
-      "traffic_type": "organic",
-      "referring_platform": "meta",
-      "total_sales": 684.48,
-      "net_sales": 646.33,
-      "orders": 6,
-      "aov": 114.08
-    },
-    {
-      "referring_channel": "duckduckgo",
-      "traffic_type": "organic",
-      "referring_platform": "duckduckgo",
-      "total_sales": 668.05,
-      "net_sales": 629.99,
-      "orders": 3,
-      "aov": 222.68
-    },
-    {
-      "referring_channel": "amazon",
-      "traffic_type": "unknown",
-      "referring_platform": "amazon",
-      "total_sales": 517.41,
-      "net_sales": 481.52,
-      "orders": 3,
-      "aov": 172.47
-    },
-    {
-      "referring_channel": "verifiedcoupon",
-      "traffic_type": "organic",
-      "referring_platform": "verifiedcoupon",
-      "total_sales": 457.85,
-      "net_sales": 432.56,
-      "orders": 1,
-      "aov": 457.85
-    },
-    {
-      "referring_channel": "unattributed",
-      "traffic_type": "unknown",
-      "referring_platform": "unattributed",
-      "total_sales": 385.43,
-      "net_sales": 361.36,
-      "orders": 3,
-      "aov": 128.48
-    },
-    {
-      "referring_channel": "unattributed",
-      "traffic_type": "unknown",
-      "referring_platform": "meta",
-      "total_sales": 373.09,
-      "net_sales": 351.97,
-      "orders": 1,
-      "aov": 373.09
-    },
-    {
-      "referring_channel": "brave",
-      "traffic_type": "organic",
-      "referring_platform": "brave",
-      "total_sales": 368.59,
-      "net_sales": 338.53,
-      "orders": 2,
-      "aov": 184.29
+      "aov": 56.54
     },
     {
       "referring_channel": "fatcoupon",
       "traffic_type": "organic",
       "referring_platform": "fatcoupon",
-      "total_sales": 346.5,
-      "net_sales": 324.38,
+      "total_sales": 194.12,
+      "net_sales": 184.22,
       "orders": 1,
-      "aov": 346.5
-    },
-    {
-      "referring_channel": "alohafind",
-      "traffic_type": "organic",
-      "referring_platform": "alohafind",
-      "total_sales": 297.19,
-      "net_sales": 279.52,
-      "orders": 1,
-      "aov": 297.19
-    },
-    {
-      "referring_channel": "partnerboost",
-      "traffic_type": "unknown",
-      "referring_platform": "partnerboost",
-      "total_sales": 262.32,
-      "net_sales": 242.9,
-      "orders": 1,
-      "aov": 262.32
-    },
-    {
-      "referring_channel": "simplycodes",
-      "traffic_type": "organic",
-      "referring_platform": "simplycodes",
-      "total_sales": 230.58,
-      "net_sales": 230.58,
-      "orders": 1,
-      "aov": 230.58
-    },
-    {
-      "referring_channel": "chatgpt",
-      "traffic_type": "unknown",
-      "referring_platform": "chatgpt",
-      "total_sales": 211.72,
-      "net_sales": 206.87,
-      "orders": 2,
-      "aov": 105.86
+      "aov": 194.12
     },
     {
       "referring_channel": "unattributed",
       "traffic_type": "paid",
       "referring_platform": "alphabet",
-      "total_sales": 197.68,
-      "net_sales": 182.17,
-      "orders": 3,
-      "aov": 65.89
+      "total_sales": 63.46,
+      "net_sales": 58.57,
+      "orders": 1,
+      "aov": 63.46
     },
     {
-      "referring_channel": "youtube",
-      "traffic_type": "paid",
+      "referring_channel": "google",
+      "traffic_type": "organic",
       "referring_platform": "alphabet",
-      "total_sales": 161.85,
-      "net_sales": 152.33,
-      "orders": 2,
-      "aov": 80.92
-    },
-    {
-      "referring_channel": "bing",
-      "traffic_type": "unknown",
-      "referring_platform": "microsoft",
-      "total_sales": 159.84,
-      "net_sales": 149.97,
+      "total_sales": 52.57,
+      "net_sales": 45.58,
       "orders": 1,
-      "aov": 159.84
-    },
-    {
-      "referring_channel": "instagram",
-      "traffic_type": "organic",
-      "referring_platform": "meta",
-      "total_sales": 129.41,
-      "net_sales": 121.57,
-      "orders": 1,
-      "aov": 129.41
-    },
-    {
-      "referring_channel": "unattributed",
-      "traffic_type": "paid",
-      "referring_platform": "unattributed",
-      "total_sales": 122.29,
-      "net_sales": 122.29,
-      "orders": 1,
-      "aov": 122.29
-    },
-    {
-      "referring_channel": "duckduckgo",
-      "traffic_type": "paid",
-      "referring_platform": "duckduckgo",
-      "total_sales": 116.94,
-      "net_sales": 103.27,
-      "orders": 2,
-      "aov": 58.47
-    },
-    {
-      "referring_channel": "duckduckgo",
-      "traffic_type": "unknown",
-      "referring_platform": "duckduckgo",
-      "total_sales": 91.74,
-      "net_sales": 91.74,
-      "orders": 1,
-      "aov": 91.74
-    },
-    {
-      "referring_channel": "amazon",
-      "traffic_type": "organic",
-      "referring_platform": "amazon",
-      "total_sales": 84.89,
-      "net_sales": 80.08,
-      "orders": 1,
-      "aov": 84.89
-    },
-    {
-      "referring_channel": "unattributed",
-      "traffic_type": "unattributed",
-      "referring_platform": "unattributed",
-      "total_sales": 59.11,
-      "net_sales": 55.85,
-      "orders": 1,
-      "aov": 59.11
-    },
-    {
-      "referring_channel": "amzn_us_shopdirect",
-      "traffic_type": "unknown",
-      "referring_platform": "amzn_us_shopdirect",
-      "total_sales": 52.68,
-      "net_sales": 24.06,
-      "orders": 4,
-      "aov": 13.17
-    },
-    {
-      "referring_channel": "bit",
-      "traffic_type": "organic",
-      "referring_platform": "bit",
-      "total_sales": 43.86,
-      "net_sales": 41.65,
-      "orders": 1,
-      "aov": 43.86
-    },
-    {
-      "referring_channel": "amazon",
-      "traffic_type": "paid",
-      "referring_platform": "amazon",
-      "total_sales": 28.95,
-      "net_sales": 19.58,
-      "orders": 1,
-      "aov": 28.95
-    },
-    {
-      "referring_channel": "instagram",
-      "traffic_type": "paid",
-      "referring_platform": "meta",
-      "total_sales": -10.26,
-      "net_sales": -24.24,
-      "orders": 2,
-      "aov": -5.13
+      "aov": 52.57
     }
   ],
   "channel_rollup": [
     {
-      "referring_channel": "google",
-      "total_sales": 133236.35,
-      "net_sales": 123878.56,
-      "orders": 1152
-    },
-    {
-      "referring_channel": "direct",
-      "total_sales": 56702.44,
-      "net_sales": 53063.77,
-      "orders": 423
-    },
-    {
-      "referring_channel": "facebook",
-      "total_sales": 10138.47,
-      "net_sales": 9496.86,
-      "orders": 72
-    },
-    {
       "referring_channel": "shopify",
-      "total_sales": 9357.17,
-      "net_sales": 8844.56,
-      "orders": 65
+      "total_sales": 372.66,
+      "net_sales": 351.99,
+      "orders": 2
     },
     {
-      "referring_channel": "Unattributed",
-      "total_sales": 6438.63,
-      "net_sales": 5972.65,
-      "orders": 95
-    },
-    {
-      "referring_channel": "cartsee",
-      "total_sales": 6055.96,
-      "net_sales": 5658.36,
-      "orders": 45
-    },
-    {
-      "referring_channel": "bing",
-      "total_sales": 4964.05,
-      "net_sales": 4611.34,
-      "orders": 38
-    },
-    {
-      "referring_channel": "chatgpt.com",
-      "total_sales": 1653.4,
-      "net_sales": 1495.02,
-      "orders": 15
-    },
-    {
-      "referring_channel": "unattributed",
-      "total_sales": 1137.6,
-      "net_sales": 1073.64,
-      "orders": 9
-    },
-    {
-      "referring_channel": "gmail",
-      "total_sales": 987.26,
-      "net_sales": 919.96,
-      "orders": 9
-    },
-    {
-      "referring_channel": "duckduckgo",
-      "total_sales": 876.73,
-      "net_sales": 825.0,
-      "orders": 6
-    },
-    {
-      "referring_channel": "couponcove",
-      "total_sales": 846.05,
-      "net_sales": 776.56,
-      "orders": 6
-    },
-    {
-      "referring_channel": "yahoo!",
-      "total_sales": 834.19,
-      "net_sales": 795.65,
+      "referring_channel": "google",
+      "total_sales": 351.52,
+      "net_sales": 300.38,
       "orders": 7
     },
     {
-      "referring_channel": "pboost",
-      "total_sales": 762.72,
-      "net_sales": 711.89,
-      "orders": 5
-    },
-    {
-      "referring_channel": "amazon",
-      "total_sales": 631.25,
-      "net_sales": 581.18,
-      "orders": 5
-    },
-    {
-      "referring_channel": "verifiedcoupon",
-      "total_sales": 457.85,
-      "net_sales": 432.56,
-      "orders": 1
-    },
-    {
-      "referring_channel": "brave",
-      "total_sales": 368.59,
-      "net_sales": 338.53,
-      "orders": 2
-    },
-    {
-      "referring_channel": "fatcoupon",
-      "total_sales": 346.5,
-      "net_sales": 324.38,
-      "orders": 1
-    },
-    {
-      "referring_channel": "alohafind",
-      "total_sales": 297.19,
-      "net_sales": 279.52,
-      "orders": 1
-    },
-    {
-      "referring_channel": "partnerboost",
-      "total_sales": 262.32,
-      "net_sales": 242.9,
-      "orders": 1
-    },
-    {
-      "referring_channel": "simplycodes",
-      "total_sales": 230.58,
-      "net_sales": 230.58,
-      "orders": 1
-    },
-    {
-      "referring_channel": "chatgpt",
-      "total_sales": 211.72,
-      "net_sales": 206.87,
-      "orders": 2
-    },
-    {
-      "referring_channel": "youtube",
-      "total_sales": 161.85,
-      "net_sales": 152.33,
-      "orders": 2
-    },
-    {
-      "referring_channel": "instagram",
-      "total_sales": 119.15,
-      "net_sales": 97.33,
-      "orders": 3
-    },
-    {
-      "referring_channel": "amzn_us_shopdirect",
-      "total_sales": 52.68,
-      "net_sales": 24.06,
+      "referring_channel": "direct",
+      "total_sales": 226.16,
+      "net_sales": 212.15,
       "orders": 4
     },
     {
-      "referring_channel": "bit",
-      "total_sales": 43.86,
-      "net_sales": 41.65,
+      "referring_channel": "fatcoupon",
+      "total_sales": 194.12,
+      "net_sales": 184.22,
+      "orders": 1
+    },
+    {
+      "referring_channel": "unattributed",
+      "total_sales": 63.46,
+      "net_sales": 58.57,
       "orders": 1
     }
   ],
   "traffic_rollup": [
     {
+      "traffic_type": "organic",
+      "total_sales": 619.35,
+      "net_sales": 581.79,
+      "orders": 4
+    },
+    {
       "traffic_type": "paid",
-      "total_sales": 141526.92,
-      "net_sales": 131810.82,
-      "orders": 1186
+      "total_sales": 362.41,
+      "net_sales": 313.37,
+      "orders": 7
     },
     {
       "traffic_type": "direct",
-      "total_sales": 56702.44,
-      "net_sales": 53063.77,
-      "orders": 423
-    },
-    {
-      "traffic_type": "organic",
-      "total_sales": 25022.38,
-      "net_sales": 23325.55,
-      "orders": 201
-    },
-    {
-      "traffic_type": "unknown",
-      "total_sales": 7425.08,
-      "net_sales": 6847.07,
-      "orders": 65
-    },
-    {
-      "traffic_type": "Unknown",
-      "total_sales": 6438.63,
-      "net_sales": 5972.65,
-      "orders": 95
-    },
-    {
-      "traffic_type": "unattributed",
-      "total_sales": 59.11,
-      "net_sales": 55.85,
-      "orders": 1
+      "total_sales": 226.16,
+      "net_sales": 212.15,
+      "orders": 4
     }
   ],
   "hourly": [
     {
-      "hour": "2026-08-16T04:00:00Z",
-      "orders": 7
+      "hour": "2026-08-19T04:00:00Z",
+      "orders": 9
     },
     {
-      "hour": "2026-08-16T05:00:00Z",
-      "orders": 3
-    },
-    {
-      "hour": "2026-08-16T06:00:00Z",
-      "orders": 0
-    },
-    {
-      "hour": "2026-08-16T07:00:00Z",
-      "orders": 0
-    },
-    {
-      "hour": "2026-08-16T08:00:00Z",
-      "orders": 4
-    },
-    {
-      "hour": "2026-08-16T09:00:00Z",
-      "orders": 3
-    },
-    {
-      "hour": "2026-08-16T10:00:00Z",
-      "orders": 0
-    },
-    {
-      "hour": "2026-08-16T11:00:00Z",
-      "orders": 2
-    },
-    {
-      "hour": "2026-08-16T12:00:00Z",
+      "hour": "2026-08-19T05:00:00Z",
       "orders": 5
     },
     {
-      "hour": "2026-08-16T13:00:00Z",
-      "orders": 2
+      "hour": "2026-08-19T06:00:00Z",
+      "orders": 1
     },
     {
-      "hour": "2026-08-16T14:00:00Z",
-      "orders": 15
+      "hour": "2026-08-19T07:00:00Z",
+      "orders": 0
     },
     {
-      "hour": "2026-08-16T15:00:00Z",
-      "orders": 15
+      "hour": "2026-08-19T08:00:00Z",
+      "orders": 0
     },
     {
-      "hour": "2026-08-16T16:00:00Z",
-      "orders": 13
+      "hour": "2026-08-19T09:00:00Z",
+      "orders": 0
     },
     {
-      "hour": "2026-08-16T17:00:00Z",
-      "orders": 12
+      "hour": "2026-08-19T10:00:00Z",
+      "orders": 0
     },
     {
-      "hour": "2026-08-16T18:00:00Z",
-      "orders": 14
+      "hour": "2026-08-19T11:00:00Z",
+      "orders": 0
     },
     {
-      "hour": "2026-08-16T19:00:00Z",
-      "orders": 17
+      "hour": "2026-08-19T12:00:00Z",
+      "orders": 0
     },
     {
-      "hour": "2026-08-16T20:00:00Z",
-      "orders": 11
+      "hour": "2026-08-19T13:00:00Z",
+      "orders": 0
     },
     {
-      "hour": "2026-08-16T21:00:00Z",
-      "orders": 23
+      "hour": "2026-08-19T14:00:00Z",
+      "orders": 0
     },
     {
-      "hour": "2026-08-16T22:00:00Z",
-      "orders": 8
+      "hour": "2026-08-19T15:00:00Z",
+      "orders": 0
     },
     {
-      "hour": "2026-08-16T23:00:00Z",
-      "orders": 8
+      "hour": "2026-08-19T16:00:00Z",
+      "orders": 0
     },
     {
-      "hour": "2026-08-17T00:00:00Z",
-      "orders": 13
+      "hour": "2026-08-19T17:00:00Z",
+      "orders": 0
     },
     {
-      "hour": "2026-08-17T01:00:00Z",
-      "orders": 12
+      "hour": "2026-08-19T18:00:00Z",
+      "orders": 0
     },
     {
-      "hour": "2026-08-17T02:00:00Z",
-      "orders": 10
+      "hour": "2026-08-19T19:00:00Z",
+      "orders": 0
     },
     {
-      "hour": "2026-08-17T03:00:00Z",
+      "hour": "2026-08-19T20:00:00Z",
+      "orders": 0
+    },
+    {
+      "hour": "2026-08-19T21:00:00Z",
+      "orders": 0
+    },
+    {
+      "hour": "2026-08-19T22:00:00Z",
+      "orders": 0
+    },
+    {
+      "hour": "2026-08-19T23:00:00Z",
+      "orders": 0
+    },
+    {
+      "hour": "2026-08-20T00:00:00Z",
+      "orders": 0
+    },
+    {
+      "hour": "2026-08-20T01:00:00Z",
+      "orders": 0
+    },
+    {
+      "hour": "2026-08-20T02:00:00Z",
+      "orders": 0
+    },
+    {
+      "hour": "2026-08-20T03:00:00Z",
       "orders": 0
     }
   ],
-  "updated_at": "2026-08-17 10:56:48",
-  "channel_count": 41,
+  "updated_at": "2026-08-19 14:42:35",
+  "channel_count": 6,
   "data_source": "shopifyql"
 }

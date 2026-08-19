@@ -16,6 +16,8 @@ ALL_DATA_PATH = os.path.join(REPO_ROOT, "dashboard_all.json")
 INDEX_PATH = os.path.join(REPO_ROOT, "index.html")
 BUILD_SCRIPT = os.path.join(SCRIPTS_DIR, "build_standalone.js")
 REALTIME_SCRIPT = os.path.join(SCRIPTS_DIR, "realtime_fetch.py")
+CAMPAIGN_SCRIPT = os.path.join(SCRIPTS_DIR, "fetch_campaign_cloud.py")
+CAMPAIGN_CONFIG = os.path.join(REPO_ROOT, "campaign_config.json")
 
 BACKFILL_DAYS = 3
 
@@ -126,6 +128,29 @@ def step3_build_standalone(node_exe="node"):
     return os.path.exists(INDEX_PATH)
 
 
+def step4_fetch_campaign():
+    print("\n" + "=" * 60)
+    print("  Step 4: Compute campaign performance (Shopify-only, cloud)")
+    print("=" * 60)
+    if not os.path.exists(CAMPAIGN_SCRIPT):
+        print(f"  [WARNING] {CAMPAIGN_SCRIPT} not found, skipping campaign update")
+        return True
+    if not os.path.exists(CAMPAIGN_CONFIG):
+        print(f"  [WARNING] {CAMPAIGN_CONFIG} not found, skipping campaign update")
+        return True
+    result = subprocess.run(
+        [sys.executable, CAMPAIGN_SCRIPT],
+        capture_output=True, text=True, timeout=600, cwd=REPO_ROOT,
+    )
+    print(result.stdout[-3000:] if len(result.stdout) > 3000 else result.stdout)
+    if result.returncode != 0:
+        print(f"  [ERROR] fetch_campaign_cloud.py returned {result.returncode}")
+        if result.stderr:
+            print(f"  [STDERR] {result.stderr[:500]}")
+        return False
+    return os.path.exists(os.path.join(REPO_ROOT, "campaign_data.json"))
+
+
 def main():
     print("\n" + "=" * 60)
     print("  EVIL ENERGY Dashboard - GitHub Actions Update")
@@ -141,6 +166,8 @@ def main():
     if not step3_build_standalone(node_exe):
         print("\n[FATAL] Step 3 failed, aborting.")
         sys.exit(1)
+    if not step4_fetch_campaign():
+        print("\n[WARNING] Step 4 (campaign) failed — continuing with other updates")
     config_path = os.path.join(REPO_ROOT, "shopify_config.json")
     if os.path.exists(config_path):
         os.remove(config_path)
