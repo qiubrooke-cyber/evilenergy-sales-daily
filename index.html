@@ -581,6 +581,21 @@
       .panel { padding: 10px 12px 6px; }
     }
   </style>
+  <script>
+  /* 远程数据模式: 非本机/LAN 环境下, 相对路径 JSON 改为从 GitHub Pages 拉取 (缓存破除) */
+  (function () {
+    var h = location.hostname;
+    if (h === 'localhost' || h === '127.0.0.1' || /^192\.168\./.test(h)) return; /* 本地/局域网直读本地文件 */
+    var BASE = 'https://qiubrooke-cyber.github.io/evilenergy-sales-daily/';
+    var orig = window.fetch;
+    window.fetch = function (url, opts) {
+      if (typeof url === 'string' && !/^https?:/.test(url) && url.charAt(0) !== '/') {
+        url = BASE + url + (url.indexOf('?') < 0 ? '?' : '&') + 't=' + Date.now();
+      }
+      return orig.call(this, url, opts);
+    };
+  })();
+  </script>
 </head>
 <body>
   <div class="container">
@@ -1319,7 +1334,7 @@
 
       // Historical data is embedded directly (includes today's merged realtime data)
       allData = {
-  "updated_at": "2026-08-24 08:29:29",
+  "updated_at": "2026-08-24 10:23:39",
   "currency": "USD",
   "date_range": {
     "start": "2026-07-01",
@@ -7482,26 +7497,26 @@
     },
     "2026-08-24": {
       "date": "2026-08-24",
-      "total_orders": 14,
-      "total_revenue": 2668.47,
-      "total_tax": 110.47,
+      "total_orders": 16,
+      "total_revenue": 2838.06,
+      "total_tax": 121.67,
       "total_shipping": 13.98,
-      "total_discounts": 106.07,
-      "net_sales": 2544.02,
-      "gross_sales": 2650.09,
+      "total_discounts": 116.89,
+      "net_sales": 2702.41,
+      "gross_sales": 2819.3,
       "returns": 0.0,
-      "avg_order_value": 190.6,
-      "total_customers": 14,
-      "new_customers": 9,
-      "returning_customers": 5,
-      "new_customer_rate": 64.3,
+      "avg_order_value": 177.38,
+      "total_customers": 16,
+      "new_customers": 10,
+      "returning_customers": 6,
+      "new_customer_rate": 62.5,
       "hourly_orders": [
         6,
         4,
         3,
         1,
         0,
-        0,
+        2,
         0,
         0,
         0,
@@ -7535,6 +7550,12 @@
           "revenue": 319.99
         },
         {
+          "title": "EVIL ENERGY Fuel Cell Gas Tank with Sending Unit Black/Silver Street Drift Aluminum（1/2.5/5/8/10/12/15/20 Gallon ）",
+          "sku": "EVKT01877S1BK",
+          "qty": 2,
+          "revenue": 240.23
+        },
+        {
           "title": "EVIL ENERGY Inline Fuel Filter with 6AN 8AN 10AN Adapter and Bracket Universal 10/30/40/100 Micron",
           "sku": "EVCS07153BK-AMZ1",
           "qty": 5,
@@ -7551,12 +7572,6 @@
           "sku": "EVKT01568BA-AMZ1",
           "qty": 2,
           "revenue": 156.07
-        },
-        {
-          "title": "EVIL ENERGY Fuel Cell Gas Tank with Sending Unit Black/Silver Street Drift Aluminum（1/2.5/5/8/10/12/15/20 Gallon ）",
-          "sku": "EVKT01877S3BK",
-          "qty": 1,
-          "revenue": 149.99
         },
         {
           "title": "Evil Energy Carburetor Fuel Pressure Regulator - Adjustable 4.5-9 PSI for Small Engine Gas/E85/Alcohol Compatible",
@@ -7589,13 +7604,14 @@
         "CARTFGfcVB",
         "CARTrnnhls",
         "CARTt5mmbd",
+        "EVAB12",
         "EVIL10",
         "VReward-139D1738",
         "WELCOME10"
       ],
       "data_source": "shopifyql",
       "is_realtime": true,
-      "updated_at": "2026-08-24 04:29:28"
+      "updated_at": "2026-08-24 06:23:38"
     }
   }
 };
