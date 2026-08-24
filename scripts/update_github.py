@@ -18,6 +18,7 @@ BUILD_SCRIPT = os.path.join(SCRIPTS_DIR, "build_standalone.js")
 REALTIME_SCRIPT = os.path.join(SCRIPTS_DIR, "realtime_fetch.py")
 CAMPAIGN_SCRIPT = os.path.join(SCRIPTS_DIR, "fetch_campaign_cloud.py")
 CAMPAIGN_CONFIG = os.path.join(REPO_ROOT, "campaign_config.json")
+CHANNEL_SCRIPT = os.path.join(SCRIPTS_DIR, "fetch_channel_data.py")
 
 BACKFILL_DAYS = 3
 
@@ -151,6 +152,26 @@ def step4_fetch_campaign():
     return os.path.exists(os.path.join(REPO_ROOT, "campaign_data.json"))
 
 
+def step5_fetch_channel():
+    print("\n" + "=" * 60)
+    print("  Step 5: Fetch channel attribution data (channel_data.json)")
+    print("=" * 60)
+    if not os.path.exists(CHANNEL_SCRIPT):
+        print(f"  [WARNING] {CHANNEL_SCRIPT} not found, skipping channel update")
+        return True
+    result = subprocess.run(
+        [sys.executable, CHANNEL_SCRIPT],
+        capture_output=True, text=True, timeout=240, cwd=REPO_ROOT,
+    )
+    print(result.stdout[-2000:] if len(result.stdout) > 2000 else result.stdout)
+    if result.returncode != 0:
+        print(f"  [ERROR] fetch_channel_data.py returned {result.returncode}")
+        if result.stderr:
+            print(f"  [STDERR] {result.stderr[:500]}")
+        return False
+    return os.path.exists(os.path.join(REPO_ROOT, "channel_data.json"))
+
+
 def main():
     print("\n" + "=" * 60)
     print("  EVIL ENERGY Dashboard - GitHub Actions Update")
@@ -168,6 +189,8 @@ def main():
         sys.exit(1)
     if not step4_fetch_campaign():
         print("\n[WARNING] Step 4 (campaign) failed — continuing with other updates")
+    if not step5_fetch_channel():
+        print("\n[WARNING] Step 5 (channel) failed — continuing with other updates")
     config_path = os.path.join(REPO_ROOT, "shopify_config.json")
     if os.path.exists(config_path):
         os.remove(config_path)
