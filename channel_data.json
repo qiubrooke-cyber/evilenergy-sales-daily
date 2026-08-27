@@ -9,29 +9,29 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 1545.49,
-    "net_sales": 1398.95,
+    "total_sales": 1264.51,
+    "net_sales": 1168.31,
     "orders": 11,
-    "aov": 140.5
+    "aov": 114.96
   },
   "channels": [
     {
       "referring_channel": "direct",
       "traffic_type": "direct",
       "referring_platform": "direct",
-      "total_sales": 890.0,
-      "net_sales": 819.73,
+      "total_sales": 762.62,
+      "net_sales": 701.79,
       "orders": 4,
-      "aov": 222.5
+      "aov": 190.66
     },
     {
       "referring_channel": "google",
       "traffic_type": "paid",
       "referring_platform": "alphabet",
-      "total_sales": 337.85,
-      "net_sales": 299.82,
+      "total_sales": 257.85,
+      "net_sales": 245.85,
       "orders": 3,
-      "aov": 112.62
+      "aov": 85.95
     },
     {
       "referring_channel": "amzn_us_shopdirect",
@@ -77,19 +77,28 @@
       "net_sales": -1.98,
       "orders": 0,
       "aov": 0
+    },
+    {
+      "referring_channel": "facebook",
+      "traffic_type": "paid",
+      "referring_platform": "meta",
+      "total_sales": -73.6,
+      "net_sales": -58.73,
+      "orders": 0,
+      "aov": 0
     }
   ],
   "channel_rollup": [
     {
       "referring_channel": "direct",
-      "total_sales": 890.0,
-      "net_sales": 819.73,
+      "total_sales": 762.62,
+      "net_sales": 701.79,
       "orders": 4
     },
     {
       "referring_channel": "google",
-      "total_sales": 411.12,
-      "net_sales": 366.89,
+      "total_sales": 331.12,
+      "net_sales": 312.92,
       "orders": 4
     },
     {
@@ -115,19 +124,25 @@
       "total_sales": -1.98,
       "net_sales": -1.98,
       "orders": 0
+    },
+    {
+      "referring_channel": "facebook",
+      "total_sales": -73.6,
+      "net_sales": -58.73,
+      "orders": 0
     }
   ],
   "traffic_rollup": [
     {
       "traffic_type": "direct",
-      "total_sales": 890.0,
-      "net_sales": 819.73,
+      "total_sales": 762.62,
+      "net_sales": 701.79,
       "orders": 4
     },
     {
       "traffic_type": "paid",
-      "total_sales": 394.39,
-      "net_sales": 352.39,
+      "total_sales": 240.79,
+      "net_sales": 239.69,
       "orders": 4
     },
     {
@@ -247,7 +262,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-08-27 10:12:59",
-  "channel_count": 7,
+  "updated_at": "2026-08-27 10:23:01",
+  "channel_count": 8,
   "data_source": "shopifyql"
 }
