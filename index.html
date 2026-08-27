@@ -582,15 +582,16 @@
     }
   </style>
   <script>
-  /* 远程数据模式: 非本机/LAN 环境下, 相对路径 JSON 改为从 GitHub Pages 拉取 (缓存破除) */
+  /* 远程数据模式: 相对路径 JSON 优先从 GitHub Pages 拉取 (Actions 免费刷新, 缓存破除), 失败时回退本地副本 */
   (function () {
-    var h = location.hostname;
-    if (h === 'localhost' || h === '127.0.0.1' || /^192\.168\./.test(h)) return; /* 本地/局域网直读本地文件 */
     var BASE = 'https://qiubrooke-cyber.github.io/evilenergy-sales-daily/';
     var orig = window.fetch;
     window.fetch = function (url, opts) {
       if (typeof url === 'string' && !/^https?:/.test(url) && url.charAt(0) !== '/') {
-        url = BASE + url + (url.indexOf('?') < 0 ? '?' : '&') + 't=' + Date.now();
+        var remote = BASE + url + (url.indexOf('?') < 0 ? '?' : '&') + 't=' + Date.now();
+        return orig.call(this, remote, opts).catch(function () {
+          return orig.call(this, url, opts); /* 网络不通时回退本地 JSON */
+        });
       }
       return orig.call(this, url, opts);
     };
@@ -1334,11 +1335,11 @@
 
       // Historical data is embedded directly (includes today's merged realtime data)
       allData = {
-  "updated_at": "2026-08-26 14:26:58",
+  "updated_at": "2026-08-27 05:55:03",
   "currency": "USD",
   "date_range": {
     "start": "2026-07-01",
-    "end": "2026-08-26"
+    "end": "2026-08-27"
   },
   "dates": {
     "2026-07-01": {
@@ -7918,6 +7919,106 @@
       "data_source": "shopifyql",
       "is_realtime": true,
       "updated_at": "2026-08-26 10:26:56"
+    },
+    "2026-08-27": {
+      "date": "2026-08-27",
+      "total_orders": 6,
+      "total_revenue": 1221.21,
+      "total_tax": 87.61,
+      "total_shipping": 6.99,
+      "total_discounts": 27.2,
+      "net_sales": 1126.61,
+      "gross_sales": 1155.79,
+      "returns": 1.98,
+      "avg_order_value": 203.53,
+      "total_customers": 6,
+      "new_customers": 5,
+      "returning_customers": 1,
+      "new_customer_rate": 83.3,
+      "hourly_orders": [
+        4,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "top_products": [
+        {
+          "title": "EVIL ENERGY Fuel Tank Kits with Fuel Filter Fuel Pump（1/2.5/5/8/10/12/15/19/20 Gallon ）",
+          "sku": "EVKT0202485",
+          "qty": 1,
+          "revenue": 483.99
+        },
+        {
+          "title": "EVIL ENERGY All-in-One EFI Fuel System Bundle|EFI Bypass Fuel Pressure Regulator & CPE Fuel Line & Adjustable 3-16AN Wrench (Black)",
+          "sku": "EVKTCPT007",
+          "qty": 1,
+          "revenue": 212.99
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10/12AN PTFE Fuel Line Kit 33FT 20Fittings, E85 Braided PTFE Fuel Hose Line Kit Black Nylon",
+          "sku": "EVFS10986AN6",
+          "qty": 1,
+          "revenue": 165.99
+        },
+        {
+          "title": "EVIL ENERGY LS Swap Fuel Filter Regulator 58PSI with 6AN PTFE EFI Fuel Hose Kit",
+          "sku": "EVFS07848BK-AMZ1",
+          "qty": 1,
+          "revenue": 118.99
+        },
+        {
+          "title": "EVIL ENERGY PTFE Fuel Line Fitting Kit E85 Nylon Braided Fuel Hose 4/6/8/10AN 10-20FT Optional",
+          "sku": "EVFS10674AN10BK-AMZ1",
+          "qty": 1,
+          "revenue": 72.9
+        },
+        {
+          "title": "EVIL ENERGY 290LPH High Pressure External Electric Fuel Injection Pump 12V-13.5V - Reliable High-Performance for EFI Tuned/Modified Cars (AN Adapter Optional)",
+          "sku": "EVFS232500021001",
+          "qty": 1,
+          "revenue": 42.99
+        },
+        {
+          "title": "EVIL ENERGY AN Fittings Wrench Set, AN Hose Fitting Adapter Tool | 3AN-16AN Adjustable Lightweight Aluminum Tool and Double Hose End Fitting Wrench, 6AN Socket-AN8 B-Nut, Red",
+          "sku": "EVAIY0001013",
+          "qty": 1,
+          "revenue": 33.99
+        },
+        {
+          "title": "Worry-Free Purchase",
+          "sku": "SEEL-WFP",
+          "qty": 4,
+          "revenue": 23.95
+        }
+      ],
+      "discount_codes": [
+        "CART8uajhS",
+        "CASiPjoyU",
+        "CASrPhCIR"
+      ],
+      "data_source": "shopifyql",
+      "is_realtime": true,
+      "updated_at": "2026-08-27 01:55:03"
     }
   }
 };
