@@ -231,15 +231,16 @@
     }
   </style>
   <script>
-  /* 远程数据模式: 非本机/LAN 环境下, 相对路径 JSON 改为从 GitHub Pages 拉取 (缓存破除) */
+  /* 远程数据模式: 相对路径 JSON 优先从 GitHub Pages 拉取 (Actions 免费刷新, 缓存破除), 失败时回退本地副本 */
   (function () {
-    var h = location.hostname;
-    if (h === 'localhost' || h === '127.0.0.1' || /^192\.168\./.test(h)) return; /* 本地/局域网直读本地文件 */
     var BASE = 'https://qiubrooke-cyber.github.io/evilenergy-sales-daily/';
     var orig = window.fetch;
     window.fetch = function (url, opts) {
       if (typeof url === 'string' && !/^https?:/.test(url) && url.charAt(0) !== '/') {
-        url = BASE + url + (url.indexOf('?') < 0 ? '?' : '&') + 't=' + Date.now();
+        var remote = BASE + url + (url.indexOf('?') < 0 ? '?' : '&') + 't=' + Date.now();
+        return orig.call(this, remote, opts).catch(function () {
+          return orig.call(this, url, opts); /* 网络不通时回退本地 JSON */
+        });
       }
       return orig.call(this, url, opts);
     };
