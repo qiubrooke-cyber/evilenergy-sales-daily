@@ -61,15 +61,6 @@
       "aov": 114.75
     },
     {
-      "referring_channel": "Unattributed",
-      "traffic_type": "Unknown",
-      "referring_platform": "Unknown",
-      "total_sales": 111.57,
-      "net_sales": 96.8,
-      "orders": 2,
-      "aov": 55.78
-    },
-    {
       "referring_channel": "chatgpt.com",
       "traffic_type": "unknown",
       "referring_platform": "chatgpt.com",
@@ -77,6 +68,15 @@
       "net_sales": 53.57,
       "orders": 1,
       "aov": 56.69
+    },
+    {
+      "referring_channel": "Unattributed",
+      "traffic_type": "Unknown",
+      "referring_platform": "Unknown",
+      "total_sales": 56.29,
+      "net_sales": 44.57,
+      "orders": 1,
+      "aov": 56.29
     },
     {
       "referring_channel": "google",
@@ -91,10 +91,10 @@
       "referring_channel": "bing",
       "traffic_type": "paid",
       "referring_platform": "microsoft",
-      "total_sales": -28.32,
-      "net_sales": -20.53,
-      "orders": 0,
-      "aov": 0
+      "total_sales": 26.96,
+      "net_sales": 31.7,
+      "orders": 1,
+      "aov": 26.96
     }
   ],
   "channel_rollup": [
@@ -129,22 +129,22 @@
       "orders": 1
     },
     {
-      "referring_channel": "Unattributed",
-      "total_sales": 111.57,
-      "net_sales": 96.8,
-      "orders": 2
-    },
-    {
       "referring_channel": "chatgpt.com",
       "total_sales": 56.69,
       "net_sales": 53.57,
       "orders": 1
     },
     {
+      "referring_channel": "Unattributed",
+      "total_sales": 56.29,
+      "net_sales": 44.57,
+      "orders": 1
+    },
+    {
       "referring_channel": "bing",
-      "total_sales": -28.32,
-      "net_sales": -20.53,
-      "orders": 0
+      "total_sales": 26.96,
+      "net_sales": 31.7,
+      "orders": 1
     }
   ],
   "traffic_rollup": [
@@ -156,9 +156,9 @@
     },
     {
       "traffic_type": "paid",
-      "total_sales": 1614.12,
-      "net_sales": 1512.71,
-      "orders": 17
+      "total_sales": 1669.4,
+      "net_sales": 1564.94,
+      "orders": 18
     },
     {
       "traffic_type": "organic",
@@ -167,15 +167,15 @@
       "orders": 7
     },
     {
-      "traffic_type": "Unknown",
-      "total_sales": 111.57,
-      "net_sales": 96.8,
-      "orders": 2
-    },
-    {
       "traffic_type": "unknown",
       "total_sales": 56.69,
       "net_sales": 53.57,
+      "orders": 1
+    },
+    {
+      "traffic_type": "Unknown",
+      "total_sales": 56.29,
+      "net_sales": 44.57,
       "orders": 1
     }
   ],
@@ -277,7 +277,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-08-28 15:02:53",
+  "updated_at": "2026-08-28 15:05:33",
   "channel_count": 9,
   "data_source": "shopifyql"
 }
