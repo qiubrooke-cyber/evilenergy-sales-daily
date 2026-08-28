@@ -9,10 +9,10 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 6367.28,
-    "net_sales": 5982.18,
-    "orders": 55,
-    "aov": 115.77
+    "total_sales": 6445.02,
+    "net_sales": 6054.95,
+    "orders": 56,
+    "aov": 115.09
   },
   "channels": [
     {
@@ -70,6 +70,15 @@
       "aov": 172.1
     },
     {
+      "referring_channel": "Unattributed",
+      "traffic_type": "Unknown",
+      "referring_platform": "Unknown",
+      "total_sales": 134.03,
+      "net_sales": 117.34,
+      "orders": 2,
+      "aov": 67.02
+    },
+    {
       "referring_channel": "facebook",
       "traffic_type": "paid",
       "referring_platform": "meta",
@@ -86,15 +95,6 @@
       "net_sales": 53.57,
       "orders": 1,
       "aov": 56.69
-    },
-    {
-      "referring_channel": "Unattributed",
-      "traffic_type": "Unknown",
-      "referring_platform": "Unknown",
-      "total_sales": 56.29,
-      "net_sales": 44.57,
-      "orders": 1,
-      "aov": 56.29
     },
     {
       "referring_channel": "google",
@@ -153,15 +153,15 @@
       "orders": 1
     },
     {
+      "referring_channel": "Unattributed",
+      "total_sales": 134.03,
+      "net_sales": 117.34,
+      "orders": 2
+    },
+    {
       "referring_channel": "chatgpt.com",
       "total_sales": 56.69,
       "net_sales": 53.57,
-      "orders": 1
-    },
-    {
-      "referring_channel": "Unattributed",
-      "total_sales": 56.29,
-      "net_sales": 44.57,
       "orders": 1
     },
     {
@@ -198,9 +198,9 @@
     },
     {
       "traffic_type": "Unknown",
-      "total_sales": 56.29,
-      "net_sales": 44.57,
-      "orders": 1
+      "total_sales": 134.03,
+      "net_sales": 117.34,
+      "orders": 2
     }
   ],
   "hourly": [
@@ -258,7 +258,7 @@
     },
     {
       "hour": "2026-08-28T17:00:00Z",
-      "orders": 2
+      "orders": 3
     },
     {
       "hour": "2026-08-28T18:00:00Z",
@@ -301,7 +301,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-08-28 17:16:22",
+  "updated_at": "2026-08-28 17:23:03",
   "channel_count": 11,
   "data_source": "shopifyql"
 }
