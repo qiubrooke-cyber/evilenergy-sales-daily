@@ -9,10 +9,10 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 805.63,
-    "net_sales": 748.5,
-    "orders": 5,
-    "aov": 161.13
+    "total_sales": 862.32,
+    "net_sales": 802.07,
+    "orders": 6,
+    "aov": 143.72
   },
   "channels": [
     {
@@ -32,6 +32,15 @@
       "net_sales": 84.75,
       "orders": 1,
       "aov": 114.75
+    },
+    {
+      "referring_channel": "chatgpt.com",
+      "traffic_type": "unknown",
+      "referring_platform": "chatgpt.com",
+      "total_sales": 56.69,
+      "net_sales": 53.57,
+      "orders": 1,
+      "aov": 56.69
     },
     {
       "referring_channel": "direct",
@@ -57,6 +66,12 @@
       "orders": 1
     },
     {
+      "referring_channel": "chatgpt.com",
+      "total_sales": 56.69,
+      "net_sales": 53.57,
+      "orders": 1
+    },
+    {
       "referring_channel": "direct",
       "total_sales": 0.0,
       "net_sales": 0.0,
@@ -69,6 +84,12 @@
       "total_sales": 805.63,
       "net_sales": 748.5,
       "orders": 4
+    },
+    {
+      "traffic_type": "unknown",
+      "total_sales": 56.69,
+      "net_sales": 53.57,
+      "orders": 1
     },
     {
       "traffic_type": "direct",
@@ -92,7 +113,7 @@
     },
     {
       "hour": "2026-08-28T07:00:00Z",
-      "orders": 0
+      "orders": 1
     },
     {
       "hour": "2026-08-28T08:00:00Z",
@@ -175,7 +196,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-08-28 07:42:51",
-  "channel_count": 3,
+  "updated_at": "2026-08-28 07:52:53",
+  "channel_count": 4,
   "data_source": "shopifyql"
 }
