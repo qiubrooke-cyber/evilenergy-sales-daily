@@ -9,10 +9,10 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 5219.26,
-    "net_sales": 4944.15,
-    "orders": 44,
-    "aov": 118.62
+    "total_sales": 5347.95,
+    "net_sales": 5063.87,
+    "orders": 45,
+    "aov": 118.84
   },
   "channels": [
     {
@@ -28,10 +28,10 @@
       "referring_channel": "google",
       "traffic_type": "paid",
       "referring_platform": "alphabet",
-      "total_sales": 1929.57,
-      "net_sales": 1842.45,
-      "orders": 18,
-      "aov": 107.2
+      "total_sales": 2058.26,
+      "net_sales": 1962.17,
+      "orders": 19,
+      "aov": 108.33
     },
     {
       "referring_channel": "shopify",
@@ -108,16 +108,16 @@
   ],
   "channel_rollup": [
     {
+      "referring_channel": "google",
+      "total_sales": 2112.56,
+      "net_sales": 2012.74,
+      "orders": 20
+    },
+    {
       "referring_channel": "direct",
       "total_sales": 2071.79,
       "net_sales": 1970.21,
       "orders": 12
-    },
-    {
-      "referring_channel": "google",
-      "total_sales": 1983.87,
-      "net_sales": 1893.02,
-      "orders": 19
     },
     {
       "referring_channel": "shopify",
@@ -164,16 +164,16 @@
   ],
   "traffic_rollup": [
     {
+      "traffic_type": "paid",
+      "total_sales": 2199.97,
+      "net_sales": 2078.62,
+      "orders": 21
+    },
+    {
       "traffic_type": "direct",
       "total_sales": 2071.79,
       "net_sales": 1970.21,
       "orders": 12
-    },
-    {
-      "traffic_type": "paid",
-      "total_sales": 2071.28,
-      "net_sales": 1958.9,
-      "orders": 20
     },
     {
       "traffic_type": "organic",
@@ -245,7 +245,7 @@
     },
     {
       "hour": "2026-08-28T16:00:00Z",
-      "orders": 3
+      "orders": 4
     },
     {
       "hour": "2026-08-28T17:00:00Z",
@@ -292,7 +292,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-08-28 16:22:58",
+  "updated_at": "2026-08-28 16:26:32",
   "channel_count": 10,
   "data_source": "shopifyql"
 }
