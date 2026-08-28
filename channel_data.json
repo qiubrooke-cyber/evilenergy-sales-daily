@@ -9,10 +9,10 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 1042.36,
-    "net_sales": 966.75,
+    "total_sales": 1014.04,
+    "net_sales": 946.22,
     "orders": 8,
-    "aov": 130.29
+    "aov": 126.75
   },
   "channels": [
     {
@@ -59,6 +59,15 @@
       "net_sales": 0.0,
       "orders": 1,
       "aov": 0.0
+    },
+    {
+      "referring_channel": "bing",
+      "traffic_type": "paid",
+      "referring_platform": "microsoft",
+      "total_sales": -28.32,
+      "net_sales": -20.53,
+      "orders": 0,
+      "aov": 0
     }
   ],
   "channel_rollup": [
@@ -91,13 +100,19 @@
       "total_sales": 0.0,
       "net_sales": 0.0,
       "orders": 1
+    },
+    {
+      "referring_channel": "bing",
+      "total_sales": -28.32,
+      "net_sales": -20.53,
+      "orders": 0
     }
   ],
   "traffic_rollup": [
     {
       "traffic_type": "paid",
-      "total_sales": 860.69,
-      "net_sales": 800.06,
+      "total_sales": 832.37,
+      "net_sales": 779.53,
       "orders": 5
     },
     {
@@ -217,7 +232,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-08-28 09:13:07",
-  "channel_count": 5,
+  "updated_at": "2026-08-28 09:22:53",
+  "channel_count": 6,
   "data_source": "shopifyql"
 }
