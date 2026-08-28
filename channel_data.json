@@ -9,20 +9,20 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 4142.31,
-    "net_sales": 3911.77,
-    "orders": 35,
-    "aov": 118.35
+    "total_sales": 4181.87,
+    "net_sales": 3941.76,
+    "orders": 36,
+    "aov": 116.16
   },
   "channels": [
     {
       "referring_channel": "direct",
       "traffic_type": "direct",
       "referring_platform": "direct",
-      "total_sales": 1637.12,
-      "net_sales": 1564.82,
-      "orders": 9,
-      "aov": 181.9
+      "total_sales": 1883.39,
+      "net_sales": 1801.17,
+      "orders": 10,
+      "aov": 188.34
     },
     {
       "referring_channel": "google",
@@ -32,15 +32,6 @@
       "net_sales": 1448.49,
       "orders": 16,
       "aov": 95.48
-    },
-    {
-      "referring_channel": "Unattributed",
-      "traffic_type": "Unknown",
-      "referring_platform": "Unknown",
-      "total_sales": 302.56,
-      "net_sales": 280.92,
-      "orders": 2,
-      "aov": 151.28
     },
     {
       "referring_channel": "couponcove",
@@ -68,6 +59,15 @@
       "net_sales": 84.75,
       "orders": 1,
       "aov": 114.75
+    },
+    {
+      "referring_channel": "Unattributed",
+      "traffic_type": "Unknown",
+      "referring_platform": "Unknown",
+      "total_sales": 95.85,
+      "net_sales": 74.56,
+      "orders": 2,
+      "aov": 47.92
     },
     {
       "referring_channel": "chatgpt.com",
@@ -100,21 +100,15 @@
   "channel_rollup": [
     {
       "referring_channel": "direct",
-      "total_sales": 1637.12,
-      "net_sales": 1564.82,
-      "orders": 9
+      "total_sales": 1883.39,
+      "net_sales": 1801.17,
+      "orders": 10
     },
     {
       "referring_channel": "google",
       "total_sales": 1581.99,
       "net_sales": 1499.06,
       "orders": 17
-    },
-    {
-      "referring_channel": "Unattributed",
-      "total_sales": 302.56,
-      "net_sales": 280.92,
-      "orders": 2
     },
     {
       "referring_channel": "couponcove",
@@ -135,6 +129,12 @@
       "orders": 1
     },
     {
+      "referring_channel": "Unattributed",
+      "total_sales": 95.85,
+      "net_sales": 74.56,
+      "orders": 2
+    },
+    {
       "referring_channel": "chatgpt.com",
       "total_sales": 56.69,
       "net_sales": 53.57,
@@ -150,9 +150,9 @@
   "traffic_rollup": [
     {
       "traffic_type": "direct",
-      "total_sales": 1637.12,
-      "net_sales": 1564.82,
-      "orders": 9
+      "total_sales": 1883.39,
+      "net_sales": 1801.17,
+      "orders": 10
     },
     {
       "traffic_type": "paid",
@@ -168,8 +168,8 @@
     },
     {
       "traffic_type": "Unknown",
-      "total_sales": 302.56,
-      "net_sales": 280.92,
+      "total_sales": 95.85,
+      "net_sales": 74.56,
       "orders": 2
     },
     {
@@ -222,7 +222,7 @@
     },
     {
       "hour": "2026-08-28T14:00:00Z",
-      "orders": 4
+      "orders": 5
     },
     {
       "hour": "2026-08-28T15:00:00Z",
@@ -277,7 +277,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-08-28 14:32:46",
+  "updated_at": "2026-08-28 14:35:29",
   "channel_count": 9,
   "data_source": "shopifyql"
 }
