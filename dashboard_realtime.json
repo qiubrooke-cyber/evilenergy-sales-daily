@@ -1,6 +1,6 @@
 {
   "date": "2026-08-29",
-  "updated_at": "2026-08-29 01:12:13",
+  "updated_at": "2026-08-29 01:20:20",
   "updated_at_timezone": "EDT (UTC-4)",
   "is_realtime": true,
   "current_hour": 1,
@@ -11,23 +11,23 @@
     "dst_name": "EDT"
   },
   "kpi": {
-    "total_orders": 5,
-    "total_revenue": 453.53,
+    "total_orders": 6,
+    "total_revenue": 530.03,
     "total_tax": 23.26,
     "total_shipping": 13.98,
-    "total_discounts": 0.0,
-    "net_sales": 416.29,
-    "gross_sales": 416.29,
+    "total_discounts": 8.49,
+    "net_sales": 492.79,
+    "gross_sales": 501.28,
     "returns": 0.0,
-    "avg_order_value": 90.71,
-    "total_customers": 5,
+    "avg_order_value": 88.34,
+    "total_customers": 6,
     "new_customers": 3,
-    "returning_customers": 2,
-    "new_customer_rate": 60.0
+    "returning_customers": 3,
+    "new_customer_rate": 50.0
   },
   "hourly_orders": [
     5,
-    0,
+    1,
     0,
     0,
     0,
@@ -53,6 +53,12 @@
   ],
   "top_products": [
     {
+      "title": "EVIL ENERGY Fuel Pressure Regulator 6AN EFI Bypass Return Adjustable 20-140psi Black&Red",
+      "sku": "EVFS07330-AMZ1",
+      "qty": 2,
+      "revenue": 160.98
+    },
+    {
       "title": "Evil Energy | Wheel Spacers 6x5.5 for Chevy Silverado GMC Sierra 4PCS (1.25-inch / 1.5-inch / 2.0-inch)",
       "sku": "EVOS06061S3BK",
       "qty": 1,
@@ -63,12 +69,6 @@
       "sku": "EVFS07848BK-AMZ1",
       "qty": 1,
       "revenue": 118.99
-    },
-    {
-      "title": "EVIL ENERGY Fuel Pressure Regulator 6AN EFI Bypass Return Adjustable 20-140psi Black&Red",
-      "sku": "EVKT01568BA-AMZ1",
-      "qty": 1,
-      "revenue": 75.99
     },
     {
       "title": "EVIL ENERGY Baffled Oil Catch Can Oil Separator Catch Can 300ml Universal Aluminum Black",
@@ -101,6 +101,8 @@
       "revenue": 7.35
     }
   ],
-  "discount_codes": [],
+  "discount_codes": [
+    "WELCOME10"
+  ],
   "data_source": "shopifyql"
 }
