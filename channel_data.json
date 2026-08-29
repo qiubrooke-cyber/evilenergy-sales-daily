@@ -9,10 +9,10 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 9818.48,
-    "net_sales": 9084.77,
-    "orders": 96,
-    "aov": 102.28
+    "total_sales": 9867.95,
+    "net_sales": 9127.25,
+    "orders": 97,
+    "aov": 101.73
   },
   "channels": [
     {
@@ -43,6 +43,15 @@
       "aov": 210.66
     },
     {
+      "referring_channel": "Unattributed",
+      "traffic_type": "Unknown",
+      "referring_platform": "Unknown",
+      "total_sales": 351.5,
+      "net_sales": 323.64,
+      "orders": 9,
+      "aov": 39.06
+    },
+    {
       "referring_channel": "bing",
       "traffic_type": "paid",
       "referring_platform": "microsoft",
@@ -50,15 +59,6 @@
       "net_sales": 332.62,
       "orders": 2,
       "aov": 168.21
-    },
-    {
-      "referring_channel": "Unattributed",
-      "traffic_type": "Unknown",
-      "referring_platform": "Unknown",
-      "total_sales": 302.03,
-      "net_sales": 281.16,
-      "orders": 8,
-      "aov": 37.75
     },
     {
       "referring_channel": "shopify",
@@ -135,16 +135,16 @@
       "orders": 2
     },
     {
+      "referring_channel": "Unattributed",
+      "total_sales": 351.5,
+      "net_sales": 323.64,
+      "orders": 9
+    },
+    {
       "referring_channel": "bing",
       "total_sales": 336.41,
       "net_sales": 332.62,
       "orders": 2
-    },
-    {
-      "referring_channel": "Unattributed",
-      "total_sales": 302.03,
-      "net_sales": 281.16,
-      "orders": 8
     },
     {
       "referring_channel": "shopify",
@@ -198,9 +198,9 @@
     },
     {
       "traffic_type": "Unknown",
-      "total_sales": 302.03,
-      "net_sales": 281.16,
-      "orders": 8
+      "total_sales": 351.5,
+      "net_sales": 323.64,
+      "orders": 9
     },
     {
       "traffic_type": "unknown",
@@ -288,7 +288,7 @@
     },
     {
       "hour": "2026-08-29T23:00:00Z",
-      "orders": 2
+      "orders": 3
     },
     {
       "hour": "2026-08-30T00:00:00Z",
@@ -307,7 +307,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-08-29 23:22:58",
+  "updated_at": "2026-08-29 23:26:51",
   "channel_count": 11,
   "data_source": "shopifyql"
 }
