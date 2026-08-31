@@ -9,10 +9,10 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 1049.04,
-    "net_sales": 1010.97,
-    "orders": 9,
-    "aov": 116.56
+    "total_sales": 1551.92,
+    "net_sales": 1513.85,
+    "orders": 10,
+    "aov": 155.19
   },
   "channels": [
     {
@@ -28,23 +28,32 @@
       "referring_channel": "Unattributed",
       "traffic_type": "Unknown",
       "referring_platform": "Unknown",
-      "total_sales": 63.92,
-      "net_sales": 56.55,
+      "total_sales": 558.87,
+      "net_sales": 558.87,
       "orders": 2,
-      "aov": 31.96
+      "aov": 279.44
+    },
+    {
+      "referring_channel": "google",
+      "traffic_type": "organic",
+      "referring_platform": "alphabet",
+      "total_sales": 7.93,
+      "net_sales": 0.56,
+      "orders": 1,
+      "aov": 7.93
     }
   ],
   "channel_rollup": [
     {
       "referring_channel": "google",
-      "total_sales": 985.12,
-      "net_sales": 954.42,
-      "orders": 7
+      "total_sales": 993.05,
+      "net_sales": 954.98,
+      "orders": 8
     },
     {
       "referring_channel": "Unattributed",
-      "total_sales": 63.92,
-      "net_sales": 56.55,
+      "total_sales": 558.87,
+      "net_sales": 558.87,
       "orders": 2
     }
   ],
@@ -57,9 +66,15 @@
     },
     {
       "traffic_type": "Unknown",
-      "total_sales": 63.92,
-      "net_sales": 56.55,
+      "total_sales": 558.87,
+      "net_sales": 558.87,
       "orders": 2
+    },
+    {
+      "traffic_type": "organic",
+      "total_sales": 7.93,
+      "net_sales": 0.56,
+      "orders": 1
     }
   ],
   "hourly": [
@@ -69,7 +84,7 @@
     },
     {
       "hour": "2026-08-31T05:00:00Z",
-      "orders": 2
+      "orders": 3
     },
     {
       "hour": "2026-08-31T06:00:00Z",
@@ -160,7 +175,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-08-31 05:43:02",
-  "channel_count": 2,
+  "updated_at": "2026-08-31 05:48:14",
+  "channel_count": 3,
   "data_source": "shopifyql"
 }
