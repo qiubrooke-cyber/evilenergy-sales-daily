@@ -581,6 +581,22 @@
       .panel { padding: 10px 12px 6px; }
     }
   </style>
+  <script>
+  /* 远程数据模式: 相对路径 JSON 优先从 GitHub Pages 拉取 (Actions 免费刷新, 缓存破除), 失败时回退本地副本 */
+  (function () {
+    var BASE = 'https://qiubrooke-cyber.github.io/evilenergy-sales-daily/';
+    var orig = window.fetch;
+    window.fetch = function (url, opts) {
+      if (typeof url === 'string' && !/^https?:/.test(url) && url.charAt(0) !== '/') {
+        var remote = BASE + url + (url.indexOf('?') < 0 ? '?' : '&') + 't=' + Date.now();
+        return orig.call(this, remote, opts).catch(function () {
+          return orig.call(this, url, opts); /* 网络不通时回退本地 JSON */
+        });
+      }
+      return orig.call(this, url, opts);
+    };
+  })();
+  </script>
 </head>
 <body>
   <div class="container">
@@ -1319,11 +1335,11 @@
 
       // Historical data is embedded directly (includes today's merged realtime data)
       allData = {
-  "updated_at": "2026-08-14 00:08:13",
+  "updated_at": "2026-09-01 00:09:36",
   "currency": "USD",
   "date_range": {
     "start": "2026-07-01",
-    "end": "2026-08-13"
+    "end": "2026-08-31"
   },
   "dates": {
     "2026-07-01": {
@@ -5971,6 +5987,1731 @@
           "sku": "SEEL-WFP",
           "qty": 133,
           "revenue": 409.53
+        }
+      ],
+      "data_source": "shopifyql"
+    },
+    "2026-08-14": {
+      "date": "2026-08-14",
+      "total_orders": 158,
+      "total_revenue": 19932.09,
+      "total_tax": 1024.95,
+      "total_shipping": 328.53,
+      "total_discounts": 1589.89,
+      "net_sales": 18578.61,
+      "gross_sales": 20347.37,
+      "returns": 178.87,
+      "avg_order_value": 126.15,
+      "total_customers": 188,
+      "new_customers": 111,
+      "returning_customers": 77,
+      "new_customer_rate": 70.3,
+      "hourly_orders": [
+        10,
+        4,
+        8,
+        1,
+        0,
+        1,
+        2,
+        6,
+        6,
+        3,
+        10,
+        4,
+        12,
+        7,
+        5,
+        12,
+        11,
+        7,
+        12,
+        10,
+        9,
+        7,
+        8,
+        3
+      ],
+      "top_products": [
+        {
+          "title": "EvilEnergy Intake Manifold & Grid Heater Delete Plate for 2007–2024 Dodge Ram 2500/3500 6.7L Cummins",
+          "sku": "EVIS20-00001BK-002-L",
+          "qty": 3,
+          "revenue": 1797.0
+        },
+        {
+          "title": "EVIL ENERGY CPE/PTFE LS Swap fuel  kit ,Fuel Filter, 6AN Fuel Line & Fittings | 20-120PSI Fuel Pressure Regulator | Fuel Pump",
+          "sku": "EVFSLPH003",
+          "qty": 5,
+          "revenue": 1395.95
+        },
+        {
+          "title": "EVIL ENERGY Fuel Cell Gas Tank Kits with Fuel Filter Fuel Pump（1/2.5/5/8/10/12/15/19/20 Gallon ）",
+          "sku": "EVAKT0202487",
+          "qty": 2,
+          "revenue": 1019.98
+        },
+        {
+          "title": "EVIL ENERGY Fuel Cell Tank Kit | 5/10/15 Gallon | Solution for performance fuel management",
+          "sku": "EVKT11ABCD1BK",
+          "qty": 2,
+          "revenue": 869.98
+        },
+        {
+          "title": "EVIL ENERGY Fuel Cell Gas Tank with Level Sender Black Street Drift Aluminum（1/2.5/5/8/10/12/15/20 Gallon ）",
+          "sku": "EVKT01877S2BK",
+          "qty": 4,
+          "revenue": 608.96
+        },
+        {
+          "title": "EVIL ENERGY 6AN 3/8-inch PTFE LS Swap EFI Fuel Line Fitting Kit | E85 Nylon Braided Fuel Hose With Fittings 10-26FT",
+          "sku": "EVFS10219AN6BK-20FT-AMZ1",
+          "qty": 6,
+          "revenue": 586.14
+        },
+        {
+          "title": "EVIL ENERGY Full LS Swap EFI Fuel Setup with 300LPH Electric Fuel Pump, 20-120PSI Regulator, 6AN 20FT Fuel Hose and Filter",
+          "sku": "EVFS232500025000",
+          "qty": 2,
+          "revenue": 573.98
+        },
+        {
+          "title": "EVIL ENERGY Inline Fuel Filter with 6AN 8AN 10AN Adapter and Bracket Universal 10/30/40/100 Micron",
+          "sku": "EVFS23-00025BK-000-L",
+          "qty": 12,
+          "revenue": 560.0
+        },
+        {
+          "title": "EVIL ENERGY Mystery Box – Unbox the Super Value!",
+          "sku": "EV199BMBN",
+          "qty": 6,
+          "revenue": 509.94
+        },
+        {
+          "title": "EVIL ENERGY 15Gal Fuel Cell Master Kit , 300LPH Pump & 20 FT PTFE Lines - High-Performance Racing Upgrade",
+          "sku": "EVKT0202438",
+          "qty": 1,
+          "revenue": 488.99
+        }
+      ],
+      "discount_codes": [
+        "CART5g39NC",
+        "CART6U9mL0",
+        "CARTAzb5hh",
+        "CARTEaqddr",
+        "CARTFYGAt0",
+        "CARTIm35V5",
+        "CARTJE6M3m",
+        "CARTL8k5Ps",
+        "CARTLqJatg",
+        "CARTLzvaVe",
+        "CARTMcvoKR",
+        "CARTQAhtpk",
+        "CARTSmibjX",
+        "CARTWrOX7h",
+        "CARTY3WE74",
+        "CARTd2dECJ",
+        "CARTdtDTz4",
+        "CARTq6g8Mh",
+        "CARTtCxnTQ",
+        "CARTzP1GDl",
+        "CAS0eOe3B",
+        "CAS1RpUao",
+        "CASE8WPEa",
+        "CASU7kHpv",
+        "CASbRC8XI",
+        "EEBSO5",
+        "EVABD14",
+        "EVABDC010",
+        "EVIL10",
+        "HONEY10",
+        "NL16",
+        "TAXSAVE11",
+        "THANKFB13",
+        "UPG10",
+        "VReward-0BAE34EE",
+        "VReward-3B5C8A09",
+        "VReward-6850FF26",
+        "VReward-70B5B11E",
+        "VReward-9481C9DA",
+        "VReward-BC21ADD9",
+        "VReward-EA51A1F9"
+      ],
+      "data_source": "shopifyql",
+      "is_realtime": true,
+      "updated_at": "2026-08-17 10:03:14"
+    },
+    "2026-08-15": {
+      "total_orders": 146,
+      "total_revenue": 17610.56,
+      "total_tax": 916.25,
+      "total_shipping": 279.6,
+      "net_sales": 16414.71,
+      "gross_sales": 18189.78,
+      "total_discounts": 1436.09,
+      "returns": 338.98,
+      "avg_order_value": 120.62,
+      "total_customers": 146,
+      "new_customers": 94,
+      "returning_customers": 52,
+      "new_customer_rate": 64.4,
+      "date": "2026-08-15",
+      "hourly_orders": [
+        6,
+        4,
+        1,
+        1,
+        0,
+        0,
+        0,
+        7,
+        1,
+        5,
+        6,
+        6,
+        11,
+        8,
+        18,
+        9,
+        11,
+        13,
+        7,
+        10,
+        8,
+        6,
+        4,
+        4
+      ],
+      "top_products": [
+        {
+          "title": "EVIL ENERGY 15/19 Gallon Fuel Cell Gas Tank Aluminum with Level Sender Street Drift Black",
+          "sku": "EVFS11233S2BK",
+          "qty": 6,
+          "revenue": 1019.94
+        },
+        {
+          "title": "EVIL ENERGY 15Gal Fuel Cell Master Kit , 300LPH Pump & 20 FT PTFE Lines - High-Performance Racing Upgrade",
+          "sku": "EVKT0202435",
+          "qty": 2,
+          "revenue": 951.98
+        },
+        {
+          "title": "EVIL ENERGY Carburetor Fuel System Kit 12V Electric Fuel Pump 5-12PSI Regulator 20FT PTFE/NBR Hose",
+          "sku": "EV345FP20PFPR",
+          "qty": 5,
+          "revenue": 923.95
+        },
+        {
+          "title": "EVIL ENERGY Universal LS Swap Fuel Kit - 58psi Regulator, 300LPH Pump & AN Fuel Lines Compatible with E85/Gas/Diesel",
+          "sku": "EVFS23-00113BK-000-L",
+          "qty": 4,
+          "revenue": 581.96
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10/12AN PTFE Fuel Line Kit 33FT 20Fittings, E85 Braided PTFE Fuel Hose Line Kit Black Nylon",
+          "sku": "EVFS10986AN8",
+          "qty": 3,
+          "revenue": 504.57
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10AN PTFE Fuel Line Kit | E85 Nylon Braided Hose | 16/20FT Black Black with Comprehensive Fittings",
+          "sku": "EVKT00467BB-AMZ1",
+          "qty": 6,
+          "revenue": 491.74
+        },
+        {
+          "title": "EVIL ENERGY LS Swap Fuel Filter Regulator 58PSI with 6AN PTFE EFI Fuel Hose Kit",
+          "sku": "EVFS07848BK-AMZ1",
+          "qty": 4,
+          "revenue": 475.96
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10AN CPE Fuel Line Kit Black Nylon Braided Fuel Hose Fitting Kit 20FT/25FT",
+          "sku": "EVKT01269AN6BK-AMZ1",
+          "qty": 5,
+          "revenue": 429.95
+        },
+        {
+          "title": "EVIL ENERGY 6AN 3/8-inch PTFE LS Swap EFI Fuel Line Fitting Kit | E85 Nylon Braided Fuel Hose With Fittings 10-26FT",
+          "sku": "EVFS10219AN6BK-10FT-AMZ1",
+          "qty": 5,
+          "revenue": 423.95
+        },
+        {
+          "title": "EVIL ENERGY Fuel Cell Tank Kit | 5/10/15 Gallon | Solution for performance fuel management",
+          "sku": "EVKT11ABCD1BK5",
+          "qty": 1,
+          "revenue": 379.99
+        }
+      ],
+      "data_source": "shopifyql"
+    },
+    "2026-08-16": {
+      "total_orders": 204,
+      "total_revenue": 26200.72,
+      "total_tax": 1275.27,
+      "total_shipping": 419.4,
+      "net_sales": 24506.05,
+      "gross_sales": 27296.49,
+      "total_discounts": 2100.17,
+      "returns": 690.27,
+      "avg_order_value": 128.43,
+      "total_customers": 204,
+      "new_customers": 121,
+      "returning_customers": 83,
+      "new_customer_rate": 59.3,
+      "date": "2026-08-16",
+      "hourly_orders": [
+        7,
+        3,
+        0,
+        0,
+        4,
+        3,
+        0,
+        2,
+        5,
+        2,
+        15,
+        15,
+        13,
+        12,
+        14,
+        17,
+        11,
+        23,
+        8,
+        8,
+        13,
+        12,
+        10,
+        7
+      ],
+      "top_products": [
+        {
+          "title": "EvilEnergy Intake Manifold & Grid Heater Delete Plate for 2007–2024 Dodge Ram 2500/3500 6.7L Cummins",
+          "sku": "EVIS20-00001BK-002-L",
+          "qty": 3,
+          "revenue": 1797.0
+        },
+        {
+          "title": "EVIL ENERGY CPE/PTFE LS Swap fuel  kit ,Fuel Filter, 6AN Fuel Line & Fittings | 20-120PSI Fuel Pressure Regulator | Fuel Pump",
+          "sku": "EVFSLPH003",
+          "qty": 5,
+          "revenue": 1395.95
+        },
+        {
+          "title": "EVIL ENERGY Fuel Cell Gas Tank Kits with Fuel Filter Fuel Pump（1/2.5/5/8/10/12/15/19/20 Gallon ）",
+          "sku": "EVAKT0202487",
+          "qty": 2,
+          "revenue": 1019.98
+        },
+        {
+          "title": "EVIL ENERGY Fuel Cell Tank Kit | 5/10/15 Gallon | Solution for performance fuel management",
+          "sku": "EVKT11ABCD1BK",
+          "qty": 2,
+          "revenue": 869.98
+        },
+        {
+          "title": "EVIL ENERGY Fuel Cell Gas Tank with Level Sender Black Street Drift Aluminum（1/2.5/5/8/10/12/15/20 Gallon ）",
+          "sku": "EVKT01877S2BK",
+          "qty": 4,
+          "revenue": 608.96
+        },
+        {
+          "title": "EVIL ENERGY 6AN 3/8-inch PTFE LS Swap EFI Fuel Line Fitting Kit | E85 Nylon Braided Fuel Hose With Fittings 10-26FT",
+          "sku": "EVFS10219AN6BK-20FT-AMZ1",
+          "qty": 6,
+          "revenue": 586.14
+        },
+        {
+          "title": "EVIL ENERGY Full LS Swap EFI Fuel Setup with 300LPH Electric Fuel Pump, 20-120PSI Regulator, 6AN 20FT Fuel Hose and Filter",
+          "sku": "EVFS232500025000",
+          "qty": 2,
+          "revenue": 573.98
+        },
+        {
+          "title": "EVIL ENERGY Inline Fuel Filter with 6AN 8AN 10AN Adapter and Bracket Universal 10/30/40/100 Micron",
+          "sku": "EVFS23-00025BK-000-L",
+          "qty": 12,
+          "revenue": 560.0
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10/12AN PTFE Fuel Line Kit 33FT 20Fittings, E85 Braided PTFE Fuel Hose Line Kit Black Nylon",
+          "sku": "EVFS10986AN6",
+          "qty": 3,
+          "revenue": 552.97
+        },
+        {
+          "title": "EVIL ENERGY Mystery Box – Unbox the Super Value!",
+          "sku": "EV199BMBN",
+          "qty": 6,
+          "revenue": 509.94
+        }
+      ],
+      "data_source": "shopifyql"
+    },
+    "2026-08-17": {
+      "total_orders": 197,
+      "total_revenue": 23141.14,
+      "total_tax": 1062.34,
+      "total_shipping": 398.43,
+      "net_sales": 21680.37,
+      "gross_sales": 24174.74,
+      "total_discounts": 2132.25,
+      "returns": 362.12,
+      "avg_order_value": 117.47,
+      "total_customers": 197,
+      "new_customers": 104,
+      "returning_customers": 93,
+      "new_customer_rate": 52.8,
+      "date": "2026-08-17",
+      "hourly_orders": [
+        5,
+        9,
+        5,
+        0,
+        0,
+        1,
+        2,
+        6,
+        2,
+        7,
+        7,
+        5,
+        15,
+        12,
+        14,
+        7,
+        11,
+        14,
+        10,
+        11,
+        17,
+        12,
+        13,
+        12
+      ],
+      "top_products": [
+        {
+          "title": "EVIL ENERGY 4/6/8/10/12AN PTFE Fuel Line Kit 33FT 20Fittings, E85 Braided PTFE Fuel Hose Line Kit Black Nylon",
+          "sku": "EVFS10986AN12",
+          "qty": 9,
+          "revenue": 1502.11
+        },
+        {
+          "title": "EVIL ENERGY Fuel Cell Gas Tank with Level Sender Black Street Drift Aluminum（1/2.5/5/8/10/12/15/20 Gallon ）",
+          "sku": "EVFS01877S7BK",
+          "qty": 6,
+          "revenue": 825.99
+        },
+        {
+          "title": "EVIL ENERGY All-in-One EFI Fuel System Bundle|EFI Bypass Fuel Pressure Regulator & CPE Fuel Line & Adjustable 3-16AN Wrench (Black)",
+          "sku": "EVKTCPT005",
+          "qty": 3,
+          "revenue": 650.97
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10AN PTFE Fuel Line Kit | E85 Nylon Braided Hose | 16/20FT Black Black with Comprehensive Fittings",
+          "sku": "EVKT01561AN10BB-AMZ1",
+          "qty": 8,
+          "revenue": 629.02
+        },
+        {
+          "title": "EVIL ENERGY CPE/PTFE LS Swap fuel  kit ,Fuel Filter, 6AN Fuel Line & Fittings | 20-120PSI Fuel Pressure Regulator | Fuel Pump",
+          "sku": "EVFS232500026000",
+          "qty": 2,
+          "revenue": 499.98
+        },
+        {
+          "title": "EVIL ENERGY Mystery Box – Unbox the Super Value!",
+          "sku": "EV199BMBN",
+          "qty": 3,
+          "revenue": 499.97
+        },
+        {
+          "title": "EVIL ENERGY 6AN 3/8-inch PTFE LS Swap EFI Fuel Line Fitting Kit | E85 Nylon Braided Fuel Hose With Fittings 10-26FT",
+          "sku": "EVFS10219AN6BK-26FT-AMZ1",
+          "qty": 5,
+          "revenue": 495.95
+        },
+        {
+          "title": "EVIL ENERGY Fuel Tank Kits with Fuel Filter Fuel Pump（1/2.5/5/8/10/12/15/19/20 Gallon ）",
+          "sku": "EVKT0202484",
+          "qty": 1,
+          "revenue": 494.99
+        },
+        {
+          "title": "EVIL ENERGY LS Swap Fuel Filter Regulator 58PSI with 6AN PTFE EFI Fuel Hose Kit",
+          "sku": "EVFS07848BK-AMZ1",
+          "qty": 4,
+          "revenue": 493.96
+        },
+        {
+          "title": "EVIL ENERGY Small Block Chevy Dual Plane Air-Gap Small Gap Intake Manifold",
+          "sku": "EVBUH0001010",
+          "qty": 3,
+          "revenue": 469.97
+        }
+      ],
+      "data_source": "shopifyql"
+    },
+    "2026-08-18": {
+      "total_orders": 180,
+      "total_revenue": 23108.04,
+      "total_tax": 1006.6,
+      "total_shipping": 426.39,
+      "net_sales": 21675.05,
+      "gross_sales": 24225.03,
+      "total_discounts": 2154.48,
+      "returns": 395.5,
+      "avg_order_value": 128.38,
+      "total_customers": 179,
+      "new_customers": 100,
+      "returning_customers": 79,
+      "new_customer_rate": 55.9,
+      "date": "2026-08-18",
+      "hourly_orders": [
+        5,
+        4,
+        2,
+        5,
+        2,
+        0,
+        2,
+        4,
+        7,
+        12,
+        4,
+        2,
+        8,
+        7,
+        4,
+        12,
+        13,
+        13,
+        9,
+        11,
+        17,
+        12,
+        14,
+        11
+      ],
+      "top_products": [
+        {
+          "title": "EVIL ENERGY Fuel Tank Kits with Fuel Filter Fuel Pump（1/2.5/5/8/10/12/15/19/20 Gallon ）",
+          "sku": "EVKT0202487",
+          "qty": 4,
+          "revenue": 1933.96
+        },
+        {
+          "title": "EVIL ENERGY Fuel Cell Tank Kit | 5/10/15 Gallon | Solution for performance fuel management",
+          "sku": "EVKT11ABCD1BK10",
+          "qty": 2,
+          "revenue": 809.98
+        },
+        {
+          "title": "EVIL ENERGY Carburetor Fuel System Kit 12V Electric Fuel Pump 5-12PSI Regulator 20FT PTFE/NBR Hose",
+          "sku": "EV370FP20NFPR",
+          "qty": 4,
+          "revenue": 767.96
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10AN PTFE Fuel Line Kit | E85 Nylon Braided Hose | 16/20FT Black Black with Comprehensive Fittings",
+          "sku": "EVKT01561AN10BB-AMZ1",
+          "qty": 8,
+          "revenue": 677.62
+        },
+        {
+          "title": "EVIL ENERGY Inline Fuel Filter with 6AN 8AN 10AN Adapter and Bracket Universal 10/30/40/100 Micron",
+          "sku": "EVKT01314SR-AMZ1",
+          "qty": 12,
+          "revenue": 577.79
+        },
+        {
+          "title": "EVIL ENERGY Fuel Pressure Regulator 6AN EFI Bypass Return Adjustable 20-140psi Black&Red",
+          "sku": "EVFS23-00112BK-000-L",
+          "qty": 7,
+          "revenue": 540.93
+        },
+        {
+          "title": "EVIL ENERGY Stacked Plate Oil Cooler Universal Engine Transmission 10AN（7/10/13/16/19/25/30 Row）",
+          "sku": "EVCS11006",
+          "qty": 5,
+          "revenue": 535.95
+        },
+        {
+          "title": "EVIL ENERGY 90mm Electronic Throttle Body Fit 5.7L/6.4L HEMI V8, 392 HEMI 2013 - 2021 Dodge Vehicles - with TPS 4 Bolt",
+          "sku": "EVIS20-00067SR-001-L",
+          "qty": 2,
+          "revenue": 499.98
+        },
+        {
+          "title": "EVIL ENERGY LS Swap Fuel Filter Regulator 58PSI with 6AN PTFE EFI Fuel Hose Kit",
+          "sku": "EVFS07848BK-AMZ1",
+          "qty": 4,
+          "revenue": 475.96
+        },
+        {
+          "title": "Worry-Free Purchase",
+          "sku": "SEEL-WFP",
+          "qty": 126,
+          "revenue": 453.98
+        }
+      ],
+      "data_source": "shopifyql"
+    },
+    "2026-08-19": {
+      "total_orders": 165,
+      "total_revenue": 19952.59,
+      "total_tax": 952.31,
+      "total_shipping": 314.55,
+      "net_sales": 18685.73,
+      "gross_sales": 19768.07,
+      "total_discounts": 561.39,
+      "returns": 520.95,
+      "avg_order_value": 120.92,
+      "total_customers": 165,
+      "new_customers": 95,
+      "returning_customers": 70,
+      "new_customer_rate": 57.6,
+      "date": "2026-08-19",
+      "hourly_orders": [
+        9,
+        5,
+        3,
+        0,
+        0,
+        4,
+        2,
+        4,
+        5,
+        10,
+        4,
+        7,
+        8,
+        5,
+        9,
+        8,
+        12,
+        5,
+        16,
+        9,
+        12,
+        7,
+        14,
+        7
+      ],
+      "top_products": [
+        {
+          "title": "EVIL ENERGY Upgraded Fuel Cell Tank Kits-Efficient Fuel System Solutions 5/10/15 Gallon",
+          "sku": "EVKT11ABCD2BK10-1",
+          "qty": 2,
+          "revenue": 906.38
+        },
+        {
+          "title": "EVIL ENERGY Mystery Box – Unbox the Super Value!",
+          "sku": "EV99BMBN",
+          "qty": 6,
+          "revenue": 699.94
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10AN PTFE Fuel Line Kit | E85 Nylon Braided Hose | 16/20FT Black Black with Comprehensive Fittings",
+          "sku": "EVKT01561AN6BB-AMZ1",
+          "qty": 8,
+          "revenue": 663.67
+        },
+        {
+          "title": "EVIL ENERGY Carburetor Fuel System Kit 12V Electric Fuel Pump 5-12PSI Regulator 20FT PTFE/NBR Hose",
+          "sku": "EV370FP20PFPR",
+          "qty": 3,
+          "revenue": 601.97
+        },
+        {
+          "title": "EvilEnergy Intake Manifold & Grid Heater Delete Plate for 2007–2024 Dodge Ram 2500/3500 6.7L Cummins",
+          "sku": "EVIS20-00001BK-002-L",
+          "qty": 1,
+          "revenue": 599.0
+        },
+        {
+          "title": "EVIL ENERGY 102mm HI-RAM LS3 Intake Manifold 300117 Aluminum EFI for LS3 L92 L99 L76 Rectangular Port with Fuel Rails",
+          "sku": "EVBUH0007015",
+          "qty": 1,
+          "revenue": 489.99
+        },
+        {
+          "title": "EVIL ENERGY 15Gal Fuel Cell Master Kit , 300LPH Pump & 20 FT PTFE Lines - High-Performance Racing Upgrade",
+          "sku": "EVKT0202435",
+          "qty": 1,
+          "revenue": 475.99
+        },
+        {
+          "title": "EVIL ENERGY 320-370lph/90GPH External Electric Fuel Pump 12V for Carburetor - High Pressure Compatible for Carburetor Replacement/Modified Vehicles",
+          "sku": "EVFS232500022000",
+          "qty": 6,
+          "revenue": 468.84
+        },
+        {
+          "title": "EVIL ENERGY Inline Fuel Filter with 6AN 8AN 10AN Adapter and Bracket Universal 10/30/40/100 Micron",
+          "sku": "EVCS07153BK-AMZ1",
+          "qty": 8,
+          "revenue": 435.39
+        },
+        {
+          "title": "Worry-Free Purchase",
+          "sku": "SEEL-WFP",
+          "qty": 120,
+          "revenue": 415.21
+        }
+      ],
+      "data_source": "shopifyql"
+    },
+    "2026-08-20": {
+      "total_orders": 167,
+      "total_revenue": 19318.75,
+      "total_tax": 828.85,
+      "total_shipping": 393.48,
+      "net_sales": 18096.42,
+      "gross_sales": 19217.25,
+      "total_discounts": 721.21,
+      "returns": 399.62,
+      "avg_order_value": 115.68,
+      "total_customers": 167,
+      "new_customers": 94,
+      "returning_customers": 73,
+      "new_customer_rate": 56.3,
+      "date": "2026-08-20",
+      "hourly_orders": [
+        5,
+        8,
+        3,
+        1,
+        0,
+        3,
+        1,
+        3,
+        4,
+        10,
+        5,
+        6,
+        9,
+        6,
+        13,
+        6,
+        11,
+        6,
+        9,
+        16,
+        12,
+        16,
+        8,
+        6
+      ],
+      "top_products": [
+        {
+          "title": "EvilEnergy Intake Manifold & Grid Heater Delete Plate for 2007–2024 Dodge Ram 2500/3500 6.7L Cummins",
+          "sku": "EVIS20-00001RD-003-L",
+          "qty": 3,
+          "revenue": 1797.0
+        },
+        {
+          "title": "EVIL ENERGY Fuel Tank Kits with Fuel Filter Fuel Pump（1/2.5/5/8/10/12/15/19/20 Gallon ）",
+          "sku": "EVKT0202481",
+          "qty": 2,
+          "revenue": 960.98
+        },
+        {
+          "title": "EVIL ENERGY Fuel Cell Tank Kit | 5/10/15 Gallon | Solution for performance fuel management",
+          "sku": "EVKT11ABCD2BK5",
+          "qty": 2,
+          "revenue": 799.98
+        },
+        {
+          "title": "EVIL ENERGY CPE/PTFE LS Swap fuel  kit ,Fuel Filter, 6AN Fuel Line & Fittings | 20-120PSI Fuel Pressure Regulator | Fuel Pump",
+          "sku": "EVFSLPH005",
+          "qty": 2,
+          "revenue": 615.98
+        },
+        {
+          "title": "EVIL ENERGY Carburetor Fuel System Kit 12V Electric Fuel Pump 5-12PSI Regulator 20FT PTFE/NBR Hose",
+          "sku": "EV370FP20NFPR",
+          "qty": 3,
+          "revenue": 521.97
+        },
+        {
+          "title": "EVIL ENERGY 15Gal Fuel Cell Master Kit , 300LPH Pump & 20 FT PTFE Lines - High-Performance Racing Upgrade",
+          "sku": "EVKT0202436",
+          "qty": 1,
+          "revenue": 498.99
+        },
+        {
+          "title": "EVIL ENERGY Fuel Pressure Regulator 6AN EFI Bypass Return Adjustable 20-140psi Black&Red",
+          "sku": "EVFS07330-AMZ1",
+          "qty": 6,
+          "revenue": 465.2
+        },
+        {
+          "title": "Worry-Free Purchase",
+          "sku": "SEEL-WFP",
+          "qty": 120,
+          "revenue": 416.42
+        },
+        {
+          "title": "EVIL ENERGY 15/19 Gallon Aluminum Fuel Cell Gas Tank with Sending Unit (No Fuel Cell Foam)",
+          "sku": "EVFS11233S1BK",
+          "qty": 2,
+          "revenue": 359.98
+        },
+        {
+          "title": "EVIL ENERGY Inline Fuel Filter with 6AN 8AN 10AN Adapter and Bracket Universal 10/30/40/100 Micron",
+          "sku": "EVAHW0001004",
+          "qty": 7,
+          "revenue": 349.08
+        }
+      ],
+      "data_source": "shopifyql"
+    },
+    "2026-08-21": {
+      "total_orders": 151,
+      "total_revenue": 21823.89,
+      "total_tax": 1099.12,
+      "total_shipping": 237.66,
+      "net_sales": 20487.11,
+      "gross_sales": 21867.85,
+      "total_discounts": 614.39,
+      "returns": 766.35,
+      "avg_order_value": 144.53,
+      "total_customers": 151,
+      "new_customers": 97,
+      "returning_customers": 54,
+      "new_customer_rate": 64.2,
+      "date": "2026-08-21",
+      "hourly_orders": [
+        3,
+        4,
+        1,
+        1,
+        0,
+        2,
+        0,
+        7,
+        2,
+        2,
+        8,
+        9,
+        8,
+        11,
+        3,
+        8,
+        11,
+        12,
+        13,
+        13,
+        8,
+        7,
+        11,
+        7
+      ],
+      "top_products": [
+        {
+          "title": "EvilEnergy Intake Manifold & Grid Heater Delete Plate for 2007–2024 Dodge Ram 2500/3500 6.7L Cummins",
+          "sku": "EVIS20-00001RD-004-L",
+          "qty": 3,
+          "revenue": 1737.1
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10/12AN PTFE Fuel Line Kit 33FT 20Fittings, E85 Braided PTFE Fuel Hose Line Kit Black Nylon",
+          "sku": "EVFS10986AN6",
+          "qty": 7,
+          "revenue": 1144.23
+        },
+        {
+          "title": "EVIL ENERGY 5/10/15/20 Gallon Fuel Cell Gas Tank Aluminum with Level Sender 6AN 12FT/16FT PTFE Fuel Line Kit Black/silver",
+          "sku": "EVPTCE024",
+          "qty": 4,
+          "revenue": 783.96
+        },
+        {
+          "title": "EVIL ENERGY Inline Fuel Filter with 6AN 8AN 10AN Adapter and Bracket Universal 10/30/40/100 Micron",
+          "sku": "EVCS07153BK-AMZ1",
+          "qty": 14,
+          "revenue": 615.12
+        },
+        {
+          "title": "EVIL ENERGY 500 CFM Street 2-barrel Carburetor Electric Choke",
+          "sku": "EVFS23-00059SR-001-L",
+          "qty": 2,
+          "revenue": 599.98
+        },
+        {
+          "title": "EVIL ENERGY All-in-One EFI Fuel System Bundle|EFI Bypass Fuel Pressure Regulator & CPE Fuel Line & Adjustable 3-16AN Wrench",
+          "sku": "EVOS7906",
+          "qty": 3,
+          "revenue": 572.97
+        },
+        {
+          "title": "EVIL ENERGY 5/10/15/20 Gallon Fuel Cell Gas Tank Aluminum with Level Sender 6AN 12FT CPE Fuel Line Kit Black/silver",
+          "sku": "EVB156AN12FT",
+          "qty": 3,
+          "revenue": 559.57
+        },
+        {
+          "title": "EVIL ENERGY EFI Return Style Fuel System kit-Fuel Cell Gas Tank Fuel Filter with Fuel Pressure Regulator Adjustable",
+          "sku": "EV10C100F1PR",
+          "qty": 3,
+          "revenue": 516.97
+        },
+        {
+          "title": "EVIL ENERGY 15Gal Fuel Cell Master Kit , 300LPH Pump & 20 FT PTFE Lines - High-Performance Racing Upgrade",
+          "sku": "EVKT0202435",
+          "qty": 1,
+          "revenue": 475.99
+        },
+        {
+          "title": "EVIL ENERGY 85mm Electronic Throttle Body Fit for2013 - 2024 Dodge & Chrysler Vehicles HEMI V8(5.7L/6.4L) Fit - with TPS 4 Bolt",
+          "sku": "EVIS20-00067SR-000-L",
+          "qty": 2,
+          "revenue": 474.48
+        }
+      ],
+      "data_source": "shopifyql"
+    },
+    "2026-08-22": {
+      "total_orders": 147,
+      "total_revenue": 16881.98,
+      "total_tax": 720.44,
+      "total_shipping": 286.59,
+      "net_sales": 15874.95,
+      "gross_sales": 16280.56,
+      "total_discounts": 405.61,
+      "returns": 0.0,
+      "avg_order_value": 114.84,
+      "total_customers": 147,
+      "new_customers": 83,
+      "returning_customers": 64,
+      "new_customer_rate": 56.5,
+      "date": "2026-08-22",
+      "hourly_orders": [
+        2,
+        4,
+        1,
+        3,
+        3,
+        0,
+        2,
+        3,
+        6,
+        3,
+        3,
+        5,
+        2,
+        9,
+        8,
+        9,
+        10,
+        16,
+        12,
+        8,
+        11,
+        12,
+        9,
+        6
+      ],
+      "top_products": [
+        {
+          "title": "EVIL ENERGY Fuel Cell Tank Kit | 5/10/15 Gallon | Solution for performance fuel management",
+          "sku": "EVKT11ABCD2BK",
+          "qty": 2,
+          "revenue": 879.98
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10AN PTFE Fuel Line Kit | E85 Nylon Braided Hose | 16/20FT Black Black with Comprehensive Fittings",
+          "sku": "EVKT01561AN8BB-AMZ1",
+          "qty": 10,
+          "revenue": 877.2
+        },
+        {
+          "title": "EVIL ENERGY CPE/PTFE LS Swap fuel  kit ,Fuel Filter, 6AN Fuel Line & Fittings | 20-120PSI Fuel Pressure Regulator | Fuel Pump",
+          "sku": "EVFSLPH001",
+          "qty": 3,
+          "revenue": 779.97
+        },
+        {
+          "title": "EVIL ENERGY 3ROW-44mm Aluminum Radiator 1966-1979 Ford Bronco & F-100/F-150/F-250/F-350 Series",
+          "sku": "EVCS21-00054SR-001-L",
+          "qty": 1,
+          "revenue": 409.99
+        },
+        {
+          "title": "EVIL ENERGY 6AN PTFE Fuel Line Kit 70inch Transmission Fluid Oil Cooler Hose Line kit for 4L60E 4L80E,AN6 Stainless Steel Braided PTFE Fuel Hose Kit for TH350 TH400 700R4 TR6060 4R70W Ford C5 5.8FT",
+          "sku": "EVAHL0001010",
+          "qty": 6,
+          "revenue": 393.94
+        },
+        {
+          "title": "EVIL ENERGY Carburetor Fuel System Kit 12V Electric Fuel Pump 5-12PSI Regulator 20FT PTFE/NBR Hose",
+          "sku": "EV370FP20PFPR",
+          "qty": 2,
+          "revenue": 380.98
+        },
+        {
+          "title": "EVIL ENERGY AN Flare to AN ORB Male Fuel Rail Adapter Fitting",
+          "sku": "EVJN-CS21-00086012",
+          "qty": 23,
+          "revenue": 367.56
+        },
+        {
+          "title": "EVIL ENERGY 5/10/15/20 Gallon Fuel Cell Gas Tank Aluminum with Level Sender 6AN 12FT CPE Fuel Line Kit Black/silver",
+          "sku": "EVB206AN12FT",
+          "qty": 2,
+          "revenue": 339.98
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10/12AN PTFE Fuel Line Kit 33FT 20Fittings, E85 Braided PTFE Fuel Hose Line Kit Black Nylon",
+          "sku": "EVFS10986AN6",
+          "qty": 2,
+          "revenue": 331.98
+        },
+        {
+          "title": "EVIL ENERGY 6AN 3/8-inch PTFE LS Swap EFI Fuel Line Fitting Kit | E85 Nylon Braided Fuel Hose With Fittings 10-26FT",
+          "sku": "EVFS10994AN6",
+          "qty": 3,
+          "revenue": 320.97
+        }
+      ],
+      "data_source": "shopifyql"
+    },
+    "2026-08-23": {
+      "total_orders": 178,
+      "total_revenue": 21402.6,
+      "total_tax": 1038.85,
+      "total_shipping": 356.49,
+      "net_sales": 20007.26,
+      "gross_sales": 20518.43,
+      "total_discounts": 511.17,
+      "returns": 0.0,
+      "avg_order_value": 120.24,
+      "total_customers": 178,
+      "new_customers": 100,
+      "returning_customers": 78,
+      "new_customer_rate": 56.2,
+      "date": "2026-08-23",
+      "hourly_orders": [
+        5,
+        1,
+        2,
+        3,
+        1,
+        0,
+        2,
+        1,
+        3,
+        8,
+        5,
+        8,
+        10,
+        8,
+        6,
+        9,
+        13,
+        15,
+        16,
+        9,
+        12,
+        15,
+        14,
+        12
+      ],
+      "top_products": [
+        {
+          "title": "EVIL ENERGY Fuel Tank Kits with Fuel Filter Fuel Pump（1/2.5/5/8/10/12/15/19/20 Gallon ）",
+          "sku": "EVKT0202485",
+          "qty": 2,
+          "revenue": 986.98
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10AN PTFE Fuel Line Kit | E85 Nylon Braided Hose | 16/20FT Black Black with Comprehensive Fittings",
+          "sku": "EVKT01561AN8BB-AMZ1",
+          "qty": 11,
+          "revenue": 887.39
+        },
+        {
+          "title": "EVIL ENERGY Inline Fuel Filter with 6AN 8AN 10AN Adapter and Bracket Universal 10/30/40/100 Micron",
+          "sku": "EVCS07153BK-AMZ1",
+          "qty": 17,
+          "revenue": 785.98
+        },
+        {
+          "title": "EVIL ENERGY Carburetor Fuel System Kit 12V Electric Fuel Pump 5-12PSI Regulator 20FT PTFE/NBR Hose",
+          "sku": "EV370FP20NFPR",
+          "qty": 4,
+          "revenue": 691.96
+        },
+        {
+          "title": "EVIL ENERGY All-in-One EFI Fuel System Bundle|EFI Bypass Fuel Pressure Regulator & CPE Fuel Line & Adjustable 3-16AN Wrench (Black)",
+          "sku": "EVKTCPT002",
+          "qty": 3,
+          "revenue": 641.97
+        },
+        {
+          "title": "EVIL ENERGY 5/10/15/20 Gallon Fuel Cell Gas Tank Aluminum with Level Sender 6AN 12FT/16FT PTFE Fuel Line Kit Black/silver",
+          "sku": "EVPTCE008",
+          "qty": 3,
+          "revenue": 639.97
+        },
+        {
+          "title": "EVIL ENERGY 500 CFM 4-barrel Carburetor Perfect for Small-block V8 Engine",
+          "sku": "EVFS23-00059SR-017-L",
+          "qty": 2,
+          "revenue": 599.98
+        },
+        {
+          "title": "EVIL ENERGY PTFE Hose End Fitting for PTFE Hose Only (3/4/6/8/10/12AN) -  Black",
+          "sku": "EVKT10206D90-2-AMZ1",
+          "qty": 32,
+          "revenue": 574.84
+        },
+        {
+          "title": "EVIL ENERGY 6AN PTFE Fuel Line Kit 70inch Transmission Fluid Oil Cooler Hose Line kit for 4L60E 4L80E,AN6 Stainless Steel Braided PTFE Fuel Hose Kit for TH350 TH400 700R4 TR6060 4R70W Ford C5 5.8FT",
+          "sku": "EVAHL0001006",
+          "qty": 7,
+          "revenue": 492.93
+        },
+        {
+          "title": "EVIL ENERGY Upgraded Fuel Cell Tank Kits-Efficient Fuel System Solutions 5/10/15 Gallon",
+          "sku": "EVKT11ABCD1BK-1",
+          "qty": 1,
+          "revenue": 457.99
+        }
+      ],
+      "data_source": "shopifyql"
+    },
+    "2026-08-24": {
+      "total_orders": 199,
+      "total_revenue": 25820.36,
+      "total_tax": 1057.72,
+      "total_shipping": 398.43,
+      "net_sales": 24364.21,
+      "gross_sales": 25874.2,
+      "total_discounts": 703.61,
+      "returns": 806.38,
+      "avg_order_value": 129.75,
+      "total_customers": 199,
+      "new_customers": 117,
+      "returning_customers": 82,
+      "new_customer_rate": 58.8,
+      "date": "2026-08-24",
+      "hourly_orders": [
+        6,
+        4,
+        3,
+        1,
+        0,
+        2,
+        2,
+        1,
+        7,
+        15,
+        6,
+        8,
+        9,
+        10,
+        7,
+        21,
+        14,
+        14,
+        18,
+        12,
+        13,
+        11,
+        8,
+        7
+      ],
+      "top_products": [
+        {
+          "title": "EVIL ENERGY CPE/PTFE LS Swap fuel  kit ,Fuel Filter, 6AN Fuel Line & Fittings | 20-120PSI Fuel Pressure Regulator | Fuel Pump",
+          "sku": "EVFS232500026000",
+          "qty": 6,
+          "revenue": 1719.94
+        },
+        {
+          "title": "EVIL ENERGY Fuel Cell Tank Kit | 5/10/15 Gallon | Solution for performance fuel management",
+          "sku": "EVKT11ABCD1BK",
+          "qty": 4,
+          "revenue": 1675.96
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10/12AN PTFE Fuel Line Kit 33FT 20Fittings, E85 Braided PTFE Fuel Hose Line Kit Black Nylon",
+          "sku": "EVFS10986AN10",
+          "qty": 7,
+          "revenue": 1244.63
+        },
+        {
+          "title": "Evil Energy Carburetor Fuel Pressure Regulator - Adjustable 4.5-9 PSI for Small Engine Gas/E85/Alcohol Compatible",
+          "sku": "EVFS11307S2-AMZ1",
+          "qty": 10,
+          "revenue": 692.29
+        },
+        {
+          "title": "EVIL ENERGY Ultimate Cooling System Kit for Chevy C/K Truck, Chevy Suburban/Tahoe 1988 - 2000 5.7L - 7.4L V8",
+          "sku": "EVCS2100052SR4-KT30",
+          "qty": 1,
+          "revenue": 569.99
+        },
+        {
+          "title": "EVIL ENERGY Fuel Pressure Regulator 6AN EFI Bypass Return Adjustable 20-140psi Black&Red",
+          "sku": "EVKT07329-AMZ1",
+          "qty": 7,
+          "revenue": 566.07
+        },
+        {
+          "title": "EVIL ENERGY 102mm Electronic Throttle Body for Chevrolet LS2 LS3 LS7 LSX CTS - with TPS 4 Bolt",
+          "sku": "EVIS20-00065BK-002-L",
+          "qty": 2,
+          "revenue": 559.98
+        },
+        {
+          "title": "EVIL ENERGY Inline Fuel Filter with 6AN 8AN 10AN Adapter and Bracket Universal 10/30/40/100 Micron",
+          "sku": "EVKT01314RD-AMZ1",
+          "qty": 13,
+          "revenue": 531.52
+        },
+        {
+          "title": "Worry-Free Purchase",
+          "sku": "SEEL-WFP",
+          "qty": 138,
+          "revenue": 522.33
+        },
+        {
+          "title": "EVIL ENERGY Fuel Tank Kits with Fuel Filter Fuel Pump（1/2.5/5/8/10/12/15/19/20 Gallon ）",
+          "sku": "EVKT0202487",
+          "qty": 1,
+          "revenue": 502.99
+        }
+      ],
+      "data_source": "shopifyql"
+    },
+    "2026-08-25": {
+      "total_orders": 167,
+      "total_revenue": 20587.73,
+      "total_tax": 978.19,
+      "total_shipping": 393.48,
+      "net_sales": 19216.06,
+      "gross_sales": 20582.53,
+      "total_discounts": 561.54,
+      "returns": 804.93,
+      "avg_order_value": 123.28,
+      "total_customers": 167,
+      "new_customers": 97,
+      "returning_customers": 70,
+      "new_customer_rate": 58.1,
+      "date": "2026-08-25",
+      "hourly_orders": [
+        5,
+        5,
+        0,
+        3,
+        0,
+        0,
+        1,
+        2,
+        2,
+        10,
+        8,
+        7,
+        11,
+        4,
+        8,
+        11,
+        9,
+        11,
+        9,
+        13,
+        14,
+        15,
+        10,
+        9
+      ],
+      "top_products": [
+        {
+          "title": "EVIL ENERGY CPE/PTFE LS Swap fuel  kit ,Fuel Filter, 6AN Fuel Line & Fittings | 20-120PSI Fuel Pressure Regulator | Fuel Pump",
+          "sku": "EVFS232500026000",
+          "qty": 5,
+          "revenue": 1339.95
+        },
+        {
+          "title": "EVIL ENERGY Fuel Tank Kits with Fuel Filter Fuel Pump（1/2.5/5/8/10/12/15/19/20 Gallon ）",
+          "sku": "EVKT0202487",
+          "qty": 2,
+          "revenue": 1019.98
+        },
+        {
+          "title": "EVIL ENERGY 6AN 3/8-inch PTFE LS Swap EFI Fuel Line Fitting Kit | E85 Nylon Braided Fuel Hose With Fittings 10-26FT",
+          "sku": "EVFS10219AN6BK-20FT-AMZ1",
+          "qty": 8,
+          "revenue": 836.12
+        },
+        {
+          "title": "EVIL ENERGY Fuel Cell Tank Kit | 5/10/15 Gallon | Solution for performance fuel management",
+          "sku": "EVKT11ABCD1BK5",
+          "qty": 2,
+          "revenue": 769.98
+        },
+        {
+          "title": "EVIL ENERGY Fuel Cell Gas Tank with Sending Unit Black/Silver Street Drift Aluminum（1/2.5/5/8/10/12/15/20 Gallon ）",
+          "sku": "EVKT01877S3BK",
+          "qty": 4,
+          "revenue": 639.96
+        },
+        {
+          "title": "EvilEnergy Intake Manifold & Grid Heater Delete Plate for 2007–2024 Dodge Ram 2500/3500 6.7L Cummins",
+          "sku": "EVIS20-00001RD-004-L",
+          "qty": 1,
+          "revenue": 599.0
+        },
+        {
+          "title": "EVIL ENERGY 15Gal Fuel Cell Master Kit , 300LPH Pump & 20 FT PTFE Lines - High-Performance Racing Upgrade",
+          "sku": "EVKT0202435",
+          "qty": 1,
+          "revenue": 475.99
+        },
+        {
+          "title": "Evil Energy Carburetor Fuel Pressure Regulator - Adjustable 5-12 PSI for Small Engine Gas/E85/Alcohol Compatible (Low Pressure, No Overflow)",
+          "sku": "EVFS11309-AMZ1",
+          "qty": 6,
+          "revenue": 437.79
+        },
+        {
+          "title": "EVIL ENERGY 5/10/15/20 Gallon Fuel Cell Gas Tank Aluminum with Level Sender 6AN 12FT/16FT PTFE Fuel Line Kit Black/silver",
+          "sku": "EVPTCE016",
+          "qty": 2,
+          "revenue": 409.98
+        },
+        {
+          "title": "Worry-Free Purchase",
+          "sku": "SEEL-WFP",
+          "qty": 114,
+          "revenue": 409.89
+        }
+      ],
+      "data_source": "shopifyql"
+    },
+    "2026-08-28": {
+      "total_orders": 150,
+      "total_revenue": 19357.31,
+      "total_tax": 897.68,
+      "total_shipping": 316.59,
+      "net_sales": 18143.04,
+      "gross_sales": 19133.28,
+      "total_discounts": 509.35,
+      "returns": 480.89,
+      "avg_order_value": 129.05,
+      "total_customers": 150,
+      "new_customers": 95,
+      "returning_customers": 55,
+      "new_customer_rate": 63.3,
+      "date": "2026-08-28",
+      "hourly_orders": [
+        2,
+        3,
+        0,
+        3,
+        0,
+        2,
+        3,
+        5,
+        4,
+        9,
+        6,
+        4,
+        12,
+        8,
+        3,
+        8,
+        11,
+        9,
+        9,
+        10,
+        10,
+        10,
+        11,
+        8
+      ],
+      "top_products": [
+        {
+          "title": "EVIL ENERGY Fuel Tank Kits with Fuel Filter Fuel Pump（1/2.5/5/8/10/12/15/19/20 Gallon ）",
+          "sku": "EVKT0202487",
+          "qty": 3,
+          "revenue": 1462.97
+        },
+        {
+          "title": "EVIL ENERGY 5/10/15/20 Gallon Fuel Cell Gas Tank Aluminum with Level Sender 6AN 12FT/16FT PTFE Fuel Line Kit Black/silver",
+          "sku": "EVPTCE024",
+          "qty": 5,
+          "revenue": 1099.95
+        },
+        {
+          "title": "EvilEnergy Intake Manifold & Grid Heater Delete Plate for 2007–2024 Dodge Ram 2500/3500 6.7L Cummins",
+          "sku": "EVIS20-00001BK-004-L",
+          "qty": 1,
+          "revenue": 599.0
+        },
+        {
+          "title": "EVIL ENERGY Fuel Injection In-Line Fuel Delivery Kit  EFI External Frame Mounted Pump Kit",
+          "sku": "EVAKT11423BB-AMZ1",
+          "qty": 2,
+          "revenue": 573.98
+        },
+        {
+          "title": "EVIL ENERGY LS Swap Fuel Filter Regulator 58PSI with 6AN PTFE EFI Fuel Hose Kit",
+          "sku": "EVFS07848BK-AMZ1",
+          "qty": 4,
+          "revenue": 475.96
+        },
+        {
+          "title": "EVIL ENERGY Oil Cooling Solution Kit With 6AN Fuel Line & Bracket",
+          "sku": "EVKTOTL1",
+          "qty": 2,
+          "revenue": 439.98
+        },
+        {
+          "title": "EVIL ENERGY Carburetor Fuel System Kit 12V Electric Fuel Pump 5-12PSI Regulator 20FT PTFE/NBR Hose",
+          "sku": "EV370FP20PFPR",
+          "qty": 2,
+          "revenue": 431.98
+        },
+        {
+          "title": "EVIL ENERGY Fuel Cell Gas Tank with Sending Unit Black/Silver Street Drift Aluminum（1/2.5/5/8/10/12/15/20 Gallon ）",
+          "sku": "EVFS01877S8BK",
+          "qty": 6,
+          "revenue": 431.94
+        },
+        {
+          "title": "EVIL ENERGY 6AN 3/8-inch PTFE LS Swap EFI Fuel Line Fitting Kit | E85 Nylon Braided Fuel Hose With Fittings 10-26FT",
+          "sku": "EVKT01486BK-AMZ1",
+          "qty": 4,
+          "revenue": 387.16
+        },
+        {
+          "title": "EVIL ENERGY Fuel Cell Tank Kit | 5/10/15 Gallon | Solution for performance fuel management",
+          "sku": "EVKT11ABCD1BK5",
+          "qty": 1,
+          "revenue": 379.99
+        }
+      ],
+      "data_source": "shopifyql"
+    },
+    "2026-08-29": {
+      "total_orders": 142,
+      "total_revenue": 16838.19,
+      "total_tax": 888.19,
+      "total_shipping": 314.55,
+      "net_sales": 15635.45,
+      "gross_sales": 16192.03,
+      "total_discounts": 556.58,
+      "returns": 0.0,
+      "avg_order_value": 118.58,
+      "total_customers": 142,
+      "new_customers": 82,
+      "returning_customers": 60,
+      "new_customer_rate": 57.8,
+      "date": "2026-08-29",
+      "hourly_orders": [
+        5,
+        4,
+        1,
+        1,
+        1,
+        1,
+        0,
+        2,
+        3,
+        2,
+        11,
+        8,
+        3,
+        7,
+        13,
+        10,
+        5,
+        11,
+        6,
+        10,
+        8,
+        11,
+        12,
+        7
+      ],
+      "top_products": [
+        {
+          "title": "EVIL ENERGY Fuel Tank Kits with Fuel Filter Fuel Pump（1/2.5/5/8/10/12/15/19/20 Gallon ）",
+          "sku": "EVKT0202488",
+          "qty": 2,
+          "revenue": 986.98
+        },
+        {
+          "title": "EVIL ENERGY Ultimate Cooling System Kit for Chevy C/K Truck, Chevy Suburban/Tahoe 1988 - 2000 5.7L - 7.4L V8",
+          "sku": "EVCS2100052SR4-KT30",
+          "qty": 1,
+          "revenue": 569.99
+        },
+        {
+          "title": "EVIL ENERGY 650 CFM 4-barrel Carburetor Mechanical Secondary",
+          "sku": "EVFS23-00059SR-011-L",
+          "qty": 1,
+          "revenue": 427.99
+        },
+        {
+          "title": "EVIL ENERGY Fuel Cell Tank Kit | 5/10/15 Gallon | Solution for performance fuel management",
+          "sku": "EVKT11ABCD2BK10",
+          "qty": 1,
+          "revenue": 409.99
+        },
+        {
+          "title": "EVIL ENERGY Fuel Pressure Regulator 6AN EFI Bypass Return Adjustable 20-140psi Black&Red",
+          "sku": "EVKT07329-AMZ1",
+          "qty": 5,
+          "revenue": 392.95
+        },
+        {
+          "title": "EVIL ENERGY LED Headlights Assembly DOT Approved with DRL Turn Signal High/Low Sealed Beam Side Marker Compatible with 2003-2006 Chevy Silverado Avalanche",
+          "sku": "EVEP09-00029BK-000-W",
+          "qty": 1,
+          "revenue": 374.99
+        },
+        {
+          "title": "EVIL ENERGY Oil Cooling Solution Kit With 6AN Fuel Line & Bracket",
+          "sku": "EVKTOTL4",
+          "qty": 2,
+          "revenue": 365.98
+        },
+        {
+          "title": "EVIL ENERGY Carburetor Fuel System Kit 12V Electric Fuel Pump 5-12PSI Regulator 20FT PTFE/NBR Hose",
+          "sku": "EV370FP20NFPR",
+          "qty": 2,
+          "revenue": 343.98
+        },
+        {
+          "title": "EVIL ENERGY Small Block Chevy Dual Plane Air-Gap Small Gap Intake Manifold",
+          "sku": "EVBUH0001012",
+          "qty": 2,
+          "revenue": 339.98
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10/12AN PTFE Fuel Line Kit 33FT 20Fittings, E85 Braided PTFE Fuel Hose Line Kit Black Nylon",
+          "sku": "EVFS10986AN8",
+          "qty": 2,
+          "revenue": 335.28
+        }
+      ],
+      "data_source": "shopifyql"
+    },
+    "2026-08-30": {
+      "total_orders": 166,
+      "total_revenue": 21453.49,
+      "total_tax": 1161.69,
+      "total_shipping": 384.45,
+      "net_sales": 19907.35,
+      "gross_sales": 20520.81,
+      "total_discounts": 567.47,
+      "returns": 45.99,
+      "avg_order_value": 129.24,
+      "total_customers": 166,
+      "new_customers": 90,
+      "returning_customers": 76,
+      "new_customer_rate": 54.2,
+      "date": "2026-08-30",
+      "hourly_orders": [
+        5,
+        1,
+        4,
+        0,
+        2,
+        0,
+        2,
+        2,
+        0,
+        5,
+        1,
+        5,
+        10,
+        6,
+        18,
+        12,
+        12,
+        13,
+        13,
+        11,
+        18,
+        11,
+        12,
+        3
+      ],
+      "top_products": [
+        {
+          "title": "EVIL ENERGY Fuel Cell Tank Kit | 5/10/15 Gallon | Solution for performance fuel management",
+          "sku": "EVKT11ABCD2BK5",
+          "qty": 5,
+          "revenue": 2035.95
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10AN PTFE Fuel Line Kit | E85 Nylon Braided Hose | 16/20FT Black Black with Comprehensive Fittings",
+          "sku": "EVKT01561AN6BB-AMZ1",
+          "qty": 12,
+          "revenue": 964.33
+        },
+        {
+          "title": "EVIL ENERGY Carburetor Fuel System Kit 12V Electric Fuel Pump 5-12PSI Regulator 20FT PTFE/NBR Hose",
+          "sku": "EV370FP20NFPR",
+          "qty": 5,
+          "revenue": 890.95
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10/12AN PTFE Fuel Line Kit 33FT 20Fittings, E85 Braided PTFE Fuel Hose Line Kit Black Nylon",
+          "sku": "EVFS10986AN6",
+          "qty": 4,
+          "revenue": 670.56
+        },
+        {
+          "title": "EvilEnergy Intake Manifold & Grid Heater Delete Plate for 2007–2024 Dodge Ram 2500/3500 6.7L Cummins",
+          "sku": "EVIS20-00001BK-003-L",
+          "qty": 1,
+          "revenue": 599.0
+        },
+        {
+          "title": "EVIL ENERGY 2 Kit 6AN 8AN 10ANFuel Line Kit 40FT with 24PCS Fitting Kit, Nylon Braided CPE Fuel Line Hose",
+          "sku": "EVKT10216BK",
+          "qty": 4,
+          "revenue": 544.96
+        },
+        {
+          "title": "EVIL ENERGY Fuel Tank Kits with Fuel Filter Fuel Pump（1/2.5/5/8/10/12/15/19/20 Gallon ）",
+          "sku": "EVKT0202487",
+          "qty": 1,
+          "revenue": 502.99
+        },
+        {
+          "title": "EVIL ENERGY 15Gal Fuel Cell Master Kit , 300LPH Pump & 20 FT PTFE Lines - High-Performance Racing Upgrade",
+          "sku": "EVKT0202435",
+          "qty": 1,
+          "revenue": 475.99
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10AN CPE Fuel Line Kit Black Nylon Braided Fuel Hose Fitting Kit 20FT/25FT",
+          "sku": "EVAKJ0001029",
+          "qty": 5,
+          "revenue": 438.35
+        },
+        {
+          "title": "EVIL ENERGY All-in-One EFI Fuel System Bundle|EFI Bypass Fuel Pressure Regulator & CPE Fuel Line & Adjustable 3-16AN Wrench",
+          "sku": "EVOS7903",
+          "qty": 2,
+          "revenue": 426.98
+        }
+      ],
+      "data_source": "shopifyql"
+    },
+    "2026-08-31": {
+      "total_orders": 205,
+      "total_revenue": 26862.74,
+      "total_tax": 1311.27,
+      "total_shipping": 365.52,
+      "net_sales": 25185.95,
+      "gross_sales": 27278.03,
+      "total_discounts": 911.81,
+      "returns": 1180.27,
+      "avg_order_value": 131.04,
+      "total_customers": 205,
+      "new_customers": 124,
+      "returning_customers": 81,
+      "new_customer_rate": 60.5,
+      "date": "2026-08-31",
+      "hourly_orders": [
+        7,
+        4,
+        0,
+        2,
+        3,
+        1,
+        4,
+        4,
+        6,
+        4,
+        8,
+        11,
+        8,
+        9,
+        11,
+        18,
+        12,
+        13,
+        21,
+        13,
+        11,
+        17,
+        11,
+        7
+      ],
+      "top_products": [
+        {
+          "title": "EVIL ENERGY Fuel Cell Tank Kit | 5/10/15 Gallon | Solution for performance fuel management",
+          "sku": "EVKT11ABCD2BK",
+          "qty": 4,
+          "revenue": 1675.96
+        },
+        {
+          "title": "EVIL ENERGY Fuel Tank Kits with Fuel Filter Fuel Pump（1/2.5/5/8/10/12/15/19/20 Gallon ）",
+          "sku": "EVKT11ABCD1BK10-1",
+          "qty": 2,
+          "revenue": 921.98
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10/12AN PTFE Fuel Line Kit 33FT 20Fittings, E85 Braided PTFE Fuel Hose Line Kit Black Nylon",
+          "sku": "EVFS10986AN6",
+          "qty": 5,
+          "revenue": 866.55
+        },
+        {
+          "title": "Evil Energy STREET 650 CFM 4-Barrel Carburetor Electric Choke Mechanical Secondary",
+          "sku": "EVFS23-00059SR-007-L",
+          "qty": 2,
+          "revenue": 703.98
+        },
+        {
+          "title": "EVIL ENERGY 4/6/8/10AN PTFE Fuel Line Kit | E85 Nylon Braided Hose | 16/20FT Black Black with Comprehensive Fittings",
+          "sku": "EVKT01561AN6BB-AMZ1",
+          "qty": 8,
+          "revenue": 675.47
+        },
+        {
+          "title": "EVIL ENERGY Inline Fuel Filter with 6AN 8AN 10AN Adapter and Bracket Universal 10/30/40/100 Micron",
+          "sku": "EVCS07153BK-AMZ1",
+          "qty": 14,
+          "revenue": 652.99
+        },
+        {
+          "title": "EVIL ENERGY All-in-One EFI Fuel System Bundle|EFI Bypass Fuel Pressure Regulator & CPE Fuel Line & Adjustable 3-16AN Wrench (Black)",
+          "sku": "EVKTCPT001",
+          "qty": 3,
+          "revenue": 641.97
+        },
+        {
+          "title": "EVIL ENERGY 500 CFM Street 2-barrel Carburetor Electric Choke",
+          "sku": "EVFS23-00059SR-001-L",
+          "qty": 2,
+          "revenue": 599.98
+        },
+        {
+          "title": "EvilEnergy Intake Manifold & Grid Heater Delete Plate for 2007–2024 Dodge Ram 2500/3500 6.7L Cummins",
+          "sku": "EVIS20-00001BK-004-L",
+          "qty": 1,
+          "revenue": 599.0
+        },
+        {
+          "title": "Worry-Free Purchase",
+          "sku": "SEEL-WFP",
+          "qty": 145,
+          "revenue": 491.27
         }
       ],
       "data_source": "shopifyql"

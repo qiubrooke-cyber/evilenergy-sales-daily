@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <title>活动业绩 · 营销日历 & 渠道表现 — EVIL ENERGY</title>
+  <title>活动业绩 · 营销日历 & 渠道/页面表现 — EVIL ENERGY</title>
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
   <style>
     :root {
@@ -85,6 +85,22 @@
     .ch-organic { background:rgba(0,230,184,0.1); color:var(--accent-green); }
     .ch-direct { background:rgba(0,184,255,0.1); color:var(--accent-cyan); }
     .ch-unknown { background:rgba(126,168,217,0.06); color:var(--text-muted); }
+
+    /* ── Page table specific ── */
+    .pg-tag {
+      display:inline-block; padding:2px 8px; border-radius:3px; font-size:10px; font-weight:600;
+    }
+    .pg-home { background:rgba(255,159,67,0.1); color:var(--accent-orange); }
+    .pg-product { background:rgba(0,184,255,0.12); color:var(--accent-cyan); }
+    .pg-collection { background:rgba(0,230,184,0.1); color:var(--accent-green); }
+    .pg-page { background:rgba(255,107,157,0.1); color:var(--accent-pink); }
+    .pg-blog { background:rgba(126,168,217,0.08); color:var(--text-secondary); }
+    .pg-cart { background:rgba(255,159,67,0.12); color:var(--accent-orange); }
+    .pg-search { background:rgba(0,230,255,0.08); color:var(--accent-cyan); }
+    .pg-policy { background:rgba(126,168,217,0.06); color:var(--text-muted); }
+    .pg-other { background:rgba(126,168,217,0.06); color:var(--text-muted); }
+    .pg-unattributed { background:rgba(126,168,217,0.04); color:var(--text-muted); }
+    .pg-path { font-family:'SF Mono',Monaco,monospace; font-size:11px; word-break:break-all; }
 
     /* ── Overview stats ── */
     .overview-grid {
@@ -286,6 +302,7 @@
   <div class="view-toggle" style="display:flex;gap:0;margin-bottom:20px;">
     <button class="vt-btn active" id="vtCampaign" onclick="switchView('campaign')">📅 活动日历</button>
     <button class="vt-btn" id="vtChannel" onclick="switchView('channel')">📊 渠道表现</button>
+    <button class="vt-btn" id="vtPage" onclick="switchView('page')">🗂 页面表现</button>
   </div>
 
   <!-- ========== View: Campaign ========== -->
@@ -339,11 +356,40 @@
       <table id="channelTable"></table>
     </div>
   </div>
+
+  <!-- ========== View: Page ========== -->
+  <div id="viewPage" style="display:none">
+    <!-- Page Header -->
+    <div id="pageHeader" style="margin-bottom:20px;"></div>
+
+    <!-- Page KPI -->
+    <div class="overview-grid" id="pageKpis"></div>
+
+    <!-- Page Charts Row -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;">
+      <div class="gantt-card" style="min-height:420px;">
+        <div class="section-header"><span class="line"></span><h2>页面销售额 TOP 15</h2></div>
+        <div id="pageBarChart" style="width:100%;height:380px;"></div>
+      </div>
+      <div class="gantt-card" style="min-height:420px;">
+        <div class="section-header"><span class="line"></span><h2>页面类型 · 会话占比</h2></div>
+        <div id="pagePieChart" style="width:100%;height:380px;"></div>
+      </div>
+    </div>
+
+    <!-- Page Detail Table -->
+    <div class="table-wrap" style="margin-bottom:24px;">
+      <div class="section-header"><span class="line"></span><h2>页面明细数据 — 落地页流量 + 销售归因</h2></div>
+      <div id="pageAttributionNote" style="font-size:10px;color:var(--text-muted);margin-bottom:12px;"></div>
+      <table id="pageTable"></table>
+    </div>
+  </div>
 </div>
 
 <script>
   let campaignData = null;
   let channelData = null;
+  let pageData = null;
   let activeMonth = null;
   let ganttInst = null;
   let currentView = 'campaign';
@@ -367,14 +413,19 @@
     currentView = view;
     document.getElementById('viewCampaign').style.display = view === 'campaign' ? '' : 'none';
     document.getElementById('viewChannel').style.display = view === 'channel' ? '' : 'none';
+    document.getElementById('viewPage').style.display = view === 'page' ? '' : 'none';
     document.getElementById('vtCampaign').classList.toggle('active', view === 'campaign');
     document.getElementById('vtChannel').classList.toggle('active', view === 'channel');
+    document.getElementById('vtPage').classList.toggle('active', view === 'page');
+    // Stop polls when switching away
+    if (channelPollTimer) { clearInterval(channelPollTimer); channelPollTimer = null; }
+    if (pagePollTimer) { clearInterval(pagePollTimer); pagePollTimer = null; }
     if (view === 'channel') {
       if (!channelData) loadChannelData();
       else renderChannelAll();
-    } else {
-      // Stop channel poll when switching away
-      if (channelPollTimer) { clearInterval(channelPollTimer); channelPollTimer = null; }
+    } else if (view === 'page') {
+      if (!pageData) loadPageData();
+      else renderPageAll();
     }
     if (view === 'channel' && ganttInst) { ganttInst.dispose(); ganttInst = null; }
   }
@@ -808,6 +859,224 @@
     });
     h += '</tbody>';
     tb.innerHTML = h;
+  }
+
+  // ─── Page View ───
+  let pgBarInst = null;
+  let pgPieInst = null;
+  let pagePollTimer = null;
+  const PAGE_POLL_MS = 180000; // 3 min refresh
+
+  function pgTagCls(t) {
+    return {home:'pg-home',product:'pg-product',collection:'pg-collection',page:'pg-page',blog:'pg-blog',
+            cart:'pg-cart',search:'pg-search',policy:'pg-policy',other:'pg-other',unattributed:'pg-unattributed'}[t] || 'pg-other';
+  }
+
+  async function loadPageData() {
+    await fetchPageJSON();
+    if (pagePollTimer) clearInterval(pagePollTimer);
+    pagePollTimer = setInterval(fetchPageJSON, PAGE_POLL_MS);
+  }
+
+  async function fetchPageJSON() {
+    try {
+      const r = await fetch('page_data.json?t='+Date.now());
+      if (r.ok) { pageData = await r.json(); renderPageAll(); }
+      else { showPageEmpty('无法加载页面数据'); }
+    } catch(e) { showPageEmpty('加载失败: '+e.message); }
+  }
+
+  function showPageEmpty(msg) {
+    document.getElementById('pageHeader').innerHTML = '';
+    document.getElementById('pageKpis').innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">🗂</div><div class="empty-title">${msg}</div><div class="empty-desc">正在等待页面数据...</div></div>`;
+  }
+
+  function renderPageAll() {
+    const d = pageData;
+    const t = d.total || {};
+    const pages = d.pages || [];
+    const rollup = d.page_type_rollup || [];
+    const camp = d.campaign || {};
+    const period = d.period || {};
+
+    const campName = camp.name || '当前活动';
+    const campTheme = camp.theme || '';
+    const isLive = campName && camp.status === '进行中';
+
+    // Page header
+    document.getElementById('pageHeader').innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span class="dot" style="width:10px;height:10px;background:${isLive?'var(--accent-green)':'var(--accent-cyan)'};border-radius:50%;box-shadow:0 0 10px ${isLive?'rgba(0,230,184,0.6)':'rgba(0,230,255,0.6)'};${isLive?'animation:pulse 2s infinite;':''}"></span>
+          <span style="font-size:18px;font-weight:800;color:#fff;">${campName}</span>
+          ${campTheme ? `<span style="font-size:12px;color:var(--accent-cyan);opacity:0.7;">${campTheme}</span>` : ''}
+          ${isLive ? '<span class="badge live" style="display:inline-flex;align-items:center;">⚡ 活动进行中</span>' : ''}
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="badge" style="font-family:monospace;font-size:11px;">📅 ${period.start||'--'} → ${period.end||'--'} · ${period.duration_days||'?'}天</span>
+          ${isLive ? '<span class="badge live" style="display:inline-flex;align-items:center;font-size:10px;">每3分钟自动刷新</span>' : ''}
+        </div>
+      </div>`;
+
+    // Top bar
+    document.getElementById('badgeUpdated').textContent = '页面数据更新于 ' + (d.updated_at||'--');
+    const bl = document.getElementById('badgeLive');
+    if (isLive) { bl.style.display='inline-block'; bl.textContent = '⚡ ' + campName + ' · 页面表现'; }
+    else { bl.style.display='inline-block'; bl.textContent = '🗂 页面表现 · ' + period.label; }
+
+    const convPct = t.conversion_rate!=null ? (t.conversion_rate*100).toFixed(1)+'%' : '--';
+    const bouncePct = t.bounce_rate!=null ? (t.bounce_rate*100).toFixed(1)+'%' : '--';
+
+    // Page KPI
+    document.getElementById('pageKpis').innerHTML = `
+      <div class="ov-card"><div class="ov-label">会话数</div><div class="ov-value ov-accent">${fmtNum(t.sessions)}</div><div class="ov-sub">浏览 ${fmtNum(t.pageviews)} 次</div></div>
+      <div class="ov-card"><div class="ov-label">整体转化率</div><div class="ov-value ov-green">${convPct}</div><div class="ov-sub">跳出率 ${bouncePct}</div></div>
+      <div class="ov-card"><div class="ov-label">订单数</div><div class="ov-value">${fmtNum(t.orders)}</div><div class="ov-sub">客单价 ${fmtUSD(t.aov)}</div></div>
+      <div class="ov-card"><div class="ov-label">落地页销售额</div><div class="ov-value ov-accent">${fmtUSD(t.total_sales)}</div><div class="ov-sub">${fmtNum(t.page_count)} 个落地页 · 明细 ${d.page_count} 行</div></div>`;
+
+    // Attribution note
+    document.getElementById('pageAttributionNote').innerHTML =
+      `归因口径：流量 = ShopifyQL sessions by landing_page_path；销售 = REST Orders by landing_site（订单实付总额，与 ShopifyQL total_sales 略有口径差异） | 共 ${d.page_count} 条落地页维度`;
+
+    renderPageBar(pages);
+    renderPagePie(rollup);
+    renderPageTable(pages);
+  }
+
+  function renderPageBar(pages) {
+    const dom = document.getElementById('pageBarChart');
+    if (pgBarInst) pgBarInst.dispose();
+    pgBarInst = echarts.init(dom);
+
+    let top = pages.filter(p => p.total_sales > 0).slice(0, 15);
+    const bySessions = top.length === 0;
+    if (bySessions) top = pages.slice(0, 15);
+    if (!top.length) { dom.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:80px 0">暂无数据</div>'; return; }
+
+    const labels = top.map(p => p.landing_page).reverse();
+    const values = top.map(p => bySessions ? p.sessions : p.total_sales).reverse();
+    const maxVal = values[values.length - 1] || 1;
+
+    const opts = {
+      backgroundColor:'transparent',
+      grid:{top:4,right:34,bottom:4,left:170,containLabel:false},
+      tooltip:{
+        trigger:'axis', backgroundColor:'rgba(4,16,40,0.95)', borderColor:'rgba(0,184,255,0.25)',
+        textStyle:{color:'#9bbde8',fontSize:12},
+        formatter:p=>{
+          const d = p[0]; if(!d) return '';
+          const pg = top[top.length - 1 - d.dataIndex];
+          if (!pg) return '';
+          const cr = pg.conversion_rate!=null ? (pg.conversion_rate*100).toFixed(2)+'%' : '--';
+          const br = pg.bounce_rate!=null ? (pg.bounce_rate*100).toFixed(1)+'%' : '--';
+          return `<div style="font-size:12px;color:#fff;font-weight:700;word-break:break-all;max-width:280px">${pg.landing_page}</div>
+            <div style="font-size:11px;color:rgba(155,189,232,0.6)">${pg.page_type_label||pg.page_type}</div>
+            <div style="font-size:12px;color:#00e6ff;margin-top:3px">💰 ${fmtUSD(pg.total_sales)} · 📦 ${fmtNum(pg.orders)}单 · AOV ${fmtUSD(pg.aov)}</div>
+            <div style="font-size:11px;color:rgba(155,189,232,0.6)">👥 ${fmtNum(pg.sessions)} 会话 · ${fmtNum(pg.pageviews)} 浏览 · 转化 ${cr} · 跳出 ${br}</div>`;
+        }
+      },
+      xAxis:{
+        type:'value', max:maxVal*1.15,
+        axisLine:{show:false}, axisTick:{show:false},
+        axisLabel:{color:'rgba(155,189,232,0.3)',fontSize:9, formatter:bySessions?undefined:v=>'$'+(v/1000).toFixed(0)+'k'},
+        splitLine:{lineStyle:{color:'rgba(155,189,232,0.04)'}},
+      },
+      yAxis:{
+        type:'category', data:labels,
+        axisLine:{show:false}, axisTick:{show:false},
+        axisLabel:{color:'rgba(155,189,232,0.7)',fontSize:10,width:160,overflow:'truncate'},
+      },
+      series:[{
+        type:'bar', data:values, barWidth:'60%',
+        itemStyle:{
+          borderRadius:[0,4,4,0],
+          color:new echarts.graphic.LinearGradient(0,0,1,0,[
+            {offset:0,color:'rgba(0,230,184,0.15)'},{offset:1,color:'rgba(0,230,255,0.7)'}
+          ]),
+        },
+        label:{show:true,position:'right',fontSize:9,color:'rgba(255,255,255,0.45)',
+          formatter:bySessions?p=>fmtNum(p.value):p=>'$'+(p.value/1000).toFixed(1)+'k',
+          fontFamily:"'SF Mono',Monaco,monospace"},
+      }],
+    };
+    pgBarInst.setOption(opts);
+    window.addEventListener('resize',()=>{if(pgBarInst)pgBarInst.resize();});
+    pgBarInst.resize();
+  }
+
+  function renderPagePie(rollup) {
+    const dom = document.getElementById('pagePieChart');
+    if (pgPieInst) pgPieInst.dispose();
+    pgPieInst = echarts.init(dom);
+
+    const colors = {home:'#ff9f43',product:'#00e6ff',collection:'#00e6b8',page:'#ff6b9d',blog:'#7ea8d9',
+                    cart:'#ffd166',search:'#00b4d8',policy:'#8d99ae',other:'rgba(126,168,217,0.4)',unattributed:'rgba(126,168,217,0.2)'};
+
+    const data = rollup.map(r => ({
+      name: r.label || r.page_type,
+      value: r.sessions,
+      itemStyle:{color:colors[r.page_type]||'rgba(126,168,217,0.3)'},
+      info: r,
+    })).filter(x=>x.value>0);
+
+    if (!data.length) { dom.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:80px 0">暂无数据</div>'; return; }
+
+    const opts = {
+      backgroundColor:'transparent',
+      tooltip:{
+        trigger:'item', backgroundColor:'rgba(4,16,40,0.95)', borderColor:'rgba(0,184,255,0.25)',
+        textStyle:{color:'#9bbde8',fontSize:12},
+        formatter:p=>{
+          const d = p.data; if(!d||!d.info) return '';
+          const r = d.info;
+          return `<div style="font-size:13px;color:#fff;font-weight:700">${d.name}</div>
+            <div style="font-size:12px;color:#00e6ff;margin-top:3px">👥 ${fmtNum(r.sessions)} 会话 (${p.percent}%)</div>
+            <div style="font-size:11px;color:rgba(155,189,232,0.5)">${r.page_count} 页 · 💰 ${fmtUSD(r.total_sales)} · 📦 ${fmtNum(r.orders)}单</div>
+            <div style="font-size:11px;color:rgba(155,189,232,0.5)">转化 ${r.conversion_rate!=null?(r.conversion_rate*100).toFixed(2)+'%':'--'} · 跳出 ${r.bounce_rate!=null?(r.bounce_rate*100).toFixed(1)+'%':'--'}</div>`;
+        }
+      },
+      series:[{
+        type:'pie', radius:['52%','74%'], center:['50%','48%'],
+        data:data,
+        label:{color:'rgba(155,189,232,0.6)',fontSize:11,formatter:'{b}\n{d}%'},
+        labelLine:{lineStyle:{color:'rgba(155,189,232,0.2)'}},
+        emphasis:{itemStyle:{shadowBlur:20,shadowColor:'rgba(0,184,255,0.3)'}},
+      }],
+    };
+    pgPieInst.setOption(opts);
+    window.addEventListener('resize',()=>{if(pgPieInst)pgPieInst.resize();});
+    pgPieInst.resize();
+  }
+
+  function renderPageTable(pages) {
+    const tb = document.getElementById('pageTable');
+    let h = `<thead><tr>
+      <th>落地页</th><th>类型</th><th class="ra">会话</th><th class="ra">会话占比</th><th class="ra">浏览页次</th>
+      <th class="ra">跳出率</th><th class="ra">转化率</th><th class="ra">订单</th><th class="ra">销售额</th><th class="ra">客单价</th>
+    </tr></thead><tbody>`;
+
+    const shown = pages.slice(0, 300);
+    shown.forEach(p=>{
+      const cls = pgTagCls(p.page_type);
+      h += `<tr>
+        <td class="strong pg-path" style="max-width:340px">${p.landing_page}</td>
+        <td><span class="pg-tag ${cls}">${p.page_type_label||p.page_type}</span></td>
+        <td class="ra">${p.sessions>0?fmtNum(p.sessions):'--'}</td>
+        <td class="ra">${p.sessions>0?p.session_share_pct+'%':'--'}</td>
+        <td class="ra">${p.pageviews>0?fmtNum(p.pageviews):'--'}</td>
+        <td class="ra">${p.bounce_rate!=null?(p.bounce_rate*100).toFixed(1)+'%':'--'}</td>
+        <td class="ra" style="color:var(--accent-cyan)">${p.conversion_rate!=null?(p.conversion_rate*100).toFixed(2)+'%':'--'}</td>
+        <td class="ra strong">${p.orders>0?fmtNum(p.orders):'--'}</td>
+        <td class="ra strong">${p.total_sales>0?fmtUSD(p.total_sales):'--'}</td>
+        <td class="ra">${p.aov>0?fmtUSD(p.aov):'--'}</td>
+      </tr>`;
+    });
+    h += '</tbody>';
+    tb.innerHTML = h;
+    if (pages.length > shown.length) {
+      const note = document.getElementById('pageAttributionNote');
+      note.innerHTML += ` · <span style="color:var(--accent-orange)">仅展示前 300 行（共 ${pages.length} 行）</span>`;
+    }
   }
 
   init();
