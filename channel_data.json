@@ -9,10 +9,10 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 12867.92,
-    "net_sales": 11973.1,
-    "orders": 116,
-    "aov": 110.93
+    "total_sales": 12914.48,
+    "net_sales": 12009.67,
+    "orders": 117,
+    "aov": 110.38
   },
   "channels": [
     {
@@ -34,6 +34,15 @@
       "aov": 110.8
     },
     {
+      "referring_channel": "shopify",
+      "traffic_type": "organic",
+      "referring_platform": "shopify",
+      "total_sales": 1091.67,
+      "net_sales": 1025.52,
+      "orders": 9,
+      "aov": 121.3
+    },
+    {
       "referring_channel": "google",
       "traffic_type": "organic",
       "referring_platform": "alphabet",
@@ -41,15 +50,6 @@
       "net_sales": 957.57,
       "orders": 11,
       "aov": 95.75
-    },
-    {
-      "referring_channel": "shopify",
-      "traffic_type": "organic",
-      "referring_platform": "shopify",
-      "total_sales": 1045.11,
-      "net_sales": 988.95,
-      "orders": 8,
-      "aov": 130.64
     },
     {
       "referring_channel": "couponcove",
@@ -157,9 +157,9 @@
     },
     {
       "referring_channel": "shopify",
-      "total_sales": 1045.11,
-      "net_sales": 988.95,
-      "orders": 8
+      "total_sales": 1091.67,
+      "net_sales": 1025.52,
+      "orders": 9
     },
     {
       "referring_channel": "couponcove",
@@ -219,9 +219,9 @@
     },
     {
       "traffic_type": "organic",
-      "total_sales": 2787.2,
-      "net_sales": 2585.05,
-      "orders": 23
+      "total_sales": 2833.76,
+      "net_sales": 2621.62,
+      "orders": 24
     },
     {
       "traffic_type": "direct",
@@ -317,7 +317,7 @@
     },
     {
       "hour": "2026-09-02T22:00:00Z",
-      "orders": 8
+      "orders": 9
     },
     {
       "hour": "2026-09-02T23:00:00Z",
@@ -340,7 +340,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-09-02 22:33:05",
+  "updated_at": "2026-09-02 22:43:41",
   "channel_count": 14,
   "data_source": "shopifyql"
 }
