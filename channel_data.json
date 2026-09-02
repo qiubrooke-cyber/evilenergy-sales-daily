@@ -9,10 +9,10 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 2239.35,
-    "net_sales": 2042.63,
-    "orders": 28,
-    "aov": 79.98
+    "total_sales": 2374.7,
+    "net_sales": 2167.91,
+    "orders": 29,
+    "aov": 81.89
   },
   "channels": [
     {
@@ -61,6 +61,15 @@
       "aov": 79.26
     },
     {
+      "referring_channel": "direct",
+      "traffic_type": "direct",
+      "referring_platform": "direct",
+      "total_sales": 41.75,
+      "net_sales": 16.6,
+      "orders": 5,
+      "aov": 8.35
+    },
+    {
       "referring_channel": "fatcoupon",
       "traffic_type": "organic",
       "referring_platform": "fatcoupon",
@@ -86,15 +95,6 @@
       "net_sales": 24.98,
       "orders": 2,
       "aov": 12.49
-    },
-    {
-      "referring_channel": "direct",
-      "traffic_type": "direct",
-      "referring_platform": "direct",
-      "total_sales": -93.6,
-      "net_sales": -108.68,
-      "orders": 4,
-      "aov": -23.4
     }
   ],
   "channel_rollup": [
@@ -129,6 +129,12 @@
       "orders": 1
     },
     {
+      "referring_channel": "direct",
+      "total_sales": 41.75,
+      "net_sales": 16.6,
+      "orders": 5
+    },
+    {
       "referring_channel": "fatcoupon",
       "total_sales": 40.97,
       "net_sales": 33.98,
@@ -139,12 +145,6 @@
       "total_sales": 24.98,
       "net_sales": 24.98,
       "orders": 2
-    },
-    {
-      "referring_channel": "direct",
-      "total_sales": -93.6,
-      "net_sales": -108.68,
-      "orders": 4
     }
   ],
   "traffic_rollup": [
@@ -161,6 +161,12 @@
       "orders": 6
     },
     {
+      "traffic_type": "direct",
+      "total_sales": 41.75,
+      "net_sales": 16.6,
+      "orders": 5
+    },
+    {
       "traffic_type": "unknown",
       "total_sales": 33.99,
       "net_sales": 24.57,
@@ -171,12 +177,6 @@
       "total_sales": 24.98,
       "net_sales": 24.98,
       "orders": 2
-    },
-    {
-      "traffic_type": "direct",
-      "total_sales": -93.6,
-      "net_sales": -108.68,
-      "orders": 4
     }
   ],
   "hourly": [
@@ -214,7 +214,7 @@
     },
     {
       "hour": "2026-09-02T12:00:00Z",
-      "orders": 3
+      "orders": 4
     },
     {
       "hour": "2026-09-02T13:00:00Z",
@@ -277,7 +277,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-09-02 12:32:53",
+  "updated_at": "2026-09-02 12:43:52",
   "channel_count": 9,
   "data_source": "shopifyql"
 }
