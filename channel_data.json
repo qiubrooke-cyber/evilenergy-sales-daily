@@ -9,20 +9,20 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 25076.97,
-    "net_sales": 23422.45,
-    "orders": 168,
-    "aov": 149.27
+    "total_sales": 25339.13,
+    "net_sales": 23684.61,
+    "orders": 169,
+    "aov": 149.94
   },
   "channels": [
     {
       "referring_channel": "google",
       "traffic_type": "paid",
       "referring_platform": "alphabet",
-      "total_sales": 13658.05,
-      "net_sales": 12709.51,
-      "orders": 91,
-      "aov": 150.09
+      "total_sales": 13683.61,
+      "net_sales": 12728.08,
+      "orders": 92,
+      "aov": 148.73
     },
     {
       "referring_channel": "direct",
@@ -61,6 +61,15 @@
       "aov": 108.79
     },
     {
+      "referring_channel": "Unattributed",
+      "traffic_type": "Unknown",
+      "referring_platform": "Unknown",
+      "total_sales": 765.18,
+      "net_sales": 732.96,
+      "orders": 10,
+      "aov": 76.52
+    },
+    {
       "referring_channel": "gmail",
       "traffic_type": "paid",
       "referring_platform": "alphabet",
@@ -68,15 +77,6 @@
       "net_sales": 621.86,
       "orders": 2,
       "aov": 335.27
-    },
-    {
-      "referring_channel": "Unattributed",
-      "traffic_type": "Unknown",
-      "referring_platform": "Unknown",
-      "total_sales": 528.58,
-      "net_sales": 489.37,
-      "orders": 10,
-      "aov": 52.86
     },
     {
       "referring_channel": "bing",
@@ -163,9 +163,9 @@
   "channel_rollup": [
     {
       "referring_channel": "google",
-      "total_sales": 14637.12,
-      "net_sales": 13607.13,
-      "orders": 100
+      "total_sales": 14662.68,
+      "net_sales": 13625.7,
+      "orders": 101
     },
     {
       "referring_channel": "direct",
@@ -186,6 +186,12 @@
       "orders": 6
     },
     {
+      "referring_channel": "Unattributed",
+      "total_sales": 765.18,
+      "net_sales": 732.96,
+      "orders": 10
+    },
+    {
       "referring_channel": "gmail",
       "total_sales": 670.54,
       "net_sales": 621.86,
@@ -196,12 +202,6 @@
       "total_sales": 608.04,
       "net_sales": 588.97,
       "orders": 3
-    },
-    {
-      "referring_channel": "Unattributed",
-      "total_sales": 528.58,
-      "net_sales": 489.37,
-      "orders": 10
     },
     {
       "referring_channel": "chatgpt",
@@ -237,9 +237,9 @@
   "traffic_rollup": [
     {
       "traffic_type": "paid",
-      "total_sales": 15958.89,
-      "net_sales": 14866.03,
-      "orders": 106
+      "total_sales": 15984.45,
+      "net_sales": 14884.6,
+      "orders": 107
     },
     {
       "traffic_type": "direct",
@@ -255,8 +255,8 @@
     },
     {
       "traffic_type": "Unknown",
-      "total_sales": 528.58,
-      "net_sales": 489.37,
+      "total_sales": 765.18,
+      "net_sales": 732.96,
       "orders": 10
     },
     {
@@ -361,10 +361,10 @@
     },
     {
       "hour": "2026-09-02T03:00:00Z",
-      "orders": 4
+      "orders": 5
     }
   ],
-  "updated_at": "2026-09-02 03:23:06",
+  "updated_at": "2026-09-02 03:33:06",
   "channel_count": 16,
   "data_source": "shopifyql"
 }
