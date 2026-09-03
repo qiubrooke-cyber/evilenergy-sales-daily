@@ -232,6 +232,48 @@ def detect_active_campaign():
     return None
 
 
+def detect_previous_campaign(before_date):
+    """Find the most recent campaign that ENDED before `before_date`.
+
+    Used as the comparison baseline (上个活动) for the page view.
+    """
+    campaign_path = os.path.join(REPO_ROOT, "campaign_data.json")
+    if not os.path.exists(campaign_path):
+        return None
+
+    try:
+        with open(campaign_path, "r", encoding="utf-8") as f:
+            cd = json.load(f)
+    except Exception:
+        return None
+
+    best = None  # (campaign_dict, start_date, end_date)
+    for c in cd.get("campaigns", []):
+        start = c.get("start_date")
+        end = c.get("end_date")
+        if not start or not end:
+            continue
+        try:
+            start_date = datetime.strptime(start[:10], "%Y-%m-%d").date()
+            end_date = datetime.strptime(end[:10], "%Y-%m-%d").date()
+        except ValueError:
+            continue
+        if end_date < before_date:
+            if best is None or start_date > best[1]:
+                best = (c, start_date, end_date)
+
+    if best is None:
+        return None
+    c, sd, ed = best
+    return {
+        "name": c.get("name", ""),
+        "theme": c.get("theme", ""),
+        "start_date": sd,
+        "end_date": ed,
+        "status": c.get("status", "已完成"),
+    }
+
+
 def _serialize_campaign(ci):
     """Convert date objects in campaign info to strings."""
     out = {}
@@ -573,6 +615,96 @@ def fetch_page_data(config, start_date, end_date, campaign_info=None):
     }
 
 
+def fetch_comparison_data(config, prev_camp, prev_start, prev_end, matched_days):
+    """Fetch the previous campaign's SAME-PERIOD page data (first N days).
+
+    Returns a lightweight comparison payload: overall KPIs + page-type rollup.
+    """
+    token = config["access_token"]
+    domain = config["shop_domain"]
+    start_str = prev_start.strftime("%Y-%m-%d")
+    end_str = prev_end.strftime("%Y-%m-%d")
+
+    print(f"  [Compare] Previous campaign: {prev_camp['name']} "
+          f"same-period {start_str} → {end_str} (first {matched_days}d)")
+
+    sessions_map = fetch_sessions_by_page(domain, token, start_str, end_str)
+    sessions_total = fetch_sessions_total(domain, token, start_str, end_str)
+    shop_tz = get_shop_tz()
+    order_agg, total_orders, total_sales = fetch_orders_landing(
+        domain, token, prev_start, prev_end, shop_tz)
+    print(f"  [Compare] {sessions_total['sessions']:,} sessions, "
+          f"{total_orders} orders, ${total_sales:,.2f}")
+
+    total_sessions = sessions_total["sessions"] or sum(s.get("sessions", 0) for s in sessions_map.values())
+
+    # Page-type rollup (sessions from ShopifyQL + orders from REST)
+    type_rollup = {}
+    for path, s in sessions_map.items():
+        t = classify_page(path)
+        r = type_rollup.setdefault(t, {
+            "page_type": t, "label": PAGE_TYPE_LABELS.get(t, t),
+            "sessions": 0, "orders": 0, "total_sales": 0.0, "page_count": 0,
+        })
+        r["sessions"] += s.get("sessions", 0)
+        r["page_count"] += 1
+    for path, o in order_agg.items():
+        if path == "__unattributed__":
+            continue
+        t = classify_page(path)
+        r = type_rollup.setdefault(t, {
+            "page_type": t, "label": PAGE_TYPE_LABELS.get(t, t),
+            "sessions": 0, "orders": 0, "total_sales": 0.0, "page_count": 0,
+        })
+        r["orders"] += o.get("orders", 0)
+        r["total_sales"] += o.get("total_sales", 0.0)
+    unatt = order_agg.get("__unattributed__")
+    if unatt and unatt.get("orders", 0) > 0:
+        r = type_rollup.setdefault("unattributed", {
+            "page_type": "unattributed", "label": PAGE_TYPE_LABELS["unattributed"],
+            "sessions": 0, "orders": 0, "total_sales": 0.0, "page_count": 0,
+        })
+        r["orders"] += unatt["orders"]
+        r["total_sales"] += unatt["total_sales"]
+
+    rollup = []
+    for r in type_rollup.values():
+        rollup.append({
+            "page_type": r["page_type"],
+            "label": r["label"],
+            "page_count": r["page_count"],
+            "sessions": r["sessions"],
+            "orders": r["orders"],
+            "total_sales": round(r["total_sales"], 2),
+            "session_share_pct": round(r["sessions"] / total_sessions * 100, 1) if total_sessions > 0 else 0,
+        })
+    rollup.sort(key=lambda x: -x["sessions"])
+
+    comp_duration = (prev_end - prev_start).days + 1
+    return {
+        "campaign": _serialize_campaign(prev_camp),
+        "period": {
+            "start": start_str,
+            "end": end_str,
+            "duration_days": comp_duration,
+            "label": f"{start_str} → {end_str}（{comp_duration}天·同期）",
+        },
+        "matched_days": matched_days,
+        "note": f"对比口径：上个活动「{prev_camp['name']}」同期前 {matched_days} 天累计",
+        "total": {
+            "sessions": sessions_total["sessions"],
+            "pageviews": sessions_total["pageviews"],
+            "bounce_rate": sessions_total["bounce_rate"],
+            "conversion_rate": sessions_total["conversion_rate"],
+            "orders": total_orders,
+            "total_sales": round(total_sales, 2),
+            "aov": round(total_sales / total_orders, 2) if total_orders > 0 else 0,
+        },
+        "page_type_rollup": rollup,
+        "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    }
+
+
 def save_data(data):
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
@@ -627,9 +759,20 @@ def main():
             print(f"[Auto] 检测到进行中活动: {campaign_info['name']} ({start_date} → {end_date})")
         else:
             tz = get_shop_tz()
-            start_date = datetime.now(tz).date()
-            end_date = start_date
-            print(f"[Auto] 无进行中活动，默认显示今天: {start_date}")
+            today = datetime.now(tz).date()
+            # Fallback 1: most recently ENDED campaign (within 14 days) -> full period
+            recent = detect_previous_campaign(today)
+            if recent and (today - recent["end_date"]).days <= 14:
+                campaign_info = recent
+                start_date = recent["start_date"]
+                end_date = recent["end_date"]
+                print(f"[Auto] 无进行中活动，回退最近已结束活动全期: "
+                      f"{recent['name']} ({start_date} → {end_date})")
+            else:
+                # Fallback 2: last 7 days
+                start_date = today - timedelta(days=6)
+                end_date = today
+                print(f"[Auto] 无进行中活动，默认最近7天: {start_date} → {end_date}")
 
     if end_date is None:
         tz = get_shop_tz()
@@ -643,6 +786,27 @@ def main():
     config["access_token"] = refresh_token(config)
 
     data = fetch_page_data(config, start_date, end_date, campaign_info)
+
+    # Comparison with previous campaign (same-period, first N days)
+    comparison = None
+    prev_camp = detect_previous_campaign(start_date)
+    if prev_camp:
+        n_days = (end_date - start_date).days + 1
+        prev_start = prev_camp["start_date"]
+        prev_end = min(prev_start + timedelta(days=n_days - 1), prev_camp["end_date"])
+        if prev_end >= prev_start:
+            try:
+                comparison = fetch_comparison_data(
+                    config, prev_camp, prev_start, prev_end, n_days)
+            except Exception as ex:
+                print(f"  [Compare] WARN comparison fetch failed: {ex}")
+                comparison = None
+        else:
+            print(f"  [Compare] WARN invalid previous period, skip")
+    else:
+        print("  [Compare] No previous campaign found, skip")
+
+    data["comparison"] = comparison
     save_data(data)
 
     total = data["total"]
@@ -659,6 +823,20 @@ def main():
     print(f"[Page] Type rollup:")
     for r in data["page_type_rollup"][:6]:
         print(f"  {r['label']}: {r['page_count']}页 / {r['sessions']:,} sess / ${r['total_sales']:,.2f}")
+
+    comp = data.get("comparison")
+    if comp:
+        ct = comp["total"]
+        print(f"[Compare] {comp['note']}")
+        print(f"[Compare] Sessions: {ct['sessions']:,} | Orders: {ct['orders']:,} | "
+              f"Sales: ${ct['total_sales']:,.2f}")
+        cur_t = data["total"]
+        for k, fmt in [("sessions", "{:,.0f}"), ("orders", "{:,.0f}"),
+                       ("total_sales", "${:,.2f}")]:
+            pv, cv = ct.get(k) or 0, cur_t.get(k) or 0
+            delta = ((cv - pv) / pv * 100) if pv else None
+            ds = f"{delta:+.1f}%" if delta is not None else "n/a"
+            print(f"[Compare] {k}: prev {fmt.format(pv)} vs cur {fmt.format(cv)} ({ds})")
 
     return 0
 

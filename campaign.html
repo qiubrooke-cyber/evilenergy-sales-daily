@@ -377,6 +377,13 @@
       </div>
     </div>
 
+    <!-- Page Type Comparison: current vs previous campaign same-period -->
+    <div class="gantt-card" style="margin-bottom:24px;">
+      <div class="section-header"><span class="line"></span><h2 id="pageCompareTitle">页面类型对比 · 当前 vs 上个活动同期</h2></div>
+      <div id="pageCompareChart" style="width:100%;height:340px;"></div>
+      <div id="pageCompareNote" style="font-size:10px;color:var(--text-muted);margin-top:8px;"></div>
+    </div>
+
     <!-- Page Detail Table -->
     <div class="table-wrap" style="margin-bottom:24px;">
       <div class="section-header"><span class="line"></span><h2>页面明细数据 — 落地页流量 + 销售归因</h2></div>
@@ -864,6 +871,7 @@
   // ─── Page View ───
   let pgBarInst = null;
   let pgPieInst = null;
+  let pgCmpInst = null;
   let pagePollTimer = null;
   const PAGE_POLL_MS = 180000; // 3 min refresh
 
@@ -891,6 +899,15 @@
     document.getElementById('pageKpis').innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">🗂</div><div class="empty-title">${msg}</div><div class="empty-desc">正在等待页面数据...</div></div>`;
   }
 
+  // Delta vs previous campaign same-period (red = up, green = down)
+  function cmpDeltaHTML(cur, prev, fmtFn) {
+    if (prev == null || prev === 0 || cur == null) return '';
+    const pct = (cur - prev) / prev * 100;
+    const up = pct >= 0;
+    const color = up ? '#ff5470' : '#00e6b8';
+    return `<div class="ov-sub" style="color:${color};font-weight:600;">vs 上期 ${up?'▲':'▼'} ${Math.abs(pct).toFixed(1)}% · 基准 ${fmtFn(prev)}</div>`;
+  }
+
   function renderPageAll() {
     const d = pageData;
     const t = d.total || {};
@@ -898,6 +915,8 @@
     const rollup = d.page_type_rollup || [];
     const camp = d.campaign || {};
     const period = d.period || {};
+    const comp = d.comparison || null;
+    const ct = comp ? (comp.total || {}) : {};
 
     const campName = camp.name || '当前活动';
     const campTheme = camp.theme || '';
@@ -912,7 +931,8 @@
           ${campTheme ? `<span style="font-size:12px;color:var(--accent-cyan);opacity:0.7;">${campTheme}</span>` : ''}
           ${isLive ? '<span class="badge live" style="display:inline-flex;align-items:center;">⚡ 活动进行中</span>' : ''}
         </div>
-        <div style="display:flex;align-items:center;gap:8px;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          ${comp ? `<span class="badge" style="font-size:10px;color:var(--accent-cyan);">📊 对比: ${comp.campaign.name} 同期前${comp.matched_days}天</span>` : ''}
           <span class="badge" style="font-family:monospace;font-size:11px;">📅 ${period.start||'--'} → ${period.end||'--'} · ${period.duration_days||'?'}天</span>
           ${isLive ? '<span class="badge live" style="display:inline-flex;align-items:center;font-size:10px;">每3分钟自动刷新</span>' : ''}
         </div>
@@ -927,12 +947,12 @@
     const convPct = t.conversion_rate!=null ? (t.conversion_rate*100).toFixed(1)+'%' : '--';
     const bouncePct = t.bounce_rate!=null ? (t.bounce_rate*100).toFixed(1)+'%' : '--';
 
-    // Page KPI
+    // Page KPI (with comparison deltas vs previous campaign same-period)
     document.getElementById('pageKpis').innerHTML = `
-      <div class="ov-card"><div class="ov-label">会话数</div><div class="ov-value ov-accent">${fmtNum(t.sessions)}</div><div class="ov-sub">浏览 ${fmtNum(t.pageviews)} 次</div></div>
-      <div class="ov-card"><div class="ov-label">整体转化率</div><div class="ov-value ov-green">${convPct}</div><div class="ov-sub">跳出率 ${bouncePct}</div></div>
-      <div class="ov-card"><div class="ov-label">订单数</div><div class="ov-value">${fmtNum(t.orders)}</div><div class="ov-sub">客单价 ${fmtUSD(t.aov)}</div></div>
-      <div class="ov-card"><div class="ov-label">落地页销售额</div><div class="ov-value ov-accent">${fmtUSD(t.total_sales)}</div><div class="ov-sub">${fmtNum(t.page_count)} 个落地页 · 明细 ${d.page_count} 行</div></div>`;
+      <div class="ov-card"><div class="ov-label">会话数</div><div class="ov-value ov-accent">${fmtNum(t.sessions)}</div><div class="ov-sub">浏览 ${fmtNum(t.pageviews)} 次</div>${cmpDeltaHTML(t.sessions, ct.sessions, v=>fmtNum(v))}</div>
+      <div class="ov-card"><div class="ov-label">整体转化率</div><div class="ov-value ov-green">${convPct}</div><div class="ov-sub">跳出率 ${bouncePct}</div>${cmpDeltaHTML(t.conversion_rate, ct.conversion_rate, v=>fmtPct(v))}</div>
+      <div class="ov-card"><div class="ov-label">订单数</div><div class="ov-value">${fmtNum(t.orders)}</div><div class="ov-sub">客单价 ${fmtUSD(t.aov)}</div>${cmpDeltaHTML(t.orders, ct.orders, v=>fmtNum(v))}</div>
+      <div class="ov-card"><div class="ov-label">落地页销售额</div><div class="ov-value ov-accent">${fmtUSD(t.total_sales)}</div><div class="ov-sub">${fmtNum(t.page_count)} 个落地页 · 明细 ${d.page_count} 行</div>${cmpDeltaHTML(t.total_sales, ct.total_sales, v=>fmtUSD(v))}</div>`;
 
     // Attribution note
     document.getElementById('pageAttributionNote').innerHTML =
@@ -940,6 +960,7 @@
 
     renderPageBar(pages);
     renderPagePie(rollup);
+    renderPageCompare(comp, rollup);
     renderPageTable(pages);
   }
 
@@ -1046,6 +1067,105 @@
     pgPieInst.setOption(opts);
     window.addEventListener('resize',()=>{if(pgPieInst)pgPieInst.resize();});
     pgPieInst.resize();
+  }
+
+  function renderPageCompare(comp, curRollup) {
+    const dom = document.getElementById('pageCompareChart');
+    const noteEl = document.getElementById('pageCompareNote');
+    const titleEl = document.getElementById('pageCompareTitle');
+    if (pgCmpInst) { pgCmpInst.dispose(); pgCmpInst = null; }
+
+    if (!comp || !comp.total) {
+      titleEl.textContent = '页面类型对比 · 暂无上期对比数据';
+      dom.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:110px 0">未找到可对比的历史活动</div>';
+      noteEl.textContent = '';
+      return;
+    }
+
+    const prevRollup = comp.page_type_rollup || [];
+    const curName = (pageData.campaign && pageData.campaign.name) || '当前活动';
+    const prevName = comp.campaign.name || '上个活动';
+    titleEl.textContent = `页面类型对比 · ${curName} vs 「${prevName}」同期前 ${comp.matched_days} 天`;
+
+    // Merge page types (current order first, then prev-only types)
+    const prevMap = {};
+    prevRollup.forEach(r => prevMap[r.page_type] = r);
+    const curMap = {};
+    curRollup.forEach(r => curMap[r.page_type] = r);
+    const types = curRollup.map(r => r.page_type);
+    prevRollup.forEach(r => { if (!curMap[r.page_type]) types.push(r.page_type); });
+    if (!types.length) { dom.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:110px 0">暂无数据</div>'; return; }
+
+    const items = types.map(tp => ({
+      type: tp,
+      label: (curMap[tp] && curMap[tp].label) || (prevMap[tp] && prevMap[tp].label) || tp,
+      cur: curMap[tp] || { sessions:0, orders:0, total_sales:0 },
+      prev: prevMap[tp] || { sessions:0, orders:0, total_sales:0 },
+    }));
+    items.sort((a,b) => (b.cur.sessions||0) - (a.cur.sessions||0));
+
+    const labels = items.map(x => x.label).reverse();
+    const curVals = items.map(x => x.cur.sessions || 0).reverse();
+    const prevVals = items.map(x => x.prev.sessions || 0).reverse();
+    const revItems = items.slice().reverse(); // align with reversed axis
+
+    const opts = {
+      backgroundColor:'transparent',
+      grid:{top:30,right:20,bottom:4,left:90,containLabel:true},
+      legend:{
+        top:0, right:0, itemWidth:12, itemHeight:8,
+        textStyle:{color:'rgba(155,189,232,0.7)',fontSize:11},
+        data:[curName, prevName + ' 同期'],
+      },
+      tooltip:{
+        trigger:'axis', backgroundColor:'rgba(4,16,40,0.95)', borderColor:'rgba(0,184,255,0.25)',
+        textStyle:{color:'#9bbde8',fontSize:12},
+        formatter:ps=>{
+          if(!ps||!ps.length) return '';
+          const it = revItems[ps[0].dataIndex]; if(!it) return '';
+          const dp = s => s==null||s===0 ? '' : (((s<0)?'':'')+s.toFixed(1)+'%');
+          const cS=it.cur.sessions||0, pS=it.prev.sessions||0;
+          const cO=it.cur.orders||0, pO=it.prev.orders||0;
+          const cV=it.cur.total_sales||0, pV=it.prev.total_sales||0;
+          const dl = (c,p) => p>0 ? `<span style="color:${c>=p?'#ff5470':'#00e6b8'}">${c>=p?'▲':'▼'}${Math.abs((c-p)/p*100).toFixed(1)}%</span>` : '<span style="opacity:0.5">n/a</span>';
+          return `<div style="font-size:12px;color:#fff;font-weight:700;margin-bottom:4px">${it.label}</div>` +
+            `<div style="font-size:11px;color:#00e6ff">当前: 👥${fmtNum(cS)} · 📦${fmtNum(cO)}单 · 💰${fmtUSD(cV)}</div>` +
+            `<div style="font-size:11px;color:rgba(155,189,232,0.75)">上期: 👥${fmtNum(pS)} · 📦${fmtNum(pO)}单 · 💰${fmtUSD(pV)}</div>` +
+            `<div style="font-size:11px;margin-top:2px">会话 ${dl(cS,pS)} · 订单 ${dl(cO,pO)} · 销售 ${dl(cV,pV)}</div>`;
+        }
+      },
+      xAxis:{
+        type:'value',
+        axisLine:{show:false}, axisTick:{show:false},
+        axisLabel:{color:'rgba(155,189,232,0.3)',fontSize:9, formatter:v=>v>=1000?(v/1000).toFixed(0)+'k':v},
+        splitLine:{lineStyle:{color:'rgba(155,189,232,0.04)'}},
+      },
+      yAxis:{
+        type:'category', data:labels,
+        axisLine:{show:false}, axisTick:{show:false},
+        axisLabel:{color:'rgba(155,189,232,0.7)',fontSize:11},
+      },
+      series:[
+        {
+          name: curName, type:'bar', data:curVals, barWidth:'32%',
+          itemStyle:{ borderRadius:[0,3,3,0],
+            color:new echarts.graphic.LinearGradient(0,0,1,0,[
+              {offset:0,color:'rgba(0,230,184,0.15)'},{offset:1,color:'rgba(0,230,255,0.75)'}
+            ]),
+          },
+        },
+        {
+          name: prevName + ' 同期', type:'bar', data:prevVals, barWidth:'32%',
+          itemStyle:{ borderRadius:[0,3,3,0], color:'rgba(126,168,217,0.35)' },
+        },
+      ],
+    };
+    pgCmpInst = echarts.init(dom);
+    pgCmpInst.setOption(opts);
+    window.addEventListener('resize',()=>{if(pgCmpInst)pgCmpInst.resize();});
+    pgCmpInst.resize();
+
+    noteEl.textContent = comp.note + ' · 当前活动为进行中数据（今日尚未完整）';
   }
 
   function renderPageTable(pages) {
