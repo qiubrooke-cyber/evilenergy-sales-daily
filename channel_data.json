@@ -9,10 +9,10 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 18130.21,
-    "net_sales": 16927.25,
-    "orders": 164,
-    "aov": 110.55
+    "total_sales": 18220.15,
+    "net_sales": 17010.24,
+    "orders": 165,
+    "aov": 110.43
   },
   "channels": [
     {
@@ -61,6 +61,15 @@
       "aov": 150.17
     },
     {
+      "referring_channel": "Unattributed",
+      "traffic_type": "Unknown",
+      "referring_platform": "Unknown",
+      "total_sales": 647.86,
+      "net_sales": 611.24,
+      "orders": 10,
+      "aov": 64.79
+    },
+    {
       "referring_channel": "facebook",
       "traffic_type": "paid",
       "referring_platform": "meta",
@@ -68,15 +77,6 @@
       "net_sales": 542.69,
       "orders": 6,
       "aov": 94.65
-    },
-    {
-      "referring_channel": "Unattributed",
-      "traffic_type": "Unknown",
-      "referring_platform": "Unknown",
-      "total_sales": 557.92,
-      "net_sales": 528.25,
-      "orders": 9,
-      "aov": 61.99
     },
     {
       "referring_channel": "couponcove",
@@ -175,9 +175,9 @@
     },
     {
       "referring_channel": "Unattributed",
-      "total_sales": 557.92,
-      "net_sales": 528.25,
-      "orders": 9
+      "total_sales": 647.86,
+      "net_sales": 611.24,
+      "orders": 10
     },
     {
       "referring_channel": "couponcove",
@@ -231,9 +231,9 @@
     },
     {
       "traffic_type": "Unknown",
-      "total_sales": 557.92,
-      "net_sales": 528.25,
-      "orders": 9
+      "total_sales": 647.86,
+      "net_sales": 611.24,
+      "orders": 10
     },
     {
       "traffic_type": "unknown",
@@ -333,14 +333,14 @@
     },
     {
       "hour": "2026-09-03T02:00:00Z",
-      "orders": 0
+      "orders": 1
     },
     {
       "hour": "2026-09-03T03:00:00Z",
       "orders": 0
     }
   ],
-  "updated_at": "2026-09-03 02:03:15",
+  "updated_at": "2026-09-03 02:12:56",
   "channel_count": 14,
   "data_source": "shopifyql"
 }
