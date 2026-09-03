@@ -15,10 +15,10 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 888.26,
-    "net_sales": 815.97,
-    "orders": 8,
-    "aov": 111.03
+    "total_sales": 937.64,
+    "net_sales": 855.96,
+    "orders": 9,
+    "aov": 104.18
   },
   "channels": [
     {
@@ -38,6 +38,15 @@
       "net_sales": 178.31,
       "orders": 2,
       "aov": 91.08
+    },
+    {
+      "referring_channel": "Unattributed",
+      "traffic_type": "Unknown",
+      "referring_platform": "Unknown",
+      "total_sales": 49.38,
+      "net_sales": 39.99,
+      "orders": 1,
+      "aov": 49.38
     }
   ],
   "channel_rollup": [
@@ -52,6 +61,12 @@
       "total_sales": 182.15,
       "net_sales": 178.31,
       "orders": 2
+    },
+    {
+      "referring_channel": "Unattributed",
+      "total_sales": 49.38,
+      "net_sales": 39.99,
+      "orders": 1
     }
   ],
   "traffic_rollup": [
@@ -60,6 +75,12 @@
       "total_sales": 888.26,
       "net_sales": 815.97,
       "orders": 8
+    },
+    {
+      "traffic_type": "Unknown",
+      "total_sales": 49.38,
+      "net_sales": 39.99,
+      "orders": 1
     }
   ],
   "hourly": [
@@ -73,7 +94,7 @@
     },
     {
       "hour": "2026-09-03T06:00:00Z",
-      "orders": 2
+      "orders": 3
     },
     {
       "hour": "2026-09-03T07:00:00Z",
@@ -160,7 +181,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-09-03 06:36:11",
-  "channel_count": 2,
+  "updated_at": "2026-09-03 06:43:01",
+  "channel_count": 3,
   "data_source": "shopifyql"
 }
