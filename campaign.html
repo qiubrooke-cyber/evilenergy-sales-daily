@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <title>活动业绩 · 营销日历 & 渠道/页面表现 — EVIL ENERGY</title>
+  <title>活动业绩 · 营销日历 & 渠道/活动总数据 — EVIL ENERGY</title>
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
   <style>
     :root {
@@ -302,7 +302,7 @@
   <div class="view-toggle" style="display:flex;gap:0;margin-bottom:20px;">
     <button class="vt-btn active" id="vtCampaign" onclick="switchView('campaign')">📅 活动日历</button>
     <button class="vt-btn" id="vtChannel" onclick="switchView('channel')">📊 渠道表现</button>
-    <button class="vt-btn" id="vtPage" onclick="switchView('page')">🗂 页面表现</button>
+    <button class="vt-btn" id="vtPage" onclick="switchView('page')">📊 活动总数据</button>
   </div>
 
   <!-- ========== View: Campaign ========== -->
@@ -364,6 +364,18 @@
 
     <!-- Page KPI -->
     <div class="overview-grid" id="pageKpis"></div>
+
+    <!-- Deals Page Spotlight + Discount Overview -->
+    <div style="display:grid;grid-template-columns:1.35fr 1fr;gap:14px;margin-bottom:24px;" id="dealsDiscountRow">
+      <div class="gantt-card" id="dealsCard">
+        <div class="section-header"><span class="line"></span><h2>🎯 活动落地页专项 · /pages/evilenergy-deals</h2></div>
+        <div id="dealsPanel"></div>
+      </div>
+      <div class="gantt-card" id="discountCard">
+        <div class="section-header"><span class="line"></span><h2>🏷 折扣使用概览</h2></div>
+        <div id="discountPanel"></div>
+      </div>
+    </div>
 
     <!-- Page Charts Row -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;">
@@ -728,14 +740,14 @@
     const organicPct = organicTotal ? (t.total_sales>0 ? (organicTotal.total_sales/t.total_sales*100).toFixed(1) : '0') : '0';
 
     document.getElementById('channelKpis').innerHTML = `
-      <div class="ov-card"><div class="ov-label">${isLive?'实时':'累计'}销售额</div><div class="ov-value ov-accent">${fmtUSD(t.total_sales)}</div><div class="ov-sub">${fmtNum(t.orders)} 单 · AOV ${fmtUSD(t.aov)}</div></div>
+      <div class="ov-card"><div class="ov-label">${isLive?'实时':'累计'}销售额</div><div class="ov-value ov-accent">${fmtUSD(t.total_sales)}</div><div class="ov-sub">${fmtNum(t.orders)} 单 · AOV ${fmtUSD(t.aov)} · 👥 ${fmtNum(t.sessions||0)} 会话</div></div>
       <div class="ov-card"><div class="ov-label">付费渠道占比</div><div class="ov-value ov-accent">${paidPct}%</div><div class="ov-sub">${fmtUSD(paidTotal?paidTotal.total_sales:0)} · ${paidTotal?paidTotal.orders:0} 单</div></div>
       <div class="ov-card"><div class="ov-label">自然流量占比</div><div class="ov-value ov-green">${organicPct}%</div><div class="ov-sub">${fmtUSD(organicTotal?organicTotal.total_sales:0)} · ${organicTotal?organicTotal.orders:0} 单</div></div>
       <div class="ov-card"><div class="ov-label">Google Ads 贡献</div><div class="ov-value">${googlePct}%</div><div class="ov-sub">${fmtUSD(googlePaid?googlePaid.total_sales:0)} · ${googlePaid?googlePaid.orders:0} 单</div></div>`;
 
     // Attribution note
-    document.getElementById('channelAttributionNote').innerHTML = 
-      `归因模型：LAST_NON_DIRECT_CLICK | 维度：referring_channel + traffic_type + referring_platform | 未使用UTM反推 | 数据源：ShopifyQL · ${d.channel_count||0} 条渠道维度`;
+    document.getElementById('channelAttributionNote').innerHTML =
+      `归因模型：LAST_NON_DIRECT_CLICK | 维度：referring_channel + traffic_type + referring_platform | 流量 = ShopifyQL sessions（会话归因）· 转化率 = 组内订单/会话 | 未使用UTM反推 | ${d.channel_count||0} 条渠道维度`;
 
     // Bar chart
     renderChannelBar(ch.slice(0, 15));
@@ -846,17 +858,21 @@
     const tb = document.getElementById('channelTable');
     const total = channelData.total.total_sales;
     let h = `<thead><tr>
-      <th>渠道 (referring_channel)</th><th>流量类型</th><th>平台</th><th class="ra">销售额</th><th class="ra">占比</th>
+      <th>渠道 (referring_channel)</th><th>流量类型</th><th>平台</th><th class="ra">流量(会话)</th><th class="ra">转化率</th><th class="ra">销售额</th><th class="ra">占比</th>
       <th class="ra">净销售额</th><th class="ra">订单</th><th class="ra">客单价</th>
     </tr></thead><tbody>`;
 
     ch.forEach(c=>{
       const pct = total>0 ? (c.total_sales/total*100).toFixed(1) : '0';
       const ttCls = {paid:'ch-paid',organic:'ch-organic',direct:'ch-direct'}[c.traffic_type] || 'ch-unknown';
+      const cr = c.conversion_rate!=null ? (c.conversion_rate*100).toFixed(2)+'%' : '--';
+      const crColor = c.conversion_rate!=null && c.conversion_rate>=0.02 ? '#00e6b8' : (c.conversion_rate!=null ? '#9bbde8' : 'var(--text-muted)');
       h += `<tr>
         <td class="strong">${c.referring_channel}</td>
         <td><span class="ch-tag ${ttCls}">${c.traffic_type}</span></td>
         <td style="font-size:10px;color:var(--text-muted)">${c.referring_platform}</td>
+        <td class="ra">${fmtNum(c.sessions||0)}</td>
+        <td class="ra" style="color:${crColor};font-weight:600;">${cr}</td>
         <td class="ra strong">${fmtUSD(c.total_sales)}</td>
         <td class="ra" style="color:var(--accent-cyan)">${pct}%</td>
         <td class="ra">${fmtUSD(c.net_sales)}</td>
@@ -896,7 +912,7 @@
 
   function showPageEmpty(msg) {
     document.getElementById('pageHeader').innerHTML = '';
-    document.getElementById('pageKpis').innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">🗂</div><div class="empty-title">${msg}</div><div class="empty-desc">正在等待页面数据...</div></div>`;
+    document.getElementById('pageKpis').innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">📊</div><div class="empty-title">${msg}</div><div class="empty-desc">正在等待活动总数据...</div></div>`;
   }
 
   // Delta vs previous campaign same-period (red = up, green = down)
@@ -941,27 +957,164 @@
     // Top bar
     document.getElementById('badgeUpdated').textContent = '页面数据更新于 ' + (d.updated_at||'--');
     const bl = document.getElementById('badgeLive');
-    if (isLive) { bl.style.display='inline-block'; bl.textContent = '⚡ ' + campName + ' · 页面表现'; }
-    else { bl.style.display='inline-block'; bl.textContent = '🗂 页面表现 · ' + period.label; }
+    if (isLive) { bl.style.display='inline-block'; bl.textContent = '⚡ ' + campName + ' · 活动总数据'; }
+    else { bl.style.display='inline-block'; bl.textContent = '📊 活动总数据 · ' + period.label; }
 
     const convPct = t.conversion_rate!=null ? (t.conversion_rate*100).toFixed(1)+'%' : '--';
     const bouncePct = t.bounce_rate!=null ? (t.bounce_rate*100).toFixed(1)+'%' : '--';
 
+    // Full-store KPI (ShopifyQL sales) + discount + deals
+    const sk = d.sales_kpi || {};
+    const dsx = d.discount_summary || {};
+    const csk = (comp && comp.sales_kpi) || {};
+    const cds = (comp && comp.discount_summary) || {};
+    const deals = (d.deals_page && d.deals_page.current) || {};
+    const dr = sk.discount_rate!=null ? sk.discount_rate.toFixed(2)+'%' : '--';
+    const dsvp = dsx.discount_order_pct!=null ? dsx.discount_order_pct.toFixed(1)+'%' : '--';
+
     // Page KPI (with comparison deltas vs previous campaign same-period)
     document.getElementById('pageKpis').innerHTML = `
+      <div class="ov-card"><div class="ov-label">总销售额（全店）</div><div class="ov-value ov-accent">${fmtUSD(sk.total_sales)}</div><div class="ov-sub">净销售额 ${fmtUSD(sk.net_sales)} · 毛额 ${fmtUSD(sk.gross_sales)}</div>${cmpDeltaHTML(sk.total_sales, csk.total_sales, v=>fmtUSD(v))}</div>
+      <div class="ov-card"><div class="ov-label">订单数量</div><div class="ov-value">${fmtNum(sk.orders)}</div><div class="ov-sub">落地页归因 ${fmtNum(t.orders)} 单 · 未归因 ${fmtNum(Math.max((t.orders||0)-(sk.orders||0),0))} 单</div>${cmpDeltaHTML(sk.orders, csk.orders, v=>fmtNum(v))}</div>
+      <div class="ov-card"><div class="ov-label">客单价 AOV</div><div class="ov-value ov-green">${fmtUSD(sk.aov)}</div><div class="ov-sub">落地页口径 AOV ${fmtUSD(t.aov)}</div>${cmpDeltaHTML(sk.aov, csk.aov, v=>fmtUSD(v))}</div>
+      <div class="ov-card"><div class="ov-label">折扣率</div><div class="ov-value" style="color:#ffd166;">${dr}</div><div class="ov-sub">折扣 ${fmtUSD(sk.discounts)} · 毛额 ${fmtUSD(sk.gross_sales)}</div>${cmpDeltaHTML(sk.discount_rate, csk.discount_rate, v=>v.toFixed(2)+'%')}</div>
       <div class="ov-card"><div class="ov-label">会话数</div><div class="ov-value ov-accent">${fmtNum(t.sessions)}</div><div class="ov-sub">浏览 ${fmtNum(t.pageviews)} 次</div>${cmpDeltaHTML(t.sessions, ct.sessions, v=>fmtNum(v))}</div>
       <div class="ov-card"><div class="ov-label">整体转化率</div><div class="ov-value ov-green">${convPct}</div><div class="ov-sub">跳出率 ${bouncePct}</div>${cmpDeltaHTML(t.conversion_rate, ct.conversion_rate, v=>fmtPct(v))}</div>
-      <div class="ov-card"><div class="ov-label">订单数</div><div class="ov-value">${fmtNum(t.orders)}</div><div class="ov-sub">客单价 ${fmtUSD(t.aov)}</div>${cmpDeltaHTML(t.orders, ct.orders, v=>fmtNum(v))}</div>
-      <div class="ov-card"><div class="ov-label">落地页销售额</div><div class="ov-value ov-accent">${fmtUSD(t.total_sales)}</div><div class="ov-sub">${fmtNum(t.page_count)} 个落地页 · 明细 ${d.page_count} 行</div>${cmpDeltaHTML(t.total_sales, ct.total_sales, v=>fmtUSD(v))}</div>`;
+      <div class="ov-card"><div class="ov-label">折扣订单占比</div><div class="ov-value" style="color:#ffd166;">${dsvp}</div><div class="ov-sub">${fmtNum(dsx.discount_orders)} 单享折扣 · 均折 ${fmtUSD(dsx.avg_discount_per_order)}</div>${cmpDeltaHTML(dsx.discount_order_pct, cds.discount_order_pct, v=>v.toFixed(1)+'%')}</div>
+      <div class="ov-card"><div class="ov-label">Deals 页销售额</div><div class="ov-value">${fmtUSD(deals.total_sales)}</div><div class="ov-sub">${fmtNum(deals.orders)} 单 · 占全店 ${deals.sales_share_pct!=null?deals.sales_share_pct.toFixed(1):'--'}% · ${fmtNum(deals.sessions)} 会话</div></div>`;
 
     // Attribution note
     document.getElementById('pageAttributionNote').innerHTML =
-      `归因口径：流量 = ShopifyQL sessions by landing_page_path；销售 = REST Orders by landing_site（订单实付总额，与 ShopifyQL total_sales 略有口径差异） | 共 ${d.page_count} 条落地页维度`;
+      `归因口径：总数据 = ShopifyQL sales 全店口径；流量 = ShopifyQL sessions by landing_page_path；销售明细 = REST Orders by landing_site | 共 ${d.page_count} 条落地页维度`;
 
+    renderDealsPanel(d);
+    renderDiscountPanel(d);
     renderPageBar(pages);
     renderPagePie(rollup);
     renderPageCompare(comp, rollup);
     renderPageTable(pages);
+  }
+
+  // ─── Deals page spotlight + discount overview panels ───
+  function renderDealsPanel(d) {
+    const el = document.getElementById('dealsPanel');
+    const dp = d.deals_page || {};
+    const cur = dp.current || {};
+    const hist = dp.history || [];
+    if (!cur || (cur.sessions||0)===0 && (cur.orders||0)===0 && !hist.length) {
+      el.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:60px 0">暂无 Deals 页数据</div>';
+      return;
+    }
+    const convPct = cur.conversion_rate!=null ? (cur.conversion_rate*100).toFixed(2)+'%' : '--';
+    const curDays = (cur.period && cur.period.duration_days) || 1;
+    const curDaily = curDays>0 ? (cur.total_sales||0)/curDays : 0;
+
+    let h = `
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;">
+        <div><div style="font-size:10px;color:var(--text-muted);">本期销售额</div><div style="font-size:20px;font-weight:800;color:var(--accent-cyan);font-family:monospace;">${fmtUSD(cur.total_sales)}</div></div>
+        <div><div style="font-size:10px;color:var(--text-muted);">本期订单</div><div style="font-size:20px;font-weight:800;color:#fff;font-family:monospace;">${fmtNum(cur.orders)}</div></div>
+        <div><div style="font-size:10px;color:var(--text-muted);">会话 / 转化</div><div style="font-size:20px;font-weight:800;color:#fff;font-family:monospace;">${fmtNum(cur.sessions)}<span style="font-size:12px;color:var(--text-muted);"> · ${convPct}</span></div></div>
+        <div><div style="font-size:10px;color:var(--text-muted);">日均销售额</div><div style="font-size:20px;font-weight:800;color:var(--accent-green);font-family:monospace;">${fmtUSD(curDaily)}</div></div>
+      </div>`;
+
+    if (hist.length) {
+      h += `<table style="width:100%;border-collapse:collapse;font-size:11px;">
+        <thead><tr style="color:var(--text-muted);border-bottom:1px solid rgba(126,168,217,0.15);">
+          <th style="text-align:left;padding:6px 4px;">往期活动（全期）</th>
+          <th style="text-align:right;padding:6px 4px;">天数</th>
+          <th style="text-align:right;padding:6px 4px;">会话</th>
+          <th style="text-align:right;padding:6px 4px;">订单</th>
+          <th style="text-align:right;padding:6px 4px;">销售额</th>
+          <th style="text-align:right;padding:6px 4px;">AOV</th>
+          <th style="text-align:right;padding:6px 4px;">日均</th>
+        </tr></thead><tbody>`;
+      hist.forEach(x => {
+        const days = (x.period && x.period.duration_days) || 1;
+        const daily = days>0 ? (x.total_sales||0)/days : 0;
+        const dailyDelta = daily>0 ? ((curDaily/daily-1)*100) : null;
+        const dd = dailyDelta!=null
+          ? `<span style="color:${dailyDelta>=0?'#ff5470':'#00e6b8'};font-weight:700;">${dailyDelta>=0?'▲':'▼'}${Math.abs(dailyDelta).toFixed(0)}%</span>` : '--';
+        h += `<tr style="border-bottom:1px solid rgba(126,168,217,0.06);">
+          <td style="padding:6px 4px;color:#fff;font-weight:600;">${x.campaign.name}<span style="color:var(--text-muted);font-weight:400;font-size:9px;"> ${x.period.start.slice(5)}~${x.period.end.slice(5)}</span></td>
+          <td style="text-align:right;padding:6px 4px;color:var(--text-muted);">${days}</td>
+          <td style="text-align:right;padding:6px 4px;">${fmtNum(x.sessions)}</td>
+          <td style="text-align:right;padding:6px 4px;">${fmtNum(x.orders)}</td>
+          <td style="text-align:right;padding:6px 4px;color:var(--accent-cyan);">${fmtUSD(x.total_sales)}</td>
+          <td style="text-align:right;padding:6px 4px;">${fmtUSD(x.aov)}</td>
+          <td style="text-align:right;padding:6px 4px;">${fmtUSD(daily)} ${dd}</td>
+        </tr>`;
+      });
+      // current row
+      h += `<tr style="background:rgba(0,230,255,0.05);border-bottom:none;">
+        <td style="padding:7px 4px;color:var(--accent-cyan);font-weight:800;">${(cur.campaign&&cur.campaign.name)||'本期'}<span style="color:var(--accent-green);font-size:9px;"> ⚡进行中</span></td>
+        <td style="text-align:right;padding:7px 4px;color:var(--text-muted);">${curDays}</td>
+        <td style="text-align:right;padding:7px 4px;color:var(--accent-cyan);">${fmtNum(cur.sessions)}</td>
+        <td style="text-align:right;padding:7px 4px;color:var(--accent-cyan);">${fmtNum(cur.orders)}</td>
+        <td style="text-align:right;padding:7px 4px;color:var(--accent-cyan);font-weight:700;">${fmtUSD(cur.total_sales)}</td>
+        <td style="text-align:right;padding:7px 4px;color:var(--accent-cyan);">${fmtUSD(cur.aov)}</td>
+        <td style="text-align:right;padding:7px 4px;color:var(--accent-green);font-weight:700;">${fmtUSD(curDaily)}</td>
+      </tr>`;
+      h += '</tbody></table>';
+      h += `<div style="font-size:10px;color:var(--text-muted);margin-top:8px;">注：往期为活动全期数据，本期为进行中实时数据；「日均」列的 ▲▼ 为本期日均 vs 该往期日均，口径公平。</div>`;
+    }
+    el.innerHTML = h;
+  }
+
+  function renderDiscountPanel(d) {
+    const el = document.getElementById('discountPanel');
+    const sk = d.sales_kpi || {};
+    const dsx = d.discount_summary || {};
+    const dr = sk.discount_rate!=null ? sk.discount_rate.toFixed(2)+'%' : '--';
+    const comp = d.comparison;
+    const cds = (comp && comp.discount_summary) || {};
+    const csk = (comp && comp.sales_kpi) || {};
+    const prevDr = csk.discount_rate;
+
+    let deltaHTML = '';
+    if (prevDr != null && sk.discount_rate != null) {
+      const diff = sk.discount_rate - prevDr;
+      const color = diff >= 0 ? '#ff5470' : '#00e6b8';
+      deltaHTML = `<div style="font-size:11px;color:${color};font-weight:600;margin-top:2px;">vs 上期 ${diff>=0?'▲':'▼'} ${Math.abs(diff).toFixed(2)}pct · 基准 ${prevDr.toFixed(2)}%</div>`;
+    }
+
+    let h = `
+      <div style="text-align:center;padding:6px 0 12px;">
+        <div style="font-size:11px;color:var(--text-muted);">本期整体折扣率</div>
+        <div style="font-size:40px;font-weight:900;color:#ffd166;font-family:monospace;line-height:1.15;">${dr}</div>
+        <div style="font-size:11px;color:var(--text-muted);">折扣总额 ${fmtUSD(sk.discounts)} / 毛额 ${fmtUSD(sk.gross_sales)}</div>
+        ${deltaHTML}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+        <div style="background:rgba(126,168,217,0.06);border-radius:8px;padding:10px;">
+          <div style="font-size:10px;color:var(--text-muted);">折扣订单</div>
+          <div style="font-size:17px;font-weight:800;color:#fff;font-family:monospace;">${fmtNum(dsx.discount_orders)} <span style="font-size:11px;color:var(--text-muted);">/ ${fmtNum(sk.orders)}</span></div>
+          <div style="font-size:10px;color:var(--accent-cyan);">占比 ${dsx.discount_order_pct!=null?dsx.discount_order_pct.toFixed(1):'--'}% · 均折 ${fmtUSD(dsx.avg_discount_per_order)}</div>
+        </div>
+        <div style="background:rgba(126,168,217,0.06);border-radius:8px;padding:10px;">
+          <div style="font-size:10px;color:var(--text-muted);">折扣码使用</div>
+          <div style="font-size:17px;font-weight:800;color:#fff;font-family:monospace;">${fmtNum(dsx.code_count)} <span style="font-size:11px;color:var(--text-muted);">个码</span></div>
+          <div style="font-size:10px;color:var(--text-muted);">上期折扣率 ${prevDr!=null?prevDr.toFixed(2)+'%':'--'}</div>
+        </div>
+      </div>`;
+
+    const codes = dsx.codes || [];
+    if (codes.length) {
+      h += `<div style="font-size:10px;color:var(--text-muted);margin-bottom:6px;">折扣码 TOP（按订单数）</div><table style="width:100%;border-collapse:collapse;font-size:11px;">
+        <thead><tr style="color:var(--text-muted);border-bottom:1px solid rgba(126,168,217,0.15);">
+          <th style="text-align:left;padding:4px;">码</th><th style="text-align:right;padding:4px;">订单</th><th style="text-align:right;padding:4px;">销售额</th>
+        </tr></thead><tbody>`;
+      codes.slice(0, 8).forEach(c => {
+        h += `<tr style="border-bottom:1px solid rgba(126,168,217,0.06);">
+          <td style="padding:4px;color:#ffd166;font-family:monospace;font-weight:700;">${c.code}</td>
+          <td style="text-align:right;padding:4px;">${fmtNum(c.orders)}</td>
+          <td style="text-align:right;padding:4px;color:var(--accent-cyan);">${fmtUSD(c.sales)}</td>
+        </tr>`;
+      });
+      h += '</tbody></table>';
+    } else {
+      h += '<div style="text-align:center;color:var(--text-muted);padding:16px 0;font-size:11px;">本期暂无折扣码订单（自动折扣仍计入折扣率）</div>';
+    }
+    el.innerHTML = h;
   }
 
   function renderPageBar(pages) {
