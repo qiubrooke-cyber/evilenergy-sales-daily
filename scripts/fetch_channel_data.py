@@ -270,6 +270,34 @@ def fetch_channel_data(config, start_date, end_date, campaign_info=None):
     )
     rows_channel = shopifyql_query(domain, token, ql_channel)
 
+    # Query 2b: Sessions (traffic) by the same channel dims + native conversion rate
+    sess_map = {}
+    try:
+        ql_sess = (
+            "FROM sessions SHOW sessions, conversion_rate "
+            "GROUP BY referring_channel, traffic_type, referring_platform "
+            f"SINCE {start_str} UNTIL {end_str}"
+        )
+        rows_sess = shopifyql_query(domain, token, ql_sess)
+        for row in rows_sess or []:
+            key = (
+                row.get("referring_channel") or "Unattributed",
+                row.get("traffic_type") or "Unknown",
+                row.get("referring_platform") or "Unknown",
+            )
+            try:
+                sess = int(float(row.get("sessions", "0") or 0))
+            except (TypeError, ValueError):
+                sess = 0
+            try:
+                cr = float(row.get("conversion_rate") or 0)
+            except (TypeError, ValueError):
+                cr = None
+            if sess > 0:
+                sess_map[key] = {"sessions": sess, "conversion_rate": cr}
+    except Exception as e:
+        print(f"  [WARN] sessions-by-channel query failed: {e}")
+
     # Query 3: Hourly today (for realtime feel)
     ql_hourly = ""
     rows_hourly = []
@@ -277,7 +305,7 @@ def fetch_channel_data(config, start_date, end_date, campaign_info=None):
         ql_hourly = f"FROM sales SHOW orders TIMESERIES hour SINCE {end_str} UNTIL {end_str}"
         rows_hourly = shopifyql_query(domain, token, ql_hourly)
 
-    # Parse channels
+    # Parse channels (merge sales + sessions by the same 3-part key)
     channels = []
     for row in rows_channel:
         ch = row.get("referring_channel") or "Unattributed"
@@ -287,9 +315,15 @@ def fetch_channel_data(config, start_date, end_date, campaign_info=None):
         ts = float(row.get("total_sales", "0"))
         ns = float(row.get("net_sales", "0"))
         ords = int(row.get("orders", "0"))
+        s = sess_map.pop((ch, tt, rp), {"sessions": 0, "conversion_rate": None})
 
-        if ts == 0 and ords == 0:
+        if ts == 0 and ords == 0 and s["sessions"] == 0:
             continue
+
+        # Prefer ShopifyQL native conversion rate; fallback orders/sessions
+        cr = s.get("conversion_rate")
+        if cr is None and s["sessions"] > 0:
+            cr = ords / s["sessions"]
 
         channels.append({
             "referring_channel": ch,
@@ -299,23 +333,41 @@ def fetch_channel_data(config, start_date, end_date, campaign_info=None):
             "net_sales": round(ns, 2),
             "orders": ords,
             "aov": round(ts / ords, 2) if ords > 0 else 0,
+            "sessions": s["sessions"],
+            "conversion_rate": round(cr, 4) if cr is not None else None,
         })
 
-    channels.sort(key=lambda c: -c["total_sales"])
+    # Traffic-only channels (sessions but no attributed sales) are still valuable
+    for (ch, tt, rp), s in sess_map.items():
+        channels.append({
+            "referring_channel": ch,
+            "traffic_type": tt,
+            "referring_platform": rp,
+            "total_sales": 0,
+            "net_sales": 0,
+            "orders": 0,
+            "aov": 0,
+            "sessions": s["sessions"],
+            "conversion_rate": round(s.get("conversion_rate"), 4)
+                               if s.get("conversion_rate") is not None else None,
+        })
+
+    channels.sort(key=lambda c: (-c["total_sales"], -c["sessions"]))
 
     # Channel rollup
     channel_rollup = {}
     for c in channels:
         key = c["referring_channel"]
         if key not in channel_rollup:
-            channel_rollup[key] = {"total_sales": 0, "net_sales": 0, "orders": 0}
+            channel_rollup[key] = {"total_sales": 0, "net_sales": 0, "orders": 0, "sessions": 0}
         channel_rollup[key]["total_sales"] += c["total_sales"]
         channel_rollup[key]["net_sales"] += c["net_sales"]
         channel_rollup[key]["orders"] += c["orders"]
+        channel_rollup[key]["sessions"] += c["sessions"]
 
     channel_rollup_sorted = [
         {"referring_channel": k, "total_sales": round(v["total_sales"], 2),
-         "net_sales": round(v["net_sales"], 2), "orders": v["orders"]}
+         "net_sales": round(v["net_sales"], 2), "orders": v["orders"], "sessions": v["sessions"]}
         for k, v in sorted(channel_rollup.items(), key=lambda x: -x[1]["total_sales"])
     ]
 
@@ -324,14 +376,15 @@ def fetch_channel_data(config, start_date, end_date, campaign_info=None):
     for c in channels:
         key = c["traffic_type"]
         if key not in traffic_rollup:
-            traffic_rollup[key] = {"total_sales": 0, "net_sales": 0, "orders": 0}
+            traffic_rollup[key] = {"total_sales": 0, "net_sales": 0, "orders": 0, "sessions": 0}
         traffic_rollup[key]["total_sales"] += c["total_sales"]
         traffic_rollup[key]["net_sales"] += c["net_sales"]
         traffic_rollup[key]["orders"] += c["orders"]
+        traffic_rollup[key]["sessions"] += c["sessions"]
 
     traffic_rollup_sorted = [
         {"traffic_type": k, "total_sales": round(v["total_sales"], 2),
-         "net_sales": round(v["net_sales"], 2), "orders": v["orders"]}
+         "net_sales": round(v["net_sales"], 2), "orders": v["orders"], "sessions": v["sessions"]}
         for k, v in sorted(traffic_rollup.items(), key=lambda x: -x[1]["total_sales"])
     ]
 
@@ -363,6 +416,7 @@ def fetch_channel_data(config, start_date, end_date, campaign_info=None):
             "net_sales": round(total_kpi.get("net_sales", 0), 2),
             "orders": total_kpi.get("orders", channel_orders),
             "aov": round(total_kpi.get("total_sales", channel_total) / max(total_kpi.get("orders", channel_orders), 1), 2),
+            "sessions": sum(c["sessions"] for c in channels),
         },
         "channels": channels,
         "channel_rollup": channel_rollup_sorted,
@@ -370,7 +424,7 @@ def fetch_channel_data(config, start_date, end_date, campaign_info=None):
         "hourly": hourly,
         "updated_at": now_str,
         "channel_count": len(channels),
-        "data_source": "shopifyql",
+        "data_source": "shopifyql sales + sessions",
     }
 
 
