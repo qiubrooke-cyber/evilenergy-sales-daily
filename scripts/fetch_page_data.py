@@ -46,6 +46,10 @@ SHOP_TZ_NAME = "America/New_York"
 
 OUTPUT_FILE = os.path.join(REPO_ROOT, "page_data.json")
 
+# Fixed on-site campaign landing page (tracked separately with history comparison)
+DEALS_PATH = "/pages/evilenergy-deals"
+DEALS_CACHE_FILE = os.path.join(REPO_ROOT, "deals_history_cache.json")
+
 # Landing page -> page type classification
 PAGE_TYPE_LABELS = {
     "home": "首页",
@@ -405,7 +409,13 @@ def fetch_sessions_total(shop_domain, access_token, start_str, end_str):
 
 
 def fetch_orders_landing(shop_domain, access_token, start_date, end_date, shop_tz):
-    """Pull all orders in [start, end] (shop tz) via REST, extract landing_site."""
+    """Pull all orders in [start, end] (shop tz) via REST.
+
+    Returns (agg, stats):
+      agg[path] = {orders, total_sales, total_discounts}
+      stats = {orders, total_sales, total_discounts, subtotal_sum,
+               discount_orders, discount_codes: {code: {orders, sales}}}
+    """
     start_utc = datetime(start_date.year, start_date.month, start_date.day,
                          tzinfo=shop_tz).astimezone(timezone.utc)
     end_utc = datetime(end_date.year, end_date.month, end_date.day,
@@ -417,7 +427,8 @@ def fetch_orders_landing(shop_domain, access_token, start_date, end_date, shop_t
         "created_at_max": end_utc.strftime("%Y-%m-%dT%H:%M:%S+00:00"),
         "status": "any",
         "limit": 250,
-        "fields": "id,name,created_at,landing_site,total_price,cancelled_at,financial_status",
+        "fields": "id,name,created_at,landing_site,total_price,total_discounts,"
+                  "subtotal_price,discount_codes,cancelled_at,financial_status",
     }
     base_url = "https://" + shop_domain + "/admin/api/" + API_VERSION + "/orders.json"
     url = base_url + "?" + urllib.parse.urlencode(params)
@@ -453,27 +464,210 @@ def fetch_orders_landing(shop_domain, access_token, start_date, end_date, shop_t
         url = next_url
         page += 1
 
-    # Aggregate by landing path
+    # Aggregate by landing path + discount stats
     agg = {}
-    total_orders = 0
-    total_sales = 0.0
+    stats = {
+        "orders": 0,
+        "total_sales": 0.0,
+        "total_discounts": 0.0,
+        "subtotal_sum": 0.0,
+        "discount_orders": 0,
+        "discount_codes": {},  # code -> {orders, sales}
+    }
     for o in all_orders:
         if o.get("cancelled_at"):
             continue
         path = normalize_path(o.get("landing_site"))
-        total_orders += 1
         try:
             price = float(o.get("total_price") or 0)
         except (TypeError, ValueError):
             price = 0.0
-        total_sales += price
+        try:
+            disc = float(o.get("total_discounts") or 0)
+        except (TypeError, ValueError):
+            disc = 0.0
+        try:
+            sub = float(o.get("subtotal_price") or 0)
+        except (TypeError, ValueError):
+            sub = 0.0
+
+        stats["orders"] += 1
+        stats["total_sales"] += price
+        stats["total_discounts"] += disc
+        stats["subtotal_sum"] += sub
+        if disc > 0:
+            stats["discount_orders"] += 1
+        for dc in (o.get("discount_codes") or []):
+            code = (dc.get("code") or "").strip()
+            if code:
+                c = stats["discount_codes"].setdefault(code, {"orders": 0, "sales": 0.0})
+                c["orders"] += 1
+                c["sales"] += price
+
         key = path if path is not None else "__unattributed__"
         if key not in agg:
-            agg[key] = {"orders": 0, "total_sales": 0.0}
+            agg[key] = {"orders": 0, "total_sales": 0.0, "total_discounts": 0.0}
         agg[key]["orders"] += 1
         agg[key]["total_sales"] += price
+        agg[key]["total_discounts"] += disc
 
-    return agg, total_orders, total_sales
+    return agg, stats
+
+
+def fetch_sales_kpi(shop_domain, access_token, start_str, end_str):
+    """Full-store sales KPI from ShopifyQL sales dataset (official attribution).
+
+    Includes discount rate = |discounts| / gross_sales.
+    """
+    ql = (f"FROM sales SHOW total_sales, net_sales, gross_sales, discounts, orders "
+          f"SINCE {start_str} UNTIL {end_str}")
+    rows = shopifyql_query(shop_domain, access_token, ql)
+    if not rows:
+        return {"total_sales": 0, "net_sales": 0, "gross_sales": 0, "discounts": 0,
+                "orders": 0, "aov": 0, "discount_rate": None}
+    r = rows[0]
+    total_sales = float(r.get("total_sales", "0") or 0)
+    net_sales = float(r.get("net_sales", "0") or 0)
+    gross = float(r.get("gross_sales", "0") or 0)
+    discounts = abs(float(r.get("discounts", "0") or 0))
+    orders = int(float(r.get("orders", "0") or 0))
+    return {
+        "total_sales": round(total_sales, 2),
+        "net_sales": round(net_sales, 2),
+        "gross_sales": round(gross, 2),
+        "discounts": round(discounts, 2),
+        "orders": orders,
+        "aov": round(total_sales / orders, 2) if orders > 0 else 0,
+        "discount_rate": round(discounts / gross * 100, 2) if gross > 0 else None,
+    }
+
+
+def fetch_deals_sessions(shop_domain, access_token, start_str, end_str):
+    """Single-path ShopifyQL query for the fixed deals landing page (WHERE filter)."""
+    ql = (f"FROM sessions SHOW sessions, pageviews, bounce_rate, conversion_rate "
+          f"WHERE landing_page_path = '{DEALS_PATH}' "
+          f"SINCE {start_str} UNTIL {end_str}")
+    rows = shopifyql_query(shop_domain, access_token, ql)
+    if not rows:
+        return {"sessions": 0, "pageviews": 0, "bounce_rate": None, "conversion_rate": None}
+    r = rows[0]
+
+    def _f(v):
+        try:
+            return float(v)
+        except (TypeError, ValueError):
+            return None
+
+    return {
+        "sessions": int(float(r.get("sessions", "0") or 0)),
+        "pageviews": int(float(r.get("pageviews", "0") or 0)),
+        "bounce_rate": _f(r.get("bounce_rate")),
+        "conversion_rate": _f(r.get("conversion_rate")),
+    }
+
+
+def _load_deals_cache():
+    try:
+        with open(DEALS_CACHE_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, dict) and isinstance(data.get("campaigns"), dict):
+            return data
+    except Exception:
+        pass
+    return {"_version": 2, "campaigns": {}}
+
+
+def _save_deals_cache(cache):
+    try:
+        with open(DEALS_CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump(cache, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"  [Deals] WARN cache save failed: {e}")
+
+
+def fetch_deals_history(config, before_date):
+    """Historical deals-page performance for every ENDED campaign (cached).
+
+    History is static once a campaign ends, so results are cached in
+    deals_history_cache.json and only fetched on cache miss.
+    Returns list sorted by start date DESC (most recent first).
+    """
+    campaign_path = os.path.join(REPO_ROOT, "campaign_data.json")
+    if not os.path.exists(campaign_path):
+        return []
+
+    try:
+        with open(campaign_path, "r", encoding="utf-8") as f:
+            cd = json.load(f)
+    except Exception:
+        return []
+
+    domain = config["shop_domain"]
+    token = config["access_token"]
+    shop_tz = get_shop_tz()
+    cache = _load_deals_cache()
+    cache_dirty = False
+    results = []
+
+    for c in cd.get("campaigns", []):
+        name = c.get("name", "")
+        start, end = c.get("start_date"), c.get("end_date")
+        if not name or not start or not end:
+            continue
+        try:
+            sd = datetime.strptime(start[:10], "%Y-%m-%d").date()
+            ed = datetime.strptime(end[:10], "%Y-%m-%d").date()
+        except ValueError:
+            continue
+        if ed >= before_date:
+            continue  # not ended yet (or current campaign) - handled live
+
+        cached = cache["campaigns"].get(name)
+        if cached and cached.get("period", {}).get("start") == sd.strftime("%Y-%m-%d"):
+            results.append(cached)
+            continue
+
+        # Cache miss -> fetch (sessions via WHERE filter + REST orders)
+        print(f"  [Deals] fetching history for '{name}' ({sd} → {ed})")
+        try:
+            sess = fetch_deals_sessions(domain, token, sd.strftime("%Y-%m-%d"),
+                                        ed.strftime("%Y-%m-%d"))
+            agg, _stats = fetch_orders_landing(domain, token, sd, ed, shop_tz)
+            d = agg.get(DEALS_PATH, {"orders": 0, "total_sales": 0.0, "total_discounts": 0.0})
+            orders = d.get("orders", 0)
+            sales = d.get("total_sales", 0.0)
+            entry = {
+                "campaign": {
+                    "name": name,
+                    "theme": c.get("theme", ""),
+                    "start_date": sd.strftime("%Y-%m-%d"),
+                    "end_date": ed.strftime("%Y-%m-%d"),
+                },
+                "period": {
+                    "start": sd.strftime("%Y-%m-%d"),
+                    "end": ed.strftime("%Y-%m-%d"),
+                    "duration_days": (ed - sd).days + 1,
+                },
+                "sessions": sess.get("sessions", 0),
+                "pageviews": sess.get("pageviews", 0),
+                "conversion_rate": sess.get("conversion_rate"),
+                "orders": orders,
+                "total_sales": round(sales, 2),
+                "aov": round(sales / orders, 2) if orders > 0 else 0,
+                "discount_rate": round(d["total_discounts"] / (sales + d["total_discounts"]) * 100, 2)
+                                 if (sales + d.get("total_discounts", 0)) > 0 else None,
+            }
+            cache["campaigns"][name] = entry
+            cache_dirty = True
+            results.append(entry)
+        except Exception as e:
+            print(f"  [Deals] WARN history fetch failed for '{name}': {e}")
+
+    if cache_dirty:
+        _save_deals_cache(cache)
+
+    results.sort(key=lambda x: x["period"]["start"], reverse=True)
+    return results
 
 
 def fetch_page_data(config, start_date, end_date, campaign_info=None):
@@ -494,11 +688,18 @@ def fetch_page_data(config, start_date, end_date, campaign_info=None):
     sessions_total = fetch_sessions_total(domain, token, start_str, end_str)
     print(f"  [ShopifyQL total] {sessions_total['sessions']:,} sessions, {sessions_total['pageviews']:,} pageviews")
 
-    # 2) Orders by landing site (REST)
+    # 1c) Full-store sales KPI (ShopifyQL sales: total_sales/gross/discounts/orders)
+    sales_kpi = fetch_sales_kpi(domain, token, start_str, end_str)
+    print(f"  [ShopifyQL sales] ${sales_kpi['total_sales']:,.2f} · {sales_kpi['orders']} orders · "
+          f"discount_rate {sales_kpi['discount_rate']}%")
+
+    # 2) Orders by landing site (REST, incl. discount fields)
     shop_tz = get_shop_tz()
-    order_agg, total_orders, total_sales = fetch_orders_landing(
-        domain, token, start_date, end_date, shop_tz)
-    print(f"  [REST orders] {total_orders} orders, ${total_sales:,.2f}")
+    order_agg, ostats = fetch_orders_landing(domain, token, start_date, end_date, shop_tz)
+    total_orders = ostats["orders"]
+    total_sales = ostats["total_sales"]
+    print(f"  [REST orders] {total_orders} orders, ${total_sales:,.2f}, "
+          f"discounts ${ostats['total_discounts']:,.2f} ({ostats['discount_orders']} discounted orders)")
 
     # 3) Merge
     all_paths = set(sessions_map.keys()) | {k for k in order_agg.keys() if k != "__unattributed__"}
@@ -588,6 +789,61 @@ def fetch_page_data(config, start_date, end_date, campaign_info=None):
 
     now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+    # 5) Deals page spotlight (fixed on-site campaign page, live current period)
+    deals_sess = sessions_map.get(DEALS_PATH)
+    if deals_sess is None:
+        try:
+            deals_sess = fetch_deals_sessions(domain, token, start_str, end_str)
+        except Exception:
+            deals_sess = {"sessions": 0, "pageviews": 0,
+                          "bounce_rate": None, "conversion_rate": None}
+    deals_orders = order_agg.get(DEALS_PATH, {"orders": 0, "total_sales": 0.0,
+                                              "total_discounts": 0.0})
+    d_orders = deals_orders.get("orders", 0)
+    d_sales = deals_orders.get("total_sales", 0.0)
+    d_disc = deals_orders.get("total_discounts", 0.0)
+    deals_current = {
+        "campaign": _serialize_campaign(campaign_info) if campaign_info else {},
+        "period": {
+            "start": start_str,
+            "end": end_str,
+            "duration_days": duration,
+        },
+        "sessions": deals_sess.get("sessions", 0),
+        "pageviews": deals_sess.get("pageviews", 0),
+        "bounce_rate": deals_sess.get("bounce_rate"),
+        "conversion_rate": deals_sess.get("conversion_rate"),
+        "orders": d_orders,
+        "total_sales": round(d_sales, 2),
+        "aov": round(d_sales / d_orders, 2) if d_orders > 0 else 0,
+        "discount_rate": round(d_disc / (d_sales + d_disc) * 100, 2)
+                         if (d_sales + d_disc) > 0 else None,
+        "sales_share_pct": round(d_sales / sales_kpi["total_sales"] * 100, 2)
+                           if sales_kpi.get("total_sales") else None,
+        "session_share_pct": round(deals_sess.get("sessions", 0) / total_sessions * 100, 2)
+                             if total_sessions > 0 else None,
+    }
+    print(f"  [Deals] current: {deals_current['sessions']} sessions / "
+          f"{d_orders} orders / ${d_sales:,.2f} ({deals_current['sales_share_pct']}% of store)")
+
+    # 6) Discount summary (REST order-level)
+    code_list = [{"code": k, "orders": v["orders"], "sales": round(v["sales"], 2)}
+                 for k, v in ostats["discount_codes"].items()]
+    code_list.sort(key=lambda x: -x["orders"])
+    discount_summary = {
+        "total_discounts": round(ostats["total_discounts"], 2),
+        "discount_orders": ostats["discount_orders"],
+        "discount_order_pct": round(ostats["discount_orders"] / total_orders * 100, 1)
+                              if total_orders > 0 else 0,
+        "discount_rate": round(ostats["total_discounts"] /
+                               (ostats["subtotal_sum"] + ostats["total_discounts"]) * 100, 2)
+                         if (ostats["subtotal_sum"] + ostats["total_discounts"]) > 0 else None,
+        "avg_discount_per_order": round(ostats["total_discounts"] / ostats["discount_orders"], 2)
+                                  if ostats["discount_orders"] > 0 else 0,
+        "code_count": len(code_list),
+        "codes": code_list[:10],
+    }
+
     return {
         "campaign": _serialize_campaign(campaign_info) if campaign_info else {},
         "period": {
@@ -596,7 +852,14 @@ def fetch_page_data(config, start_date, end_date, campaign_info=None):
             "duration_days": duration,
             "label": label,
         },
-        "attribution_note": "流量: ShopifyQL sessions by landing_page_path | 销售: REST Orders by landing_site (实付总额)",
+        "attribution_note": "流量: ShopifyQL sessions by landing_page_path | 销售: REST Orders by landing_site (实付总额) | 总数据: ShopifyQL sales 全店口径",
+        "sales_kpi": sales_kpi,
+        "discount_summary": discount_summary,
+        "deals_page": {
+            "path": DEALS_PATH,
+            "current": deals_current,
+            "history": [],  # filled by main() via fetch_deals_history()
+        },
         "total": {
             "sessions": total_sessions,
             "pageviews": total_pageviews,
@@ -611,7 +874,7 @@ def fetch_page_data(config, start_date, end_date, campaign_info=None):
         "page_type_rollup": type_rollup_sorted,
         "updated_at": now_str,
         "page_count": len(pages),
-        "data_source": "shopifyql sessions + rest orders",
+        "data_source": "shopifyql sessions + sales + rest orders",
     }
 
 
@@ -630,11 +893,14 @@ def fetch_comparison_data(config, prev_camp, prev_start, prev_end, matched_days)
 
     sessions_map = fetch_sessions_by_page(domain, token, start_str, end_str)
     sessions_total = fetch_sessions_total(domain, token, start_str, end_str)
+    sales_kpi = fetch_sales_kpi(domain, token, start_str, end_str)
     shop_tz = get_shop_tz()
-    order_agg, total_orders, total_sales = fetch_orders_landing(
-        domain, token, prev_start, prev_end, shop_tz)
+    order_agg, ostats = fetch_orders_landing(domain, token, prev_start, prev_end, shop_tz)
+    total_orders = ostats["orders"]
+    total_sales = ostats["total_sales"]
     print(f"  [Compare] {sessions_total['sessions']:,} sessions, "
-          f"{total_orders} orders, ${total_sales:,.2f}")
+          f"{total_orders} orders, ${total_sales:,.2f}, "
+          f"discount_rate {sales_kpi['discount_rate']}%")
 
     total_sessions = sessions_total["sessions"] or sum(s.get("sessions", 0) for s in sessions_map.values())
 
@@ -699,6 +965,16 @@ def fetch_comparison_data(config, prev_camp, prev_start, prev_end, matched_days)
             "orders": total_orders,
             "total_sales": round(total_sales, 2),
             "aov": round(total_sales / total_orders, 2) if total_orders > 0 else 0,
+        },
+        "sales_kpi": sales_kpi,
+        "discount_summary": {
+            "total_discounts": round(ostats["total_discounts"], 2),
+            "discount_orders": ostats["discount_orders"],
+            "discount_order_pct": round(ostats["discount_orders"] / total_orders * 100, 1)
+                                  if total_orders > 0 else 0,
+            "discount_rate": round(ostats["total_discounts"] /
+                                   (ostats["subtotal_sum"] + ostats["total_discounts"]) * 100, 2)
+                             if (ostats["subtotal_sum"] + ostats["total_discounts"]) > 0 else None,
         },
         "page_type_rollup": rollup,
         "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -807,6 +1083,16 @@ def main():
         print("  [Compare] No previous campaign found, skip")
 
     data["comparison"] = comparison
+
+    # Deals page history comparison (ended campaigns, cached)
+    try:
+        data["deals_page"]["history"] = fetch_deals_history(config, start_date)
+        hist_n = len(data["deals_page"]["history"])
+        print(f"[Deals] history campaigns: {hist_n}")
+    except Exception as ex:
+        print(f"[Deals] WARN history fetch failed: {ex}")
+        data["deals_page"]["history"] = []
+
     save_data(data)
 
     total = data["total"]
@@ -837,6 +1123,15 @@ def main():
             delta = ((cv - pv) / pv * 100) if pv else None
             ds = f"{delta:+.1f}%" if delta is not None else "n/a"
             print(f"[Compare] {k}: prev {fmt.format(pv)} vs cur {fmt.format(cv)} ({ds})")
+
+    sk = data.get("sales_kpi", {})
+    print(f"[KPI] 全店: ${sk.get('total_sales', 0):,.2f} · {sk.get('orders', 0)} orders · "
+          f"AOV ${sk.get('aov', 0)} · 折扣率 {sk.get('discount_rate')}% "
+          f"(gross ${sk.get('gross_sales', 0):,.2f} - discounts ${sk.get('discounts', 0):,.2f})")
+    ds = data.get("discount_summary", {})
+    print(f"[KPI] 折扣: {ds.get('discount_orders', 0)} 折扣单 ({ds.get('discount_order_pct', 0)}%) · "
+          f"码 {ds.get('code_count', 0)} 个 · TOP: "
+          + (", ".join(f"{c['code']}({c['orders']})" for c in (ds.get("codes") or [])[:3]) or "无"))
 
     return 0
 
