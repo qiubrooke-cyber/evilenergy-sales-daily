@@ -1,6 +1,6 @@
 {
   "date": "2026-09-09",
-  "updated_at": "2026-09-09 00:42:10",
+  "updated_at": "2026-09-09 00:52:14",
   "updated_at_timezone": "EDT (UTC-4)",
   "is_realtime": true,
   "current_hour": 0,
@@ -11,22 +11,22 @@
     "dst_name": "EDT"
   },
   "kpi": {
-    "total_orders": 1,
-    "total_revenue": 47.21,
-    "total_tax": 3.23,
+    "total_orders": 3,
+    "total_revenue": 309.37,
+    "total_tax": 18.06,
     "total_shipping": 6.99,
-    "total_discounts": 0.0,
-    "net_sales": 36.99,
-    "gross_sales": 36.99,
+    "total_discounts": 23.64,
+    "net_sales": 284.32,
+    "gross_sales": 307.96,
     "returns": 0.0,
-    "avg_order_value": 47.21,
-    "total_customers": 1,
-    "new_customers": 1,
-    "returning_customers": 0,
-    "new_customer_rate": 100.0
+    "avg_order_value": 103.12,
+    "total_customers": 3,
+    "new_customers": 2,
+    "returning_customers": 1,
+    "new_customer_rate": 66.7
   },
   "hourly_orders": [
-    1,
+    3,
     0,
     0,
     0,
@@ -53,12 +53,26 @@
   ],
   "top_products": [
     {
+      "title": "EVIL ENERGY Carburetor Fuel System Kit 12V Electric Fuel Pump 5-12PSI Regulator 20FT PTFE/NBR Hose",
+      "sku": "EV345FP20PFPR",
+      "qty": 1,
+      "revenue": 214.99
+    },
+    {
+      "title": "EVIL ENERGY AN Female to AN Female 90 Degree One Piece Full Flow Swivel Coupler Union Fitting Adapter Aluminum",
+      "sku": "EVKT10227AN12D90BK-AMZ1",
+      "qty": 2,
+      "revenue": 55.98
+    },
+    {
       "title": "EVIL ENERGY Baffled Oil Catch Can Oil Separator Catch Can with Breather Filter 300ml Universal Aluminum 3/8-inch ID 2.6FT/5FT NBR Fuel Hose Kit",
       "sku": "EVKT01300RD-AMZ1",
       "qty": 1,
       "revenue": 36.99
     }
   ],
-  "discount_codes": [],
+  "discount_codes": [
+    "TAXSAVE11"
+  ],
   "data_source": "shopifyql"
 }
