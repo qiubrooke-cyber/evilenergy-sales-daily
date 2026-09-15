@@ -13,7 +13,7 @@
     "net_sales": 591.85,
     "orders": 3,
     "aov": 214.94,
-    "sessions": 366
+    "sessions": 420
   },
   "channels": [
     {
@@ -24,7 +24,7 @@
       "net_sales": 398.99,
       "orders": 1,
       "aov": 435.29,
-      "sessions": 16,
+      "sessions": 17,
       "conversion_rate": 0.0
     },
     {
@@ -35,8 +35,8 @@
       "net_sales": 132.29,
       "orders": 1,
       "aov": 143.2,
-      "sessions": 143,
-      "conversion_rate": 0.007
+      "sessions": 176,
+      "conversion_rate": 0.0057
     },
     {
       "referring_channel": "google",
@@ -46,8 +46,8 @@
       "net_sales": 60.57,
       "orders": 1,
       "aov": 66.32,
-      "sessions": 142,
-      "conversion_rate": 0.007
+      "sessions": 155,
+      "conversion_rate": 0.0065
     },
     {
       "referring_channel": "google",
@@ -57,7 +57,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 22,
+      "sessions": 23,
       "conversion_rate": 0.0
     },
     {
@@ -68,7 +68,18 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 14,
+      "sessions": 15,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "cartsee",
+      "traffic_type": "paid",
+      "referring_platform": "cartsee",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 4,
       "conversion_rate": 0.0
     },
     {
@@ -116,14 +127,14 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "cartsee",
-      "traffic_type": "paid",
-      "referring_platform": "cartsee",
+      "referring_channel": "facebook",
+      "traffic_type": "unknown",
+      "referring_platform": "meta",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 2,
+      "sessions": 3,
       "conversion_rate": 0.0
     },
     {
@@ -204,9 +215,9 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "facebook",
+      "referring_channel": "google",
       "traffic_type": "unknown",
-      "referring_platform": "meta",
+      "referring_platform": "alphabet",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -232,21 +243,28 @@
       "total_sales": 435.29,
       "net_sales": 398.99,
       "orders": 1,
-      "sessions": 31
+      "sessions": 35
     },
     {
       "referring_channel": "direct",
       "total_sales": 143.2,
       "net_sales": 132.29,
       "orders": 1,
-      "sessions": 143
+      "sessions": 176
     },
     {
       "referring_channel": "google",
       "total_sales": 66.32,
       "net_sales": 60.57,
       "orders": 1,
-      "sessions": 164
+      "sessions": 179
+    },
+    {
+      "referring_channel": "cartsee",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 4
     },
     {
       "referring_channel": "instagram",
@@ -275,13 +293,6 @@
       "net_sales": 0,
       "orders": 0,
       "sessions": 3
-    },
-    {
-      "referring_channel": "cartsee",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 2
     },
     {
       "referring_channel": "postedwords",
@@ -339,28 +350,28 @@
       "total_sales": 501.61,
       "net_sales": 459.56,
       "orders": 2,
-      "sessions": 173
+      "sessions": 189
     },
     {
       "traffic_type": "direct",
       "total_sales": 143.2,
       "net_sales": 132.29,
       "orders": 1,
-      "sessions": 143
+      "sessions": 176
     },
     {
       "traffic_type": "organic",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 40
+      "sessions": 42
     },
     {
       "traffic_type": "unknown",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 10
+      "sessions": 13
     }
   ],
   "hourly": [
@@ -461,7 +472,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-09-15 05:03:01",
-  "channel_count": 19,
+  "updated_at": "2026-09-15 05:13:16",
+  "channel_count": 20,
   "data_source": "shopifyql sales + sessions"
 }
