@@ -9,11 +9,11 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 17106.76,
-    "net_sales": 15935.51,
-    "orders": 124,
-    "aov": 137.96,
-    "sessions": 6862
+    "total_sales": 17150.32,
+    "net_sales": 15972.08,
+    "orders": 125,
+    "aov": 137.2,
+    "sessions": 6953
   },
   "channels": [
     {
@@ -24,8 +24,8 @@
       "net_sales": 8136.53,
       "orders": 67,
       "aov": 130.19,
-      "sessions": 2604,
-      "conversion_rate": 0.0276
+      "sessions": 2638,
+      "conversion_rate": 0.0273
     },
     {
       "referring_channel": "direct",
@@ -35,8 +35,19 @@
       "net_sales": 4439.46,
       "orders": 26,
       "aov": 182.86,
-      "sessions": 2580,
-      "conversion_rate": 0.0112
+      "sessions": 2614,
+      "conversion_rate": 0.0115
+    },
+    {
+      "referring_channel": "Unattributed",
+      "traffic_type": "Unknown",
+      "referring_platform": "Unknown",
+      "total_sales": 769.91,
+      "net_sales": 694.52,
+      "orders": 9,
+      "aov": 85.55,
+      "sessions": 0,
+      "conversion_rate": null
     },
     {
       "referring_channel": "bing",
@@ -46,8 +57,8 @@
       "net_sales": 710.31,
       "orders": 4,
       "aov": 191.09,
-      "sessions": 44,
-      "conversion_rate": 0.0682
+      "sessions": 45,
+      "conversion_rate": 0.0667
     },
     {
       "referring_channel": "google",
@@ -57,19 +68,8 @@
       "net_sales": 698.43,
       "orders": 6,
       "aov": 123.08,
-      "sessions": 468,
-      "conversion_rate": 0.0107
-    },
-    {
-      "referring_channel": "Unattributed",
-      "traffic_type": "Unknown",
-      "referring_platform": "Unknown",
-      "total_sales": 726.35,
-      "net_sales": 657.95,
-      "orders": 8,
-      "aov": 90.79,
-      "sessions": 0,
-      "conversion_rate": null
+      "sessions": 475,
+      "conversion_rate": 0.0105
     },
     {
       "referring_channel": "gmail",
@@ -90,8 +90,8 @@
       "net_sales": 272.82,
       "orders": 3,
       "aov": 99.16,
-      "sessions": 434,
-      "conversion_rate": 0.0046
+      "sessions": 441,
+      "conversion_rate": 0.0045
     },
     {
       "referring_channel": "unattributed",
@@ -112,7 +112,7 @@
       "net_sales": 178.68,
       "orders": 1,
       "aov": 189.12,
-      "sessions": 172,
+      "sessions": 173,
       "conversion_rate": 0.0058
     },
     {
@@ -145,8 +145,8 @@
       "net_sales": 17.57,
       "orders": 1,
       "aov": 26.12,
-      "sessions": 11,
-      "conversion_rate": 0.0909
+      "sessions": 12,
+      "conversion_rate": 0.0833
     },
     {
       "referring_channel": "google",
@@ -156,7 +156,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 59,
+      "sessions": 61,
       "conversion_rate": 0.0
     },
     {
@@ -189,7 +189,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 35,
+      "sessions": 37,
       "conversion_rate": 0.0
     },
     {
@@ -233,7 +233,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 17,
+      "sessions": 18,
       "conversion_rate": 0.0
     },
     {
@@ -446,9 +446,9 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "crosswordsolver",
-      "traffic_type": "paid",
-      "referring_platform": "crosswordsolver",
+      "referring_channel": "amazon",
+      "traffic_type": "unknown",
+      "referring_platform": "amazon",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -534,9 +534,20 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "amazon",
+      "referring_channel": "tiktok",
       "traffic_type": "unknown",
-      "referring_platform": "amazon",
+      "referring_platform": "tiktok",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 2,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "crosswordsolver",
+      "traffic_type": "paid",
+      "referring_platform": "crosswordsolver",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -548,17 +559,6 @@
       "referring_channel": "pushowl",
       "traffic_type": "unknown",
       "referring_platform": "pushowl",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "tiktok",
-      "traffic_type": "unknown",
-      "referring_platform": "tiktok",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -727,35 +727,35 @@
       "total_sales": 9461.28,
       "net_sales": 8834.96,
       "orders": 73,
-      "sessions": 3131
+      "sessions": 3174
     },
     {
       "referring_channel": "direct",
       "total_sales": 4754.37,
       "net_sales": 4439.46,
       "orders": 26,
-      "sessions": 2580
+      "sessions": 2614
+    },
+    {
+      "referring_channel": "Unattributed",
+      "total_sales": 769.91,
+      "net_sales": 694.52,
+      "orders": 9,
+      "sessions": 0
     },
     {
       "referring_channel": "bing",
       "total_sales": 764.35,
       "net_sales": 710.31,
       "orders": 4,
-      "sessions": 55
-    },
-    {
-      "referring_channel": "Unattributed",
-      "total_sales": 726.35,
-      "net_sales": 657.95,
-      "orders": 8,
-      "sessions": 0
+      "sessions": 56
     },
     {
       "referring_channel": "facebook",
       "total_sales": 486.6,
       "net_sales": 451.5,
       "orders": 4,
-      "sessions": 626
+      "sessions": 634
     },
     {
       "referring_channel": "gmail",
@@ -790,7 +790,7 @@
       "total_sales": 26.12,
       "net_sales": 17.57,
       "orders": 1,
-      "sessions": 31
+      "sessions": 33
     },
     {
       "referring_channel": "cartsee",
@@ -811,7 +811,7 @@
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 42
+      "sessions": 44
     },
     {
       "referring_channel": "instagram",
@@ -905,13 +905,6 @@
       "sessions": 4
     },
     {
-      "referring_channel": "crosswordsolver",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 2
-    },
-    {
       "referring_channel": "postedwords",
       "total_sales": 0,
       "net_sales": 0,
@@ -940,14 +933,21 @@
       "sessions": 2
     },
     {
-      "referring_channel": "pushowl",
+      "referring_channel": "tiktok",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 1
+      "sessions": 2
     },
     {
-      "referring_channel": "tiktok",
+      "referring_channel": "crosswordsolver",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 2
+    },
+    {
+      "referring_channel": "pushowl",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -1051,27 +1051,27 @@
       "total_sales": 10417.27,
       "net_sales": 9707.29,
       "orders": 80,
-      "sessions": 3360
+      "sessions": 3405
     },
     {
       "traffic_type": "direct",
       "total_sales": 4754.37,
       "net_sales": 4439.46,
       "orders": 26,
-      "sessions": 2580
+      "sessions": 2614
     },
     {
       "traffic_type": "organic",
       "total_sales": 1208.77,
       "net_sales": 1130.81,
       "orders": 10,
-      "sessions": 724
+      "sessions": 733
     },
     {
       "traffic_type": "Unknown",
-      "total_sales": 726.35,
-      "net_sales": 657.95,
-      "orders": 8,
+      "total_sales": 769.91,
+      "net_sales": 694.52,
+      "orders": 9,
       "sessions": 0
     },
     {
@@ -1079,7 +1079,7 @@
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 198
+      "sessions": 201
     }
   ],
   "hourly": [
@@ -1161,7 +1161,7 @@
     },
     {
       "hour": "2026-09-19T23:00:00Z",
-      "orders": 2
+      "orders": 3
     },
     {
       "hour": "2026-09-20T00:00:00Z",
@@ -1180,7 +1180,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-09-19 23:23:01",
+  "updated_at": "2026-09-19 23:33:04",
   "channel_count": 64,
   "data_source": "shopifyql sales + sessions"
 }
