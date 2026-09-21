@@ -13,7 +13,7 @@
     "net_sales": 0.0,
     "orders": 0,
     "aov": 0.0,
-    "sessions": 11
+    "sessions": 57
   },
   "channels": [
     {
@@ -24,7 +24,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 6,
+      "sessions": 30,
       "conversion_rate": 0.0
     },
     {
@@ -35,7 +35,40 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 5,
+      "sessions": 19,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "google",
+      "traffic_type": "organic",
+      "referring_platform": "alphabet",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 6,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "cartsee",
+      "traffic_type": "paid",
+      "referring_platform": "cartsee",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "unattributed",
+      "traffic_type": "paid",
+      "referring_platform": "unattributed",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
       "conversion_rate": 0.0
     }
   ],
@@ -45,14 +78,28 @@
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 6
+      "sessions": 36
     },
     {
       "referring_channel": "direct",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 5
+      "sessions": 19
+    },
+    {
+      "referring_channel": "cartsee",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
+    },
+    {
+      "referring_channel": "unattributed",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
     }
   ],
   "traffic_rollup": [
@@ -61,14 +108,21 @@
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 6
+      "sessions": 32
     },
     {
       "traffic_type": "direct",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 5
+      "sessions": 19
+    },
+    {
+      "traffic_type": "organic",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 6
     }
   ],
   "hourly": [
@@ -169,7 +223,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-09-21 04:03:09",
-  "channel_count": 2,
+  "updated_at": "2026-09-21 04:12:52",
+  "channel_count": 5,
   "data_source": "shopifyql sales + sessions"
 }
