@@ -9,11 +9,11 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 484.84,
-    "net_sales": 480.52,
+    "total_sales": -43.41,
+    "net_sales": -8.19,
     "orders": 7,
-    "aov": 69.26,
-    "sessions": 1160
+    "aov": -6.2,
+    "sessions": 1176
   },
   "channels": [
     {
@@ -24,7 +24,7 @@
       "net_sales": 211.67,
       "orders": 1,
       "aov": 211.67,
-      "sessions": 97,
+      "sessions": 101,
       "conversion_rate": 0.0
     },
     {
@@ -48,17 +48,6 @@
       "aov": 100.71,
       "sessions": 12,
       "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "direct",
-      "traffic_type": "direct",
-      "referring_platform": "direct",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 493,
-      "conversion_rate": 0.0041
     },
     {
       "referring_channel": "facebook",
@@ -90,7 +79,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 15,
+      "sessions": 16,
       "conversion_rate": 0.0
     },
     {
@@ -457,15 +446,26 @@
       "conversion_rate": 0.0
     },
     {
+      "referring_channel": "direct",
+      "traffic_type": "direct",
+      "referring_platform": "direct",
+      "total_sales": -237.68,
+      "net_sales": -223.73,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 498,
+      "conversion_rate": 0.004
+    },
+    {
       "referring_channel": "google",
       "traffic_type": "paid",
       "referring_platform": "alphabet",
-      "total_sales": -20.58,
-      "net_sales": -11.85,
+      "total_sales": -311.15,
+      "net_sales": -276.83,
       "orders": 4,
-      "aov": -5.14,
-      "sessions": 361,
-      "conversion_rate": 0.0083
+      "aov": -77.79,
+      "sessions": 367,
+      "conversion_rate": 0.0082
     }
   ],
   "channel_rollup": [
@@ -477,25 +477,11 @@
       "sessions": 14
     },
     {
-      "referring_channel": "google",
-      "total_sales": 191.09,
-      "net_sales": 199.82,
-      "orders": 5,
-      "sessions": 478
-    },
-    {
       "referring_channel": "partnerboost",
       "total_sales": 100.71,
       "net_sales": 100.71,
       "orders": 1,
       "sessions": 12
-    },
-    {
-      "referring_channel": "direct",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 493
     },
     {
       "referring_channel": "facebook",
@@ -509,7 +495,7 @@
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 15
+      "sessions": 16
     },
     {
       "referring_channel": "afternoonbylola",
@@ -678,6 +664,20 @@
       "net_sales": 0,
       "orders": 0,
       "sessions": 1
+    },
+    {
+      "referring_channel": "google",
+      "total_sales": -99.48,
+      "net_sales": -65.16,
+      "orders": 5,
+      "sessions": 488
+    },
+    {
+      "referring_channel": "direct",
+      "total_sales": -237.68,
+      "net_sales": -223.73,
+      "orders": 0,
+      "sessions": 498
     }
   ],
   "traffic_rollup": [
@@ -686,28 +686,28 @@
       "total_sales": 293.75,
       "net_sales": 280.7,
       "orders": 2,
-      "sessions": 105
+      "sessions": 106
     },
     {
       "traffic_type": "organic",
       "total_sales": 211.67,
       "net_sales": 211.67,
       "orders": 1,
-      "sessions": 152
+      "sessions": 156
     },
     {
       "traffic_type": "direct",
-      "total_sales": 0,
-      "net_sales": 0,
+      "total_sales": -237.68,
+      "net_sales": -223.73,
       "orders": 0,
-      "sessions": 493
+      "sessions": 498
     },
     {
       "traffic_type": "paid",
-      "total_sales": -20.58,
-      "net_sales": -11.85,
+      "total_sales": -311.15,
+      "net_sales": -276.83,
       "orders": 4,
-      "sessions": 410
+      "sessions": 416
     }
   ],
   "hourly": [
@@ -808,7 +808,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-09-27 11:32:57",
+  "updated_at": "2026-09-27 11:43:06",
   "channel_count": 41,
   "data_source": "shopifyql sales + sessions"
 }
