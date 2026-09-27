@@ -13,7 +13,7 @@
     "net_sales": 820.52,
     "orders": 7,
     "aov": 121.6,
-    "sessions": 1090
+    "sessions": 1091
   },
   "channels": [
     {
@@ -205,6 +205,17 @@
     },
     {
       "referring_channel": "duckduckgo",
+      "traffic_type": "paid",
+      "referring_platform": "duckduckgo",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 3,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "duckduckgo",
       "traffic_type": "organic",
       "referring_platform": "duckduckgo",
       "total_sales": 0,
@@ -303,28 +314,6 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "duckduckgo",
-      "traffic_type": "paid",
-      "referring_platform": "duckduckgo",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 2,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "taap",
-      "traffic_type": "unknown",
-      "referring_platform": "taap",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
       "referring_channel": "shopify",
       "traffic_type": "organic",
       "referring_platform": "shopify",
@@ -350,6 +339,17 @@
       "referring_channel": "flipboard",
       "traffic_type": "paid",
       "referring_platform": "flipboard",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "taap",
+      "traffic_type": "unknown",
+      "referring_platform": "taap",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -572,7 +572,7 @@
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 5
+      "sessions": 6
     },
     {
       "referring_channel": "gemini",
@@ -596,13 +596,6 @@
       "sessions": 2
     },
     {
-      "referring_channel": "taap",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 1
-    },
-    {
       "referring_channel": "shopify",
       "total_sales": 0,
       "net_sales": 0,
@@ -618,6 +611,13 @@
     },
     {
       "referring_channel": "flipboard",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
+    },
+    {
+      "referring_channel": "taap",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -686,7 +686,7 @@
       "total_sales": 345.77,
       "net_sales": 328.15,
       "orders": 4,
-      "sessions": 387
+      "sessions": 388
     },
     {
       "traffic_type": "unknown",
@@ -808,7 +808,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-09-27 10:50:09",
+  "updated_at": "2026-09-27 10:52:55",
   "channel_count": 41,
   "data_source": "shopifyql sales + sessions"
 }
