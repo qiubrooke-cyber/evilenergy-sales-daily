@@ -13,7 +13,7 @@
     "net_sales": 269.65,
     "orders": 5,
     "aov": 60.45,
-    "sessions": 182
+    "sessions": 231
   },
   "channels": [
     {
@@ -24,8 +24,8 @@
       "net_sales": 228.08,
       "orders": 4,
       "aov": 62.83,
-      "sessions": 71,
-      "conversion_rate": 0.0141
+      "sessions": 89,
+      "conversion_rate": 0.0112
     },
     {
       "referring_channel": "facebook",
@@ -35,8 +35,8 @@
       "net_sales": 41.57,
       "orders": 1,
       "aov": 50.96,
-      "sessions": 12,
-      "conversion_rate": 0.0833
+      "sessions": 13,
+      "conversion_rate": 0.0769
     },
     {
       "referring_channel": "direct",
@@ -46,7 +46,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 69,
+      "sessions": 90,
       "conversion_rate": 0.0
     },
     {
@@ -57,7 +57,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 13,
+      "sessions": 15,
       "conversion_rate": 0.0
     },
     {
@@ -68,18 +68,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 7,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "google",
-      "traffic_type": "unknown",
-      "referring_platform": "alphabet",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 3,
+      "sessions": 10,
       "conversion_rate": 0.0
     },
     {
@@ -90,7 +79,18 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 2,
+      "sessions": 4,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "google",
+      "traffic_type": "unknown",
+      "referring_platform": "alphabet",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 4,
       "conversion_rate": 0.0
     },
     {
@@ -125,6 +125,17 @@
       "aov": 0,
       "sessions": 1,
       "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "latenightnotes",
+      "traffic_type": "unknown",
+      "referring_platform": "latenightnotes",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
     }
   ],
   "channel_rollup": [
@@ -133,28 +144,28 @@
       "total_sales": 251.31,
       "net_sales": 228.08,
       "orders": 4,
-      "sessions": 87
+      "sessions": 108
     },
     {
       "referring_channel": "facebook",
       "total_sales": 50.96,
       "net_sales": 41.57,
       "orders": 1,
-      "sessions": 19
+      "sessions": 23
     },
     {
       "referring_channel": "direct",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 69
+      "sessions": 90
     },
     {
       "referring_channel": "youtube",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 2
+      "sessions": 4
     },
     {
       "referring_channel": "pushowl",
@@ -176,6 +187,13 @@
       "net_sales": 0,
       "orders": 0,
       "sessions": 1
+    },
+    {
+      "referring_channel": "latenightnotes",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
     }
   ],
   "traffic_rollup": [
@@ -184,28 +202,28 @@
       "total_sales": 302.27,
       "net_sales": 269.65,
       "orders": 5,
-      "sessions": 86
+      "sessions": 107
     },
     {
       "traffic_type": "direct",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 69
+      "sessions": 90
     },
     {
       "traffic_type": "organic",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 20
+      "sessions": 25
     },
     {
       "traffic_type": "unknown",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 7
+      "sessions": 9
     }
   ],
   "hourly": [
@@ -306,7 +324,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-10-02 04:53:27",
-  "channel_count": 10,
+  "updated_at": "2026-10-02 05:02:47",
+  "channel_count": 11,
   "data_source": "shopifyql sales + sessions"
 }
