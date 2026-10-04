@@ -13,9 +13,20 @@
     "net_sales": 806.55,
     "orders": 8,
     "aov": 110.59,
-    "sessions": 710
+    "sessions": 755
   },
   "channels": [
+    {
+      "referring_channel": "facebook",
+      "traffic_type": "paid",
+      "referring_platform": "meta",
+      "total_sales": 396.2,
+      "net_sales": 361.19,
+      "orders": 3,
+      "aov": 132.07,
+      "sessions": 67,
+      "conversion_rate": 0.0448
+    },
     {
       "referring_channel": "direct",
       "traffic_type": "direct",
@@ -24,30 +35,8 @@
       "net_sales": 312.54,
       "orders": 2,
       "aov": 169.91,
-      "sessions": 320,
-      "conversion_rate": 0.0063
-    },
-    {
-      "referring_channel": "Unattributed",
-      "traffic_type": "Unknown",
-      "referring_platform": "Unknown",
-      "total_sales": 232.35,
-      "net_sales": 215.08,
-      "orders": 1,
-      "aov": 232.35,
-      "sessions": 0,
-      "conversion_rate": null
-    },
-    {
-      "referring_channel": "facebook",
-      "traffic_type": "paid",
-      "referring_platform": "meta",
-      "total_sales": 163.85,
-      "net_sales": 146.11,
-      "orders": 2,
-      "aov": 81.92,
-      "sessions": 64,
-      "conversion_rate": 0.0469
+      "sessions": 349,
+      "conversion_rate": 0.0057
     },
     {
       "referring_channel": "google",
@@ -57,8 +46,8 @@
       "net_sales": 76.5,
       "orders": 2,
       "aov": 43.36,
-      "sessions": 179,
-      "conversion_rate": 0.0056
+      "sessions": 187,
+      "conversion_rate": 0.0053
     },
     {
       "referring_channel": "unattributed",
@@ -79,8 +68,8 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 47,
-      "conversion_rate": 0.0213
+      "sessions": 48,
+      "conversion_rate": 0.0208
     },
     {
       "referring_channel": "facebook",
@@ -90,7 +79,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 24,
+      "sessions": 26,
       "conversion_rate": 0.0
     },
     {
@@ -101,7 +90,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 16,
+      "sessions": 18,
       "conversion_rate": 0.0
     },
     {
@@ -349,32 +338,25 @@
   ],
   "channel_rollup": [
     {
+      "referring_channel": "facebook",
+      "total_sales": 396.2,
+      "net_sales": 361.19,
+      "orders": 3,
+      "sessions": 95
+    },
+    {
       "referring_channel": "direct",
       "total_sales": 339.82,
       "net_sales": 312.54,
       "orders": 2,
-      "sessions": 320
-    },
-    {
-      "referring_channel": "Unattributed",
-      "total_sales": 232.35,
-      "net_sales": 215.08,
-      "orders": 1,
-      "sessions": 0
-    },
-    {
-      "referring_channel": "facebook",
-      "total_sales": 163.85,
-      "net_sales": 146.11,
-      "orders": 2,
-      "sessions": 90
+      "sessions": 349
     },
     {
       "referring_channel": "google",
       "total_sales": 86.72,
       "net_sales": 76.5,
       "orders": 2,
-      "sessions": 237
+      "sessions": 246
     },
     {
       "referring_channel": "unattributed",
@@ -388,7 +370,7 @@
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 16
+      "sessions": 18
     },
     {
       "referring_channel": "youtube",
@@ -505,39 +487,32 @@
   ],
   "traffic_rollup": [
     {
+      "traffic_type": "paid",
+      "total_sales": 482.92,
+      "net_sales": 437.69,
+      "orders": 5,
+      "sessions": 274
+    },
+    {
       "traffic_type": "direct",
       "total_sales": 339.82,
       "net_sales": 312.54,
       "orders": 2,
-      "sessions": 320
-    },
-    {
-      "traffic_type": "paid",
-      "total_sales": 250.57,
-      "net_sales": 222.61,
-      "orders": 4,
-      "sessions": 263
-    },
-    {
-      "traffic_type": "Unknown",
-      "total_sales": 232.35,
-      "net_sales": 215.08,
-      "orders": 1,
-      "sessions": 0
+      "sessions": 349
     },
     {
       "traffic_type": "unknown",
       "total_sales": 61.95,
       "net_sales": 56.32,
       "orders": 1,
-      "sessions": 49
+      "sessions": 51
     },
     {
       "traffic_type": "organic",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 78
+      "sessions": 81
     }
   ],
   "hourly": [
@@ -638,7 +613,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-10-04 06:22:55",
-  "channel_count": 30,
+  "updated_at": "2026-10-04 06:32:56",
+  "channel_count": 29,
   "data_source": "shopifyql sales + sessions"
 }
