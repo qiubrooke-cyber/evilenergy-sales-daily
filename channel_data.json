@@ -13,19 +13,19 @@
     "net_sales": 2008.8,
     "orders": 17,
     "aov": 125.11,
-    "sessions": 1243
+    "sessions": 1262
   },
   "channels": [
     {
       "referring_channel": "google",
       "traffic_type": "paid",
       "referring_platform": "alphabet",
-      "total_sales": 1349.85,
-      "net_sales": 1308.1,
-      "orders": 7,
-      "aov": 192.84,
-      "sessions": 277,
-      "conversion_rate": 0.0289
+      "total_sales": 1417.52,
+      "net_sales": 1375.77,
+      "orders": 8,
+      "aov": 177.19,
+      "sessions": 282,
+      "conversion_rate": 0.0284
     },
     {
       "referring_channel": "direct",
@@ -35,19 +35,8 @@
       "net_sales": 529.46,
       "orders": 7,
       "aov": 84.43,
-      "sessions": 677,
-      "conversion_rate": 0.0074
-    },
-    {
-      "referring_channel": "Unattributed",
-      "traffic_type": "Unknown",
-      "referring_platform": "Unknown",
-      "total_sales": 123.49,
-      "net_sales": 112.67,
-      "orders": 2,
-      "aov": 61.74,
-      "sessions": 0,
-      "conversion_rate": null
+      "sessions": 689,
+      "conversion_rate": 0.0073
     },
     {
       "referring_channel": "google",
@@ -57,8 +46,19 @@
       "net_sales": 58.57,
       "orders": 1,
       "aov": 62.47,
-      "sessions": 68,
-      "conversion_rate": 0.0147
+      "sessions": 69,
+      "conversion_rate": 0.0145
+    },
+    {
+      "referring_channel": "Unattributed",
+      "traffic_type": "Unknown",
+      "referring_platform": "Unknown",
+      "total_sales": 55.82,
+      "net_sales": 45.0,
+      "orders": 1,
+      "aov": 55.82,
+      "sessions": 0,
+      "conversion_rate": null
     },
     {
       "referring_channel": "facebook",
@@ -79,7 +79,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 48,
+      "sessions": 49,
       "conversion_rate": 0.0
     },
     {
@@ -493,23 +493,23 @@
   "channel_rollup": [
     {
       "referring_channel": "google",
-      "total_sales": 1412.32,
-      "net_sales": 1366.67,
-      "orders": 8,
-      "sessions": 357
+      "total_sales": 1479.99,
+      "net_sales": 1434.34,
+      "orders": 9,
+      "sessions": 363
     },
     {
       "referring_channel": "direct",
       "total_sales": 590.98,
       "net_sales": 529.46,
       "orders": 7,
-      "sessions": 677
+      "sessions": 689
     },
     {
       "referring_channel": "Unattributed",
-      "total_sales": 123.49,
-      "net_sales": 112.67,
-      "orders": 2,
+      "total_sales": 55.82,
+      "net_sales": 45.0,
+      "orders": 1,
       "sessions": 0
     },
     {
@@ -524,7 +524,7 @@
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 48
+      "sessions": 49
     },
     {
       "referring_channel": "dermonehealth",
@@ -691,38 +691,38 @@
   "traffic_rollup": [
     {
       "traffic_type": "paid",
-      "total_sales": 1349.85,
-      "net_sales": 1308.1,
-      "orders": 7,
-      "sessions": 356
+      "total_sales": 1417.52,
+      "net_sales": 1375.77,
+      "orders": 8,
+      "sessions": 361
     },
     {
       "traffic_type": "direct",
       "total_sales": 590.98,
       "net_sales": 529.46,
       "orders": 7,
-      "sessions": 677
-    },
-    {
-      "traffic_type": "Unknown",
-      "total_sales": 123.49,
-      "net_sales": 112.67,
-      "orders": 2,
-      "sessions": 0
+      "sessions": 689
     },
     {
       "traffic_type": "organic",
       "total_sales": 62.47,
       "net_sales": 58.57,
       "orders": 1,
-      "sessions": 122
+      "sessions": 123
+    },
+    {
+      "traffic_type": "Unknown",
+      "total_sales": 55.82,
+      "net_sales": 45.0,
+      "orders": 1,
+      "sessions": 0
     },
     {
       "traffic_type": "unknown",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 86
+      "sessions": 87
     },
     {
       "traffic_type": "unattributed",
@@ -830,7 +830,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-10-14 07:22:56",
+  "updated_at": "2026-10-14 07:32:57",
   "channel_count": 43,
   "data_source": "shopifyql sales + sessions"
 }
