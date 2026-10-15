@@ -9,11 +9,11 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 270.53,
-    "net_sales": 239.3,
+    "total_sales": 139.03,
+    "net_sales": 117.6,
     "orders": 7,
-    "aov": 38.65,
-    "sessions": 1651
+    "aov": 19.86,
+    "sessions": 1683
   },
   "channels": [
     {
@@ -24,7 +24,7 @@
       "net_sales": 332.02,
       "orders": 3,
       "aov": 114.42,
-      "sessions": 902,
+      "sessions": 921,
       "conversion_rate": 0.0022
     },
     {
@@ -46,8 +46,8 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 100,
-      "conversion_rate": 0.01
+      "sessions": 105,
+      "conversion_rate": 0.0095
     },
     {
       "referring_channel": "facebook",
@@ -79,7 +79,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 18,
+      "sessions": 19,
       "conversion_rate": 0.0
     },
     {
@@ -91,17 +91,6 @@
       "orders": 0,
       "aov": 0,
       "sessions": 15,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "cartsee",
-      "traffic_type": "paid",
-      "referring_platform": "cartsee",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 12,
       "conversion_rate": 0.0
     },
     {
@@ -519,7 +508,7 @@
       "net_sales": -54.57,
       "orders": 0,
       "aov": 0,
-      "sessions": 3,
+      "sessions": 4,
       "conversion_rate": 0.0
     },
     {
@@ -541,8 +530,19 @@
       "net_sales": -104.71,
       "orders": 3,
       "aov": -29.51,
-      "sessions": 366,
-      "conversion_rate": 0.0055
+      "sessions": 372,
+      "conversion_rate": 0.0054
+    },
+    {
+      "referring_channel": "cartsee",
+      "traffic_type": "paid",
+      "referring_platform": "cartsee",
+      "total_sales": -131.5,
+      "net_sales": -121.7,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 12,
+      "conversion_rate": 0.0
     }
   ],
   "channel_rollup": [
@@ -551,14 +551,14 @@
       "total_sales": 343.26,
       "net_sales": 332.02,
       "orders": 3,
-      "sessions": 902
+      "sessions": 921
     },
     {
       "referring_channel": "google",
       "total_sales": 46.63,
       "net_sales": 21.83,
       "orders": 4,
-      "sessions": 485
+      "sessions": 496
     },
     {
       "referring_channel": "unattributed",
@@ -572,7 +572,7 @@
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 19
+      "sessions": 20
     },
     {
       "referring_channel": "bing",
@@ -580,13 +580,6 @@
       "net_sales": 0,
       "orders": 0,
       "sessions": 17
-    },
-    {
-      "referring_channel": "cartsee",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 12
     },
     {
       "referring_channel": "lingxing",
@@ -782,7 +775,7 @@
       "total_sales": -54.57,
       "net_sales": -54.57,
       "orders": 0,
-      "sessions": 3
+      "sessions": 4
     },
     {
       "referring_channel": "facebook",
@@ -790,6 +783,13 @@
       "net_sales": -59.98,
       "orders": 0,
       "sessions": 113
+    },
+    {
+      "referring_channel": "cartsee",
+      "total_sales": -131.5,
+      "net_sales": -121.7,
+      "orders": 0,
+      "sessions": 12
     }
   ],
   "traffic_rollup": [
@@ -798,7 +798,7 @@
       "total_sales": 343.26,
       "net_sales": 332.02,
       "orders": 3,
-      "sessions": 902
+      "sessions": 921
     },
     {
       "traffic_type": "unknown",
@@ -812,7 +812,7 @@
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 177
+      "sessions": 182
     },
     {
       "traffic_type": "unattributed",
@@ -823,10 +823,10 @@
     },
     {
       "traffic_type": "paid",
-      "total_sales": -207.9,
-      "net_sales": -219.26,
+      "total_sales": -339.4,
+      "net_sales": -340.96,
       "orders": 3,
-      "sessions": 485
+      "sessions": 493
     }
   ],
   "hourly": [
@@ -927,7 +927,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-10-15 10:42:57",
+  "updated_at": "2026-10-15 10:52:44",
   "channel_count": 48,
   "data_source": "shopifyql sales + sessions"
 }
