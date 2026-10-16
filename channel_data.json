@@ -9,13 +9,24 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 2644.67,
-    "net_sales": 2471.52,
-    "orders": 23,
-    "aov": 114.99,
-    "sessions": 2865
+    "total_sales": 3246.0,
+    "net_sales": 3011.84,
+    "orders": 26,
+    "aov": 124.85,
+    "sessions": 2918
   },
   "channels": [
+    {
+      "referring_channel": "google",
+      "traffic_type": "paid",
+      "referring_platform": "alphabet",
+      "total_sales": 1164.92,
+      "net_sales": 1105.37,
+      "orders": 8,
+      "aov": 145.62,
+      "sessions": 740,
+      "conversion_rate": 0.0122
+    },
     {
       "referring_channel": "direct",
       "traffic_type": "direct",
@@ -24,28 +35,17 @@
       "net_sales": 909.55,
       "orders": 5,
       "aov": 190.35,
-      "sessions": 1344,
-      "conversion_rate": 0.0045
-    },
-    {
-      "referring_channel": "google",
-      "traffic_type": "paid",
-      "referring_platform": "alphabet",
-      "total_sales": 803.73,
-      "net_sales": 758.11,
-      "orders": 7,
-      "aov": 114.82,
-      "sessions": 724,
-      "conversion_rate": 0.011
+      "sessions": 1367,
+      "conversion_rate": 0.0051
     },
     {
       "referring_channel": "Unattributed",
       "traffic_type": "Unknown",
       "referring_platform": "Unknown",
-      "total_sales": 447.25,
-      "net_sales": 420.4,
-      "orders": 3,
-      "aov": 149.08,
+      "total_sales": 687.39,
+      "net_sales": 613.46,
+      "orders": 5,
+      "aov": 137.48,
       "sessions": 0,
       "conversion_rate": null
     },
@@ -57,8 +57,8 @@
       "net_sales": 290.13,
       "orders": 6,
       "aov": 56.65,
-      "sessions": 209,
-      "conversion_rate": 0.0287
+      "sessions": 212,
+      "conversion_rate": 0.033
     },
     {
       "referring_channel": "cartsee",
@@ -90,7 +90,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 187,
+      "sessions": 192,
       "conversion_rate": 0.0
     },
     {
@@ -101,7 +101,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 83,
+      "sessions": 84,
       "conversion_rate": 0.0
     },
     {
@@ -145,7 +145,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 25,
+      "sessions": 27,
       "conversion_rate": 0.0
     },
     {
@@ -182,17 +182,6 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "chatgpt.com",
-      "traffic_type": "unknown",
-      "referring_platform": "chatgpt.com",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 12,
-      "conversion_rate": 0.0
-    },
-    {
       "referring_channel": "partnerboost",
       "traffic_type": "unknown",
       "referring_platform": "partnerboost",
@@ -204,14 +193,14 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "bing",
-      "traffic_type": "organic",
-      "referring_platform": "microsoft",
+      "referring_channel": "chatgpt.com",
+      "traffic_type": "unknown",
+      "referring_platform": "chatgpt.com",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 10,
+      "sessions": 12,
       "conversion_rate": 0.0
     },
     {
@@ -222,7 +211,18 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 9,
+      "sessions": 10,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "bing",
+      "traffic_type": "organic",
+      "referring_platform": "microsoft",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 10,
       "conversion_rate": 0.0
     },
     {
@@ -248,31 +248,20 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "bit",
-      "traffic_type": "unknown",
-      "referring_platform": "bit",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 3,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "uther-pdo",
-      "traffic_type": "unknown",
-      "referring_platform": "uther-pdo",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 3,
-      "conversion_rate": 0.0
-    },
-    {
       "referring_channel": "gmail",
       "traffic_type": "paid",
       "referring_platform": "alphabet",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 4,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "msn",
+      "traffic_type": "paid",
+      "referring_platform": "msn",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -292,9 +281,20 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "msn",
-      "traffic_type": "paid",
-      "referring_platform": "msn",
+      "referring_channel": "bit",
+      "traffic_type": "unknown",
+      "referring_platform": "bit",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 3,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "uther-pdo",
+      "traffic_type": "unknown",
+      "referring_platform": "uther-pdo",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -325,17 +325,6 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "awin",
-      "traffic_type": "organic",
-      "referring_platform": "awin",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 2,
-      "conversion_rate": 0.0
-    },
-    {
       "referring_channel": "youtube",
       "traffic_type": "unknown",
       "referring_platform": "alphabet",
@@ -347,185 +336,20 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "instagram",
+      "referring_channel": "awin",
       "traffic_type": "organic",
-      "referring_platform": "meta",
+      "referring_platform": "awin",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "fmtc",
-      "traffic_type": "unknown",
-      "referring_platform": "fmtc",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "wildbloomfamilies",
-      "traffic_type": "unknown",
-      "referring_platform": "wildbloomfamilies",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "chatgpt.com",
-      "traffic_type": "paid",
-      "referring_platform": "chatgpt.com",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "qwen",
-      "traffic_type": "organic",
-      "referring_platform": "qwen",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "kol",
-      "traffic_type": "unknown",
-      "referring_platform": "kol",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "linktr",
-      "traffic_type": "organic",
-      "referring_platform": "linktr",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "reddit",
-      "traffic_type": "organic",
-      "referring_platform": "reddit",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "impact",
-      "traffic_type": "organic",
-      "referring_platform": "impact",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "yandex",
-      "traffic_type": "organic",
-      "referring_platform": "yandex",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "ramforum",
-      "traffic_type": "organic",
-      "referring_platform": "ramforum",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
+      "sessions": 2,
       "conversion_rate": 0.0
     },
     {
       "referring_channel": "doubao",
       "traffic_type": "organic",
       "referring_platform": "doubao",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "shop_app",
-      "traffic_type": "unknown",
-      "referring_platform": "shopify",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "chatgpt",
-      "traffic_type": "organic",
-      "referring_platform": "chatgpt",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "partnerboost",
-      "traffic_type": "organic",
-      "referring_platform": "partnerboost",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "shulex",
-      "traffic_type": "paid",
-      "referring_platform": "shulex",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "lingxing",
-      "traffic_type": "organic",
-      "referring_platform": "lingxing",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -545,53 +369,9 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "awin",
-      "traffic_type": "unknown",
-      "referring_platform": "awin",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "nypost",
-      "traffic_type": "paid",
-      "referring_platform": "nypost",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "bing",
-      "traffic_type": "unknown",
-      "referring_platform": "microsoft",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "couponcove",
-      "traffic_type": "unknown",
-      "referring_platform": "couponcove",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 1,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "yahoo!",
+      "referring_channel": "impact",
       "traffic_type": "organic",
-      "referring_platform": "yahoo!",
+      "referring_platform": "impact",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -600,9 +380,9 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "amzn_us_shopdirect",
-      "traffic_type": "unknown",
-      "referring_platform": "amzn_us_shopdirect",
+      "referring_channel": "unattributed",
+      "traffic_type": "paid",
+      "referring_platform": "alphabet",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -622,9 +402,9 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "passportforums",
+      "referring_channel": "couponcove",
       "traffic_type": "unknown",
-      "referring_platform": "passportforums",
+      "referring_platform": "couponcove",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -633,9 +413,31 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "linktr",
-      "traffic_type": "unknown",
-      "referring_platform": "linktr",
+      "referring_channel": "chatgpt.com",
+      "traffic_type": "paid",
+      "referring_platform": "chatgpt.com",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "instagram",
+      "traffic_type": "organic",
+      "referring_platform": "meta",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "trustoo",
+      "traffic_type": "paid",
+      "referring_platform": "trustoo",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -666,9 +468,9 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "trustoo",
-      "traffic_type": "paid",
-      "referring_platform": "trustoo",
+      "referring_channel": "chatgpt",
+      "traffic_type": "organic",
+      "referring_platform": "chatgpt",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -677,9 +479,218 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "unattributed",
+      "referring_channel": "lingxing",
+      "traffic_type": "organic",
+      "referring_platform": "lingxing",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "yahoo!",
+      "traffic_type": "organic",
+      "referring_platform": "yahoo!",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "linktr",
+      "traffic_type": "organic",
+      "referring_platform": "linktr",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "wildbloomfamilies",
+      "traffic_type": "unknown",
+      "referring_platform": "wildbloomfamilies",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "nypost",
       "traffic_type": "paid",
+      "referring_platform": "nypost",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "bing",
+      "traffic_type": "unknown",
+      "referring_platform": "microsoft",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "linktr",
+      "traffic_type": "unknown",
+      "referring_platform": "linktr",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "passportforums",
+      "traffic_type": "unknown",
+      "referring_platform": "passportforums",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "amzn_us_shopdirect",
+      "traffic_type": "unknown",
+      "referring_platform": "amzn_us_shopdirect",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "reddit",
+      "traffic_type": "organic",
+      "referring_platform": "reddit",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "shop_app",
+      "traffic_type": "unknown",
+      "referring_platform": "shopify",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "gmail",
+      "traffic_type": "unknown",
       "referring_platform": "alphabet",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "ramforum",
+      "traffic_type": "organic",
+      "referring_platform": "ramforum",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "fmtc",
+      "traffic_type": "unknown",
+      "referring_platform": "fmtc",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "yandex",
+      "traffic_type": "organic",
+      "referring_platform": "yandex",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "partnerboost",
+      "traffic_type": "organic",
+      "referring_platform": "partnerboost",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "qwen",
+      "traffic_type": "organic",
+      "referring_platform": "qwen",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "shulex",
+      "traffic_type": "paid",
+      "referring_platform": "shulex",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "awin",
+      "traffic_type": "unknown",
+      "referring_platform": "awin",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 1,
+      "conversion_rate": 0.0
+    },
+    {
+      "referring_channel": "kol",
+      "traffic_type": "unknown",
+      "referring_platform": "kol",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -702,23 +713,23 @@
   "channel_rollup": [
     {
       "referring_channel": "google",
-      "total_sales": 1143.61,
-      "net_sales": 1048.24,
-      "orders": 13,
-      "sessions": 957
+      "total_sales": 1504.8,
+      "net_sales": 1395.5,
+      "orders": 14,
+      "sessions": 976
     },
     {
       "referring_channel": "direct",
       "total_sales": 951.77,
       "net_sales": 909.55,
       "orders": 5,
-      "sessions": 1344
+      "sessions": 1367
     },
     {
       "referring_channel": "Unattributed",
-      "total_sales": 447.25,
-      "net_sales": 420.4,
-      "orders": 3,
+      "total_sales": 687.39,
+      "net_sales": 613.46,
+      "orders": 5,
       "sessions": 0
     },
     {
@@ -740,7 +751,7 @@
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 300
+      "sessions": 306
     },
     {
       "referring_channel": "unattributed",
@@ -761,7 +772,7 @@
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 25
+      "sessions": 27
     },
     {
       "referring_channel": "bing",
@@ -778,14 +789,14 @@
       "sessions": 16
     },
     {
-      "referring_channel": "chatgpt.com",
+      "referring_channel": "partnerboost",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
       "sessions": 13
     },
     {
-      "referring_channel": "partnerboost",
+      "referring_channel": "chatgpt.com",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -796,7 +807,7 @@
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 9
+      "sessions": 10
     },
     {
       "referring_channel": "duckduckgo",
@@ -813,21 +824,14 @@
       "sessions": 5
     },
     {
-      "referring_channel": "bit",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 3
-    },
-    {
-      "referring_channel": "uther-pdo",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 3
-    },
-    {
       "referring_channel": "gmail",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 5
+    },
+    {
+      "referring_channel": "msn",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -841,7 +845,14 @@
       "sessions": 3
     },
     {
-      "referring_channel": "msn",
+      "referring_channel": "bit",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 3
+    },
+    {
+      "referring_channel": "uther-pdo",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -869,91 +880,7 @@
       "sessions": 3
     },
     {
-      "referring_channel": "fmtc",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 1
-    },
-    {
-      "referring_channel": "wildbloomfamilies",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 1
-    },
-    {
-      "referring_channel": "qwen",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 1
-    },
-    {
-      "referring_channel": "kol",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 1
-    },
-    {
-      "referring_channel": "linktr",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 2
-    },
-    {
-      "referring_channel": "reddit",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 1
-    },
-    {
-      "referring_channel": "impact",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 1
-    },
-    {
-      "referring_channel": "yandex",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 1
-    },
-    {
-      "referring_channel": "ramforum",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 1
-    },
-    {
       "referring_channel": "doubao",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 1
-    },
-    {
-      "referring_channel": "shop_app",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 1
-    },
-    {
-      "referring_channel": "shulex",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 1
-    },
-    {
-      "referring_channel": "lingxing",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -967,28 +894,7 @@
       "sessions": 1
     },
     {
-      "referring_channel": "nypost",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 1
-    },
-    {
-      "referring_channel": "couponcove",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 1
-    },
-    {
-      "referring_channel": "yahoo!",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 1
-    },
-    {
-      "referring_channel": "amzn_us_shopdirect",
+      "referring_channel": "impact",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -1002,7 +908,14 @@
       "sessions": 1
     },
     {
-      "referring_channel": "passportforums",
+      "referring_channel": "couponcove",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
+    },
+    {
+      "referring_channel": "trustoo",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -1016,7 +929,105 @@
       "sessions": 1
     },
     {
-      "referring_channel": "trustoo",
+      "referring_channel": "lingxing",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
+    },
+    {
+      "referring_channel": "yahoo!",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
+    },
+    {
+      "referring_channel": "linktr",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 2
+    },
+    {
+      "referring_channel": "wildbloomfamilies",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
+    },
+    {
+      "referring_channel": "nypost",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
+    },
+    {
+      "referring_channel": "passportforums",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
+    },
+    {
+      "referring_channel": "amzn_us_shopdirect",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
+    },
+    {
+      "referring_channel": "reddit",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
+    },
+    {
+      "referring_channel": "shop_app",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
+    },
+    {
+      "referring_channel": "ramforum",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
+    },
+    {
+      "referring_channel": "fmtc",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
+    },
+    {
+      "referring_channel": "yandex",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
+    },
+    {
+      "referring_channel": "qwen",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
+    },
+    {
+      "referring_channel": "shulex",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 1
+    },
+    {
+      "referring_channel": "kol",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -1032,24 +1043,24 @@
   ],
   "traffic_rollup": [
     {
+      "traffic_type": "paid",
+      "total_sales": 1231.14,
+      "net_sales": 1166.94,
+      "orders": 9,
+      "sessions": 1030
+    },
+    {
       "traffic_type": "direct",
       "total_sales": 951.77,
       "net_sales": 909.55,
       "orders": 5,
-      "sessions": 1344
-    },
-    {
-      "traffic_type": "paid",
-      "total_sales": 869.95,
-      "net_sales": 819.68,
-      "orders": 8,
-      "sessions": 1008
+      "sessions": 1367
     },
     {
       "traffic_type": "Unknown",
-      "total_sales": 447.25,
-      "net_sales": 420.4,
-      "orders": 3,
+      "total_sales": 687.39,
+      "net_sales": 613.46,
+      "orders": 5,
       "sessions": 0
     },
     {
@@ -1057,14 +1068,14 @@
       "total_sales": 401.68,
       "net_sales": 347.87,
       "orders": 7,
-      "sessions": 336
+      "sessions": 340
     },
     {
       "traffic_type": "unknown",
       "total_sales": -25.98,
       "net_sales": -25.98,
       "orders": 0,
-      "sessions": 177
+      "sessions": 181
     }
   ],
   "hourly": [
@@ -1110,7 +1121,7 @@
     },
     {
       "hour": "2026-10-16T14:00:00Z",
-      "orders": 2
+      "orders": 5
     },
     {
       "hour": "2026-10-16T15:00:00Z",
@@ -1165,7 +1176,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-10-16 14:22:50",
-  "channel_count": 62,
+  "updated_at": "2026-10-16 14:33:24",
+  "channel_count": 63,
   "data_source": "shopifyql sales + sessions"
 }
