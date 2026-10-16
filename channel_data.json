@@ -9,11 +9,11 @@
   "attribution_model": "LAST_NON_DIRECT_CLICK (ShopifyQL Sales default)",
   "note": "实时渠道归因 · Shopify 原生维度 · 未使用UTM反推",
   "total": {
-    "total_sales": 1641.28,
-    "net_sales": 1510.09,
-    "orders": 17,
-    "aov": 96.55,
-    "sessions": 2472
+    "total_sales": 1707.5,
+    "net_sales": 1571.66,
+    "orders": 18,
+    "aov": 94.86,
+    "sessions": 2530
   },
   "channels": [
     {
@@ -24,8 +24,8 @@
       "net_sales": 667.87,
       "orders": 3,
       "aov": 236.25,
-      "sessions": 1195,
-      "conversion_rate": 0.0042
+      "sessions": 1215,
+      "conversion_rate": 0.0041
     },
     {
       "referring_channel": "google",
@@ -35,8 +35,8 @@
       "net_sales": 609.15,
       "orders": 6,
       "aov": 107.67,
-      "sessions": 603,
-      "conversion_rate": 0.0083
+      "sessions": 621,
+      "conversion_rate": 0.0081
     },
     {
       "referring_channel": "google",
@@ -46,8 +46,19 @@
       "net_sales": 170.74,
       "orders": 5,
       "aov": 42.07,
-      "sessions": 167,
-      "conversion_rate": 0.0299
+      "sessions": 174,
+      "conversion_rate": 0.0287
+    },
+    {
+      "referring_channel": "Unattributed",
+      "traffic_type": "Unknown",
+      "referring_platform": "Unknown",
+      "total_sales": 106.54,
+      "net_sales": 92.14,
+      "orders": 3,
+      "aov": 35.51,
+      "sessions": 0,
+      "conversion_rate": null
     },
     {
       "referring_channel": "shopify",
@@ -61,17 +72,6 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "Unattributed",
-      "traffic_type": "Unknown",
-      "referring_platform": "Unknown",
-      "total_sales": 40.32,
-      "net_sales": 30.57,
-      "orders": 2,
-      "aov": 20.16,
-      "sessions": 0,
-      "conversion_rate": null
-    },
-    {
       "referring_channel": "facebook",
       "traffic_type": "paid",
       "referring_platform": "meta",
@@ -79,7 +79,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 155,
+      "sessions": 160,
       "conversion_rate": 0.0
     },
     {
@@ -90,7 +90,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 76,
+      "sessions": 77,
       "conversion_rate": 0.0
     },
     {
@@ -105,6 +105,17 @@
       "conversion_rate": 0.0
     },
     {
+      "referring_channel": "youtube",
+      "traffic_type": "paid",
+      "referring_platform": "alphabet",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
+      "sessions": 29,
+      "conversion_rate": 0.0
+    },
+    {
       "referring_channel": "facebook",
       "traffic_type": "unknown",
       "referring_platform": "meta",
@@ -116,17 +127,6 @@
       "conversion_rate": 0.0
     },
     {
-      "referring_channel": "youtube",
-      "traffic_type": "paid",
-      "referring_platform": "alphabet",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 27,
-      "conversion_rate": 0.0
-    },
-    {
       "referring_channel": "google",
       "traffic_type": "unknown",
       "referring_platform": "alphabet",
@@ -134,8 +134,8 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 21,
-      "conversion_rate": 0.0476
+      "sessions": 22,
+      "conversion_rate": 0.0455
     },
     {
       "referring_channel": "happynewline",
@@ -156,7 +156,7 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
-      "sessions": 18,
+      "sessions": 19,
       "conversion_rate": 0.0
     },
     {
@@ -189,6 +189,17 @@
       "net_sales": 0,
       "orders": 0,
       "aov": 0,
+      "sessions": 10,
+      "conversion_rate": 0.1
+    },
+    {
+      "referring_channel": "partnerboost",
+      "traffic_type": "unknown",
+      "referring_platform": "partnerboost",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "aov": 0,
       "sessions": 9,
       "conversion_rate": 0.0
     },
@@ -212,17 +223,6 @@
       "orders": 0,
       "aov": 0,
       "sessions": 8,
-      "conversion_rate": 0.0
-    },
-    {
-      "referring_channel": "partnerboost",
-      "traffic_type": "unknown",
-      "referring_platform": "partnerboost",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "aov": 0,
-      "sessions": 7,
       "conversion_rate": 0.0
     },
     {
@@ -683,14 +683,21 @@
       "total_sales": 856.38,
       "net_sales": 779.89,
       "orders": 11,
-      "sessions": 791
+      "sessions": 817
     },
     {
       "referring_channel": "direct",
       "total_sales": 708.76,
       "net_sales": 667.87,
       "orders": 3,
-      "sessions": 1195
+      "sessions": 1215
+    },
+    {
+      "referring_channel": "Unattributed",
+      "total_sales": 106.54,
+      "net_sales": 92.14,
+      "orders": 3,
+      "sessions": 0
     },
     {
       "referring_channel": "shopify",
@@ -700,18 +707,11 @@
       "sessions": 11
     },
     {
-      "referring_channel": "Unattributed",
-      "total_sales": 40.32,
-      "net_sales": 30.57,
-      "orders": 2,
-      "sessions": 0
-    },
-    {
       "referring_channel": "facebook",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 260
+      "sessions": 266
     },
     {
       "referring_channel": "unattributed",
@@ -725,7 +725,7 @@
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 29
+      "sessions": 31
     },
     {
       "referring_channel": "happynewline",
@@ -739,7 +739,7 @@
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 28
+      "sessions": 29
     },
     {
       "referring_channel": "instagram",
@@ -760,17 +760,17 @@
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
-      "sessions": 9
-    },
-    {
-      "referring_channel": "dermonehealth",
-      "total_sales": 0,
-      "net_sales": 0,
-      "orders": 0,
-      "sessions": 8
+      "sessions": 10
     },
     {
       "referring_channel": "partnerboost",
+      "total_sales": 0,
+      "net_sales": 0,
+      "orders": 0,
+      "sessions": 10
+    },
+    {
+      "referring_channel": "dermonehealth",
       "total_sales": 0,
       "net_sales": 0,
       "orders": 0,
@@ -1000,27 +1000,27 @@
       "total_sales": 708.76,
       "net_sales": 667.87,
       "orders": 3,
-      "sessions": 1195
+      "sessions": 1215
     },
     {
       "traffic_type": "paid",
       "total_sales": 646.05,
       "net_sales": 609.15,
       "orders": 6,
-      "sessions": 836
+      "sessions": 863
     },
     {
       "traffic_type": "organic",
       "total_sales": 272.13,
       "net_sales": 228.48,
       "orders": 6,
-      "sessions": 285
+      "sessions": 293
     },
     {
       "traffic_type": "Unknown",
-      "total_sales": 40.32,
-      "net_sales": 30.57,
-      "orders": 2,
+      "total_sales": 106.54,
+      "net_sales": 92.14,
+      "orders": 3,
       "sessions": 0
     },
     {
@@ -1028,7 +1028,7 @@
       "total_sales": -25.98,
       "net_sales": -25.98,
       "orders": 0,
-      "sessions": 156
+      "sessions": 159
     }
   ],
   "hourly": [
@@ -1070,7 +1070,7 @@
     },
     {
       "hour": "2026-10-16T13:00:00Z",
-      "orders": 3
+      "orders": 4
     },
     {
       "hour": "2026-10-16T14:00:00Z",
@@ -1129,7 +1129,7 @@
       "orders": 0
     }
   ],
-  "updated_at": "2026-10-16 13:22:53",
+  "updated_at": "2026-10-16 13:32:44",
   "channel_count": 60,
   "data_source": "shopifyql sales + sessions"
 }
